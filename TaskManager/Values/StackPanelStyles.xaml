@@ -1,0 +1,22 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Values/Colors.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="BaseStackPanel" TargetType="Border"> <!-- use stackpanel only in <border> stackpanel here </border> | style available FOR BORDER ONLY-->
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="CornerRadius" Value="15"/>            
+    </Style>
+
+    <Style x:Key="HeaderStackPanel" TargetType="Border" BasedOn="{StaticResource BaseStackPanel}">
+        <Setter Property="Background" Value="{StaticResource lightBrown}"/>
+    </Style>
+
+    <Style x:Key="ButtonStackPanel" TargetType="Border" BasedOn="{StaticResource BaseStackPanel}">
+        <Setter Property="Background" Value="{StaticResource brown}"/>
+        <Setter Property="CornerRadius" Value="10"/>
+    </Style>
+        
+</ResourceDictionary>

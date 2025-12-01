@@ -1,0 +1,78 @@
+﻿<Window x:Class="TaskManager.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TaskManager.View"
+        mc:Ignorable="d"
+        Title="Авторизация" Height="450" Width="800"
+        x:Name="window">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Values/StackPanelStyles.xaml"/>
+                <ResourceDictionary Source="/Values/Strings.xaml"/>
+                <ResourceDictionary Source="/Values/TextBlockStyles.xaml"/>
+                <ResourceDictionary Source="/Values/TextBoxStyles.xaml"/>
+                <ResourceDictionary Source="/Values/ButtonStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Border x:Name="headerStackPanel" Style="{StaticResource HeaderStackPanel}" CornerRadius="0 0 15 15">
+            <StackPanel VerticalAlignment="Center">
+                <TextBlock Text="{StaticResource greeting}"
+                           Style="{StaticResource HeaderTextBlock}"
+                           FontWeight="Regular"/>
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Row="1" Margin="50 20 50 20"
+                Style="{StaticResource BaseStackPanel}" 
+                Background="{StaticResource grey}">
+
+            <StackPanel x:Name="loginStackPanel" Orientation="Vertical">
+
+                <StackPanel x:Name="inputLoginStackPanel" Orientation="Vertical" Margin="10">
+                    <TextBlock Text="{StaticResource login}" Style="{StaticResource InfoTextBlock}"
+                               HorizontalAlignment="Center" Margin="4 4 200 4"/>
+                    <Border Style="{StaticResource BaseStackPanel}">
+                        <TextBox x:Name="textBox_login" Style="{StaticResource BaseTextBox}" 
+                                 Margin="100 12 12 12"/>
+                    </Border>
+                </StackPanel>
+
+                <StackPanel x:Name="inputPasswordStackPanel" Orientation="Vertical" Margin="10">
+                    <TextBlock Text="{StaticResource password}" Style="{StaticResource InfoTextBlock}"
+                               HorizontalAlignment="Center" Margin="4 4 200 4"/>
+                    <Border Style="{StaticResource BaseStackPanel}">
+                        <TextBox x:Name="textBox_password" Style="{StaticResource BaseTextBox}" 
+                 Margin="100 12 12 12"/>
+                    </Border>
+                </StackPanel>
+
+            </StackPanel>
+        </Border>
+
+
+        <Grid Grid.Row="2" HorizontalAlignment="Stretch">
+            <Border x:Name="signup" Style="{StaticResource ButtonStackPanel}" Margin="20"  HorizontalAlignment="Left">
+                <Button x:Name="button_signup" Style="{StaticResource BaseButton}">
+                    <TextBlock Text="{StaticResource signup}" Style="{StaticResource ButtonTextBlock}" FontSize="14"/>
+                </Button>
+            </Border>
+
+            <Border x:Name="signin" Style="{StaticResource ButtonStackPanel}" Margin="20" HorizontalAlignment="Center">
+                <Button x:Name="button_signin" Style="{StaticResource BaseButton}" Width="{Binding ActualWidth, ElementName=button_signup}">
+                    <TextBlock Text="{StaticResource signin}" Style="{StaticResource ButtonTextBlock}" FontSize="14"/>
+                </Button>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>

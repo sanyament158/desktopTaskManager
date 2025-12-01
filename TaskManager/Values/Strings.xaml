@@ -1,0 +1,9 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <sys:String x:Key="greeting">Привет!</sys:String>
+    <sys:String x:Key="login">Логин</sys:String>
+    <sys:String x:Key="password">Пароль</sys:String>
+    <sys:String x:Key="signup">Регистрация</sys:String>
+    <sys:String x:Key="signin">Войти</sys:String>
+</ResourceDictionary>
