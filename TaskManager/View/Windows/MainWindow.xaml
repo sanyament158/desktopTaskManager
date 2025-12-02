@@ -73,7 +73,7 @@
 
             <Border x:Name="signin" Style="{StaticResource ButtonStackPanel}" Margin="20" HorizontalAlignment="Center">
                 <Button x:Name="button_signin" Content="{StaticResource signin}" Command="{Binding LoginCommand}" Style="{StaticResource BaseButton}" Width="{Binding ActualWidth, ElementName=button_signup}">
-                </Button>
+                </Button> 
             </Border>
         </Grid>
     </Grid>

@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Net.Http;
 using System.Runtime.CompilerServices;
+using System.Security.RightsManagement;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
+using TaskManager.Infrastucture.Network;
+using TaskManager.Model;
 
 namespace TaskManager.ViewModel.Pages
 {
@@ -37,11 +42,22 @@ namespace TaskManager.ViewModel.Pages
                 return _loginCommand ??
                     (
                     _loginCommand = new RelayCommand(
-                        obj =>
+                        async obj =>
                         {
-                            MessageBox.Show("success auth");
+                            UserRequest userObj = new UserRequest
+                            {
+                                username = _login,
+                                password = _password
+                            };
+                            MessageBox.Show(_login + " " + _password, "info");
+                            try
+                            {
+                                UserResponse userResponseObj = await DataBaseConnection.AuthorizeUser(userObj); // returned value cannot be null
+                                MessageBox.Show(userResponseObj.username.ToString(), "info");
+                            }
+                            catch (Exception ex) { MessageBox.Show(ex.Message.ToString(), "error"); }
                         },
-                        obj => _login == "sanya" && _password == "ment"
+                        obj => !(String.IsNullOrEmpty(_login) && String.IsNullOrEmpty(_password))
                         )
                     );
             }

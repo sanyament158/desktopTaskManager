@@ -1,6 +1,7 @@
 ﻿using System.Configuration;
 using System.Data;
 using System.Windows;
+using System.Runtime.InteropServices;
 
 namespace TaskManager
 {
@@ -9,6 +10,9 @@ namespace TaskManager
     /// </summary>
     public partial class App : Application
     {
+        public App()
+        {
+        }
     }
 
 }
