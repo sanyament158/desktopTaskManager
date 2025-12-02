@@ -43,8 +43,9 @@
                     <TextBlock Text="{StaticResource login}" Style="{StaticResource InfoTextBlock}"
                                HorizontalAlignment="Center" Margin="4 4 200 4"/>
                     <Border Style="{StaticResource BaseStackPanel}">
-                        <TextBox x:Name="textBox_login" Style="{StaticResource BaseTextBox}" 
-                                 Margin="100 12 12 12"/>
+                        <TextBox x:Name="textBox_login"
+                                 Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}"
+                                 Style="{StaticResource BaseTextBox}"  Margin="100 12 12 12"/>
                     </Border>
                 </StackPanel>
 
@@ -52,7 +53,9 @@
                     <TextBlock Text="{StaticResource password}" Style="{StaticResource InfoTextBlock}"
                                HorizontalAlignment="Center" Margin="4 4 200 4"/>
                     <Border Style="{StaticResource BaseStackPanel}">
-                        <TextBox x:Name="textBox_password" Style="{StaticResource BaseTextBox}" 
+                        <TextBox x:Name="textBox_password"
+                                 Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}"
+                                 Style="{StaticResource BaseTextBox}" 
                  Margin="100 12 12 12"/>
                     </Border>
                 </StackPanel>
@@ -69,8 +72,7 @@
             </Border>
 
             <Border x:Name="signin" Style="{StaticResource ButtonStackPanel}" Margin="20" HorizontalAlignment="Center">
-                <Button x:Name="button_signin" Style="{StaticResource BaseButton}" Width="{Binding ActualWidth, ElementName=button_signup}">
-                    <TextBlock Text="{StaticResource signin}" Style="{StaticResource ButtonTextBlock}" FontSize="14"/>
+                <Button x:Name="button_signin" Content="{StaticResource signin}" Command="{Binding LoginCommand}" Style="{StaticResource BaseButton}" Width="{Binding ActualWidth, ElementName=button_signup}">
                 </Button>
             </Border>
         </Grid>

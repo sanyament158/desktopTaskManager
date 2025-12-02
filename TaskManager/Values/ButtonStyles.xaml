@@ -3,10 +3,32 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Values/Colors.xaml"/>
     </ResourceDictionary.MergedDictionaries>
-    
+
     <Style x:Key="BaseButton" TargetType="Button">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                        <ContentPresenter x:Name="contentPresenter"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      RecognizesAccessKey="True"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="{StaticResource cheese}"/>
+                            <Setter Property="Cursor" Value="Arrow"/>
+                            <!-- Важно: убедитесь, что контент видим -->
+                            <Setter TargetName="contentPresenter" Property="Opacity" Value="1"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 </ResourceDictionary>

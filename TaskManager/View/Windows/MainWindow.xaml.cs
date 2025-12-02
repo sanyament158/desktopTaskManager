@@ -9,6 +9,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using TaskManager.ViewModel.Pages;
 
 namespace TaskManager.View
 {
@@ -20,6 +21,7 @@ namespace TaskManager.View
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = new MainWindowViewModel();
         }
     }
 }

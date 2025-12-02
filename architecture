@@ -1,0 +1,70 @@
+Надо постараться следовать это архитектуре
+
+MyApp/
+├── Views/                          # Представления (XAML)
+│   ├── Pages/                      # Страницы приложения
+│   │   ├── HomePage.xaml
+│   │   ├── LoginPage.xaml
+│   │   ├── DashboardPage.xaml
+│   │   ├── SettingsPage.xaml
+│   │   └── ...
+│   ├── Controls/                   # Пользовательские контролы
+│   │   ├── NavigationMenu.xaml
+│   │   ├── LoadingIndicator.xaml
+│   │   └── ...
+│   ├── Windows/                    # Окна приложения
+│   │   ├── MainWindow.xaml
+│   │   ├── DialogWindow.xaml
+│   │   └── ...
+│   └── Templates/                  # DataTemplates
+│       └── ...
+│
+├── ViewModels/                     # ViewModels
+│   ├── Pages/                      # ViewModels для страниц
+│   │   ├── HomeViewModel.cs
+│   │   ├── LoginViewModel.cs
+│   │   ├── DashboardViewModel.cs
+│   │   └── ...
+│   ├── Controls/                   # ViewModels для контролов
+│   ├── Windows/                    # ViewModels для окон
+│   ├── Base/                       # Базовые классы
+│   │   ├── ViewModelBase.cs
+│   │   ├── ObservableObject.cs
+│   │   └── ...
+│   └── Shared/                     # Общие ViewModels
+│
+├── Models/                         # Модели данных
+│   ├── Entities/                   # Сущности (User, Product и т.д.)
+│   ├── DTOs/                       # Data Transfer Objects
+│   ├── Enums/                      # Перечисления
+│   └── Config/                     # Конфигурации
+│
+├── Services/                       # Сервисы
+│   ├── Interfaces/                 # Интерфейсы сервисов
+│   ├── NavigationService.cs        # Навигация между страницами
+│   ├── DialogService.cs            # Сервис диалогов
+│   ├── ApiService.cs               # Работа с API
+│   ├── DataService.cs              # Работа с БД
+│   ├── AuthenticationService.cs    # Аутентификация
+│   └── ...
+│
+├── Core/                           # Ядро приложения
+│   ├── Extensions/                 # Расширения методов
+│   ├── Helpers/                    # Вспомогательные классы
+│   ├── Converters/                 # Конвертеры для Binding
+│   ├── Behaviors/                  # Behaviors для XAML
+│   └── ...
+│
+├── Infrastructure/                 # Инфраструктура
+│   ├── Database/                   # Работа с БД (Entity Framework)
+│   ├── Networking/                 # Сетевое взаимодействие
+│   ├── Logging/                    # Логирование
+│   └── ...
+│
+├── Resources/                      # Ресурсы
+│   ├── Styles/                     # Стили и шаблоны
+│   ├── Images/                     # Изображения
+│   ├── Fonts/                      # Шрифты
+│   └── ...
+│
+└── App.xaml                        # Точка входа
