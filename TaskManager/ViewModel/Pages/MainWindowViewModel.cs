@@ -49,15 +49,15 @@ namespace TaskManager.ViewModel.Pages
                                 username = _login,
                                 password = _password
                             };
-                            MessageBox.Show(_login + " " + _password, "info");
+                            //MessageBox.Show(_login + " " + _password, "info");
                             try
                             {
-                                UserResponse userResponseObj = await DataBaseConnection.AuthorizeUser(userObj); // returned value cannot be null
-                                MessageBox.Show(userResponseObj.username.ToString(), "info");
+                                UserResponse userResponseObj = await DataBaseService.AuthorizeUser(userObj);
+                                MessageBox.Show(userResponseObj.username, "success authorization");
                             }
-                            catch (Exception ex) { MessageBox.Show(ex.Message.ToString(), "error"); }
+                            catch (Exception ex) { MessageBox.Show(ex.Message.ToString(), "viewModel error"); }
                         },
-                        obj => !(String.IsNullOrEmpty(_login) && String.IsNullOrEmpty(_password))
+                        obj => !(String.IsNullOrEmpty(_login) || String.IsNullOrEmpty(_password))
                         )
                     );
             }

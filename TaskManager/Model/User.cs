@@ -17,12 +17,12 @@ namespace TaskManager.Model
 
     public class UserResponse
     {
-        public string username;
-        public int idRole;
+        public string username { get; set; }
+        public int idRole { get; set; }
     }
     public class UserRequest
     {
-        public string username;
-        public string password;
+        public string username { get; set; }
+        public string password { get; set; }
     }
 }
