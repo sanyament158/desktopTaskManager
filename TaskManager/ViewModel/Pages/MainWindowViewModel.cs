@@ -49,7 +49,6 @@ namespace TaskManager.ViewModel.Pages
                                 username = _login,
                                 password = _password
                             };
-                            //MessageBox.Show(_login + " " + _password, "info");
                             try
                             {
                                 UserResponse userResponseObj = await DataBaseService.AuthorizeUser(userObj);
