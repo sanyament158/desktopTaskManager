@@ -1,3 +1,9 @@
-pre-commit 
+todo: 
 
-- main window does not modifed
+- add model Category
+- add model Task
+- styleing combobox
+
+pre-commit:
+
+- RelayCommand in not touched

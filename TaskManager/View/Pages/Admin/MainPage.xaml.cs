@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TaskManager.ViewModel.Pages.Admin;
 
 namespace TaskManager.View.Pages.Admin
 {
@@ -21,6 +22,7 @@ namespace TaskManager.View.Pages.Admin
         public MainPage()
         {
             InitializeComponent();
+            DataContext = new MainPageViewModel();
         }
     }
 }

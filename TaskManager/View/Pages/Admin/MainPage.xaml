@@ -3,7 +3,8 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:TaskManager.View.Pages.Admin"
+      xmlns:local="clr-namespace:TaskManager.View.Pages.Admin" 
+      xmlns:admin="clr-namespace:TaskManager.ViewModel.Pages.Admin"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="MainPage" Background="White"
@@ -60,7 +61,8 @@
                 <Border x:Name="borderToProfile" Grid.Row="0" Grid.Column="0"
                         Style="{StaticResource ButtonStackPanel}" Margin="20 5 5 5">
                     <Button x:Name="buttonProfile" Content="{StaticResource toProfile}"
-                            Style="{StaticResource BigButton}"/>
+                            Style="{StaticResource BigButton}" 
+                            Command="{Binding RefreshCategoriesCommand}"/>
                 </Border>
                 <Border x:Name="borderToReports" Grid.Row="0" Grid.Column="1"
                             Style="{StaticResource ButtonStackPanel}" Margin="5 5 20 5">
@@ -89,7 +91,7 @@
                            Text="{StaticResource allTasks}" Style="{StaticResource InfoTextBlock}"/>
                 <Border x:Name="borderCategories" Grid.Row="1"
                         Style="{StaticResource ComboBoxHeaderStackPanel}">
-                    <ComboBox x:Name="comboBoxCategories" Background="Transparent" Foreground="Transparent" BorderBrush="Transparent"/>
+                    <ComboBox x:Name="comboBoxCategories" ItemsSource="{Binding Categories}" DisplayMemberPath="Name"/>
                 </Border>
             </Grid>
         </Grid>

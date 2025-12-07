@@ -59,5 +59,23 @@ namespace TaskManager.Infrastucture.Network
             }
             throw new Exception("userObj.username is null or empty");
         }
+        public static async Task<List<Category>> GetCategories()
+        {
+            try
+            {
+                HttpResponseMessage httpResponseMessage = await client.GetAsync(_uri + "getTable/getScopes.php");
+                
+                JsonNode responseRootJson = JsonNode.Parse(await httpResponseMessage.Content.ReadAsStringAsync());
+                JsonArray responseCategoriesJson = responseRootJson["data"].AsArray();
+                
+                List<Category> categories = new List<Category>();
+                categories = responseCategoriesJson.Deserialize<List<Category>>();
+                MessageBox.Show(categories.Count.ToString());
+                return categories;
+                
+            }
+            catch (Exception ex) { MessageBox.Show(ex.Message); }
+            return new List<Category>();
+        }
     }
 }
