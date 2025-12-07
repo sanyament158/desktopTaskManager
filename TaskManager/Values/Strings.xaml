@@ -6,4 +6,12 @@
     <sys:String x:Key="password">Пароль</sys:String>
     <sys:String x:Key="signup">Регистрация</sys:String>
     <sys:String x:Key="signin">Войти</sys:String>
+
+    <sys:String x:Key="toCategories">Зоны ответственности</sys:String>
+    <sys:String x:Key="toEmployees">Сотрудники</sys:String>
+    <sys:String x:Key="toProfile">Мой профиль</sys:String>
+    <sys:String x:Key="toReports">Отчеты</sys:String>
+    <sys:String x:Key="toLogging">Логгирование</sys:String>
+    
+    <sys:String x:Key="allTasks">Все задачи</sys:String>
 </ResourceDictionary>

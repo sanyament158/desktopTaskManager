@@ -18,5 +18,10 @@
         <Setter Property="Background" Value="{StaticResource brown}"/>
         <Setter Property="CornerRadius" Value="10"/>
     </Style>
+
+    <Style x:Key="ComboBoxHeaderStackPanel" TargetType="Border" BasedOn="{StaticResource BaseStackPanel}">
+        <Setter Property="CornerRadius" Value="10 10 0 0"/>
+        <Setter Property="Background" Value="{StaticResource lightBrown}"/>
+    </Style>
         
 </ResourceDictionary>

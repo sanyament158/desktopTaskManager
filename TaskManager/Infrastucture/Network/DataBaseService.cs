@@ -31,7 +31,7 @@ namespace TaskManager.Infrastucture.Network
                     JsonNode responseRootJson;
                     // getting root JsonNode from httpResponseMessage
                     try { responseRootJson = JsonNode.Parse(await httpResponseMessage.Content.ReadAsStringAsync()); }
-                    catch (Exception ex) { throw new Exception("DataBaseService error \"getting clear JsonNode from httpResponseMessage\""); }
+                    catch (Exception) { throw new Exception("DataBaseService error \"getting clear JsonNode from httpResponseMessage\""); }
                     
                     // checking and return result
                     if (responseRootJson["success"].GetValue<bool>())

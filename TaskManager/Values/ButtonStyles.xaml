@@ -32,4 +32,8 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style x:Key="BigButton" TargetType="Button" BasedOn="{StaticResource BaseButton}">
+        <Setter Property="FontSize" Value="20"/>
+    </Style>
 </ResourceDictionary>

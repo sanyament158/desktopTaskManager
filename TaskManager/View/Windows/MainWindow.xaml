@@ -43,7 +43,7 @@
                     <TextBlock Text="{StaticResource login}" Style="{StaticResource InfoTextBlock}"
                                HorizontalAlignment="Center" Margin="4 4 200 4"/>
                     <Border Style="{StaticResource BaseStackPanel}">
-                        <TextBox x:Name="textBox_login"
+                        <TextBox x:Name="textBoxLogin"
                                  Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}"
                                  Style="{StaticResource BaseTextBox}"  Margin="100 12 12 12"/>
                     </Border>
@@ -53,7 +53,7 @@
                     <TextBlock Text="{StaticResource password}" Style="{StaticResource InfoTextBlock}"
                                HorizontalAlignment="Center" Margin="4 4 200 4"/>
                     <Border Style="{StaticResource BaseStackPanel}">
-                        <TextBox x:Name="textBox_password"
+                        <TextBox x:Name="textBoxPassword"
                                  Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}"
                                  Style="{StaticResource BaseTextBox}" 
                  Margin="100 12 12 12"/>
@@ -63,19 +63,18 @@
             </StackPanel>
         </Border>
 
-
         <Grid Grid.Row="2" HorizontalAlignment="Stretch">
-            <Border x:Name="signup" Style="{StaticResource ButtonStackPanel}" Margin="20"  HorizontalAlignment="Left">
-                <Button x:Name="button_signup" Style="{StaticResource BaseButton}">
+            <Border x:Name="borderSignup" Style="{StaticResource ButtonStackPanel}" Margin="20"  HorizontalAlignment="Left">
+                <Button x:Name="buttonSignup" Style="{StaticResource BaseButton}">
                     <TextBlock Text="{StaticResource signup}" Style="{StaticResource ButtonTextBlock}" FontSize="14"/>
                 </Button>
             </Border>
 
-            <Border x:Name="signin" Style="{StaticResource ButtonStackPanel}" Margin="20" HorizontalAlignment="Center">
-                <Button x:Name="button_signin" Content="{StaticResource signin}" 
-                        Command="{Binding LoginCommand}" 
-                        Style="{StaticResource BaseButton}" 
-                        Width="{Binding ActualWidth, ElementName=button_signup}">
+            <Border x:Name="borderSignin" Style="{StaticResource ButtonStackPanel}" Margin="20" HorizontalAlignment="Center">
+                <Button x:Name="buttonSignin" Content="{StaticResource signin}" 
+                        Command="{Binding LoginCommand}"
+                        Style="{StaticResource BaseButton}"
+                        Width="{Binding ActualWidth, ElementName=buttonSignup}">
                 </Button> 
             </Border>
         </Grid>
