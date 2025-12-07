@@ -7,8 +7,10 @@ using System.Security.RightsManagement;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using TaskManager.Infrastucture.Navigation;
 using TaskManager.Infrastucture.Network;
 using TaskManager.Model;
+using TaskManager.View.Pages.Admin;
 
 namespace TaskManager.ViewModel.Pages
 {
@@ -55,7 +57,7 @@ namespace TaskManager.ViewModel.Pages
                                 MessageBox.Show(userResponseObj.username);
                                 if (userResponseObj.username == "sanyament")
                                 {
-
+                                    MainFrame.mainFrame.Navigate(new MainPage());
                                 }
                             }
                             catch (Exception ex) { MessageBox.Show(ex.Message.ToString(), "viewModel error"); }
