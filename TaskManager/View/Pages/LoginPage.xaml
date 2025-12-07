@@ -1,0 +1,82 @@
+﻿<Page x:Class="TaskManager.View.Pages.LoginPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:TaskManager.View.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Авторизация" Height="450" Width="800">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Values/StackPanelStyles.xaml"/>
+                <ResourceDictionary Source="/Values/Strings.xaml"/>
+                <ResourceDictionary Source="/Values/TextBlockStyles.xaml"/>
+                <ResourceDictionary Source="/Values/TextBoxStyles.xaml"/>
+                <ResourceDictionary Source="/Values/ButtonStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Border x:Name="headerStackPanel" Style="{StaticResource HeaderStackPanel}" CornerRadius="0 0 15 15">
+            <StackPanel VerticalAlignment="Center">
+                <TextBlock Text="{StaticResource greeting}"
+                   Style="{StaticResource HeaderTextBlock}"
+                   FontWeight="Regular"/>
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Row="1" Margin="50 20 50 20"
+        Style="{StaticResource BaseStackPanel}" 
+        Background="{StaticResource grey}">
+
+            <StackPanel x:Name="loginStackPanel" Orientation="Vertical">
+
+                <StackPanel x:Name="inputLoginStackPanel" Orientation="Vertical" Margin="10">
+                    <TextBlock Text="{StaticResource login}" Style="{StaticResource InfoTextBlock}"
+                       HorizontalAlignment="Center" Margin="4 4 200 4"/>
+                    <Border Style="{StaticResource BaseStackPanel}">
+                        <TextBox x:Name="textBoxLogin"
+                         Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}"
+                         Style="{StaticResource BaseTextBox}"  Margin="100 12 12 12"/>
+                    </Border>
+                </StackPanel>
+
+                <StackPanel x:Name="inputPasswordStackPanel" Orientation="Vertical" Margin="10">
+                    <TextBlock Text="{StaticResource password}" Style="{StaticResource InfoTextBlock}"
+                       HorizontalAlignment="Center" Margin="4 4 200 4"/>
+                    <Border Style="{StaticResource BaseStackPanel}">
+                        <TextBox x:Name="textBoxPassword"
+                         Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}"
+                         Style="{StaticResource BaseTextBox}" 
+         Margin="100 12 12 12"/>
+                    </Border>
+                </StackPanel>
+
+            </StackPanel>
+        </Border>
+
+        <Grid Grid.Row="2" HorizontalAlignment="Stretch">
+            <Border x:Name="borderSignup" Style="{StaticResource ButtonStackPanel}" Margin="20"  HorizontalAlignment="Left">
+                <Button x:Name="buttonSignup" Style="{StaticResource BaseButton}">
+                    <TextBlock Text="{StaticResource signup}" Style="{StaticResource ButtonTextBlock}" FontSize="14"/>
+                </Button>
+            </Border>
+
+            <Border x:Name="borderSignin" Style="{StaticResource ButtonStackPanel}" Margin="20" HorizontalAlignment="Center">
+                <Button x:Name="buttonSignin" Content="{StaticResource signin}" 
+                Command="{Binding LoginCommand}"
+                Style="{StaticResource BaseButton}"
+                Width="{Binding ActualWidth, ElementName=buttonSignup}">
+                </Button>
+            </Border>
+        </Grid>
+    </Grid>
+</Page>

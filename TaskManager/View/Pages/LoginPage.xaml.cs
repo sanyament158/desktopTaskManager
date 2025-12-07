@@ -8,23 +8,21 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
-using TaskManager.Infrastucture.Navigation;
-using TaskManager.View.Pages;
 using TaskManager.ViewModel.Pages;
 
-namespace TaskManager.View
+namespace TaskManager.View.Pages
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    /// Логика взаимодействия для LoginPage.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class LoginPage : Page
     {
-        public MainWindow()
+        public LoginPage()
         {
             InitializeComponent();
-            mainFrame.Navigate(new LoginPage());
-            MainFrame.mainFrame = this.mainFrame;
+            DataContext = new LoginPageVewModel();
         }
     }
 }

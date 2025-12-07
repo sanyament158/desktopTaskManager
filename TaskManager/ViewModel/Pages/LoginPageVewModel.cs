@@ -12,7 +12,7 @@ using TaskManager.Model;
 
 namespace TaskManager.ViewModel.Pages
 {
-    public class MainWindowViewModel : INotifyPropertyChanged
+    public class LoginPageVewModel : INotifyPropertyChanged
     {
         private string _login;
         public string Login
@@ -52,7 +52,11 @@ namespace TaskManager.ViewModel.Pages
                             try
                             {
                                 UserResponse userResponseObj = await DataBaseService.AuthorizeUser(userObj);
-                                MessageBox.Show(userResponseObj.username, "success authorization");
+                                MessageBox.Show(userResponseObj.username);
+                                if (userResponseObj.username == "sanyament")
+                                {
+
+                                }
                             }
                             catch (Exception ex) { MessageBox.Show(ex.Message.ToString(), "viewModel error"); }
                         },
