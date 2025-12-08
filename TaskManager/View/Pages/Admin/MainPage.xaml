@@ -17,6 +17,7 @@
                 <ResourceDictionary Source="/Values/TextBlockStyles.xaml"/>
                 <ResourceDictionary Source="/Values/ButtonStyles.xaml"/>
                 <ResourceDictionary Source="/Values/StackPanelStyles.xaml"/>
+                <ResourceDictionary Source="/Values/ComboBoxStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
@@ -80,7 +81,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="0.2*"/>
                 <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+            </Grid.RowDefinitions>  
 
             <Grid x:Name="gridHeaderWithChooseCategory" Grid.Row="0">
                 <Grid.RowDefinitions>
@@ -91,8 +92,24 @@
                            Text="{StaticResource allTasks}" Style="{StaticResource InfoTextBlock}"/>
                 <Border x:Name="borderCategories" Grid.Row="1"
                         Style="{StaticResource ComboBoxHeaderStackPanel}">
-                    <ComboBox x:Name="comboBoxCategories" ItemsSource="{Binding Categories}" DisplayMemberPath="Name"/>
+                    <ComboBox x:Name="comboBoxCategories" 
+                              Style="{StaticResource BaseComboBox}"
+                              ItemsSource="{Binding Categories}" DisplayMemberPath="Name"/>
                 </Border>
+            </Grid>
+            <Grid x:Name="gridTasksList" Grid.Row="1" Margin="5 5 5 8">
+                <ListView x:Name="listViewTasks" ItemsSource="{Binding Tasks}"
+                          BorderThickness="0">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Владелец" DisplayMemberBinding="{Binding Owner}"/>
+                            <GridViewColumn Header="Статус" DisplayMemberBinding="{Binding Status}"/>
+                            <GridViewColumn Header="Заголовок" DisplayMemberBinding="{Binding Title}"/>
+                            <GridViewColumn Header="Начало" DisplayMemberBinding="{Binding Since}"/>
+                            <GridViewColumn Header="Дедлайн" DisplayMemberBinding="{Binding Deadline}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
             </Grid>
         </Grid>
     </Grid>

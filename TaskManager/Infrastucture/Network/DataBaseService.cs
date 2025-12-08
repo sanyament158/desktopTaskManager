@@ -70,12 +70,29 @@ namespace TaskManager.Infrastucture.Network
                 
                 List<Category> categories = new List<Category>();
                 categories = responseCategoriesJson.Deserialize<List<Category>>();
-                MessageBox.Show(categories.Count.ToString());
                 return categories;
                 
             }
             catch (Exception ex) { MessageBox.Show(ex.Message); }
             return new List<Category>();
+        }
+        public static async Task<List<TaskHumanReadable>> GetTasks()
+        {
+            try
+            {
+                HttpResponseMessage httpResponseMessage = await client.GetAsync(_uri + "getTable/getTasks-HumanReadable.php");
+
+                JsonNode responseRootJson = JsonNode.Parse(await httpResponseMessage.Content.ReadAsStringAsync());
+                // subarray with data
+                JsonArray responseDataJson = responseRootJson["data"].AsArray();
+                
+                List<TaskHumanReadable> responseTasks = responseDataJson.Deserialize<List<TaskHumanReadable>>();
+                return responseTasks;
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"DataBaseService Exception Occured!\nMessage = {e.Message}");
+            }
         }
     }
 }

@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Controls.Ribbon.Primitives;
 using System.Windows;
 using CommunityToolkit.Mvvm.Input;
+using System.Diagnostics;
 
 namespace TaskManager.ViewModel.Pages.Admin
 {
@@ -17,9 +18,10 @@ namespace TaskManager.ViewModel.Pages.Admin
         public MainPageViewModel()
         {
             RefreshCategoriesCommand.Execute(this);
+            RefreshTasksCommand.Execute(this);
         }
         // fields & properties
-        private ObservableCollection<Category> _categories = new ObservableCollection<Category>();
+        private ObservableCollection<Category> _categories;
         public ObservableCollection<Category> Categories
         {
             set
@@ -30,6 +32,16 @@ namespace TaskManager.ViewModel.Pages.Admin
             get
             {
                 return _categories;
+            }
+        }
+        private ObservableCollection<TaskHumanReadable> _tasks;
+        public ObservableCollection<TaskHumanReadable> Tasks
+        {
+            get { return _tasks; }
+            set
+            {
+                _tasks = value;
+                OnPropertyChanged();
             }
         }
 
@@ -43,12 +55,27 @@ namespace TaskManager.ViewModel.Pages.Admin
                     (_refreshCategoriesCommand = new AsyncRelayCommand(
                         async () =>
                         {
-                            MessageBox.Show("command is start");
                             Categories = new ObservableCollection<Category>(await DataBaseService.GetCategories());
                         }
                         )
                     );
                 }
+        }
+        private AsyncRelayCommand _refreshTasksCommand;
+        public IAsyncRelayCommand RefreshTasksCommand
+        {
+            get
+            {
+                return _refreshTasksCommand ?? (
+                    _refreshTasksCommand = new AsyncRelayCommand(
+                        async () =>
+                        {
+                            MessageBox.Show("refresh tasks was started");
+                            Tasks = new ObservableCollection<TaskHumanReadable>(await DataBaseService.GetTasks());
+                        }
+                        )
+                    );
+            }
         }
         
         public event PropertyChangedEventHandler PropertyChanged;

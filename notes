@@ -2,8 +2,12 @@ todo:
 
 - add model Category
 - add model Task
-- styleing combobox
+- styling combobox
+- refresh listview tasks
 
 pre-commit:
 
-- RelayCommand in not touched
+- add style combobox
+- add task entity
+- add taskHumanReadable class
+- implement hr output to listview 
