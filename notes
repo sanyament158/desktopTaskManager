@@ -1,13 +1,9 @@
 todo: 
 
-- add model Category
-- add model Task
-- styling combobox
-- refresh listview tasks
+- time now is 12:45
+- 
 
-pre-commit:
+pre-commit: 
 
-- add style combobox
-- add task entity
-- add taskHumanReadable class
-- implement hr output to listview 
+- mini-refactoring DataBaseService.cs
+- implement sorting tasks logic

@@ -12,10 +12,11 @@ namespace TaskManager.Infrastucture.Network
 {
     public static class DataBaseService
     {
+        //fields
         private static readonly string _host = "5.129.192.166";
         private static readonly Uri _uri = new Uri($"http://{_host}/rmpPhpApi/api/");
         private static HttpClient client = new HttpClient();
-        
+        //methods
         public static async Task<UserResponse> AuthorizeUser(UserRequest userRequestObj)
         {
             if (!String.IsNullOrEmpty(userRequestObj.username))
@@ -68,13 +69,10 @@ namespace TaskManager.Infrastucture.Network
                 JsonNode responseRootJson = JsonNode.Parse(await httpResponseMessage.Content.ReadAsStringAsync());
                 JsonArray responseCategoriesJson = responseRootJson["data"].AsArray();
                 
-                List<Category> categories = new List<Category>();
-                categories = responseCategoriesJson.Deserialize<List<Category>>();
-                return categories;
-                
+                List<Category> categories = responseCategoriesJson.Deserialize<List<Category>>();
+                return categories ?? throw new Exception("response was null");
             }
-            catch (Exception ex) { MessageBox.Show(ex.Message); }
-            return new List<Category>();
+            catch (Exception ex) { throw new Exception(ex.Message); }
         }
         public static async Task<List<TaskHumanReadable>> GetTasks()
         {
@@ -87,7 +85,7 @@ namespace TaskManager.Infrastucture.Network
                 JsonArray responseDataJson = responseRootJson["data"].AsArray();
                 
                 List<TaskHumanReadable> responseTasks = responseDataJson.Deserialize<List<TaskHumanReadable>>();
-                return responseTasks;
+                return responseTasks ?? throw new Exception("response was null");
             }
             catch (Exception e)
             {

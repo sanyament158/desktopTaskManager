@@ -62,8 +62,7 @@
                 <Border x:Name="borderToProfile" Grid.Row="0" Grid.Column="0"
                         Style="{StaticResource ButtonStackPanel}" Margin="20 5 5 5">
                     <Button x:Name="buttonProfile" Content="{StaticResource toProfile}"
-                            Style="{StaticResource BigButton}" 
-                            Command="{Binding RefreshCategoriesCommand}"/>
+                            Style="{StaticResource BigButton}"/>
                 </Border>
                 <Border x:Name="borderToReports" Grid.Row="0" Grid.Column="1"
                             Style="{StaticResource ButtonStackPanel}" Margin="5 5 20 5">
@@ -94,14 +93,20 @@
                         Style="{StaticResource ComboBoxHeaderStackPanel}">
                     <ComboBox x:Name="comboBoxCategories" 
                               Style="{StaticResource BaseComboBox}"
-                              ItemsSource="{Binding Categories}" DisplayMemberPath="Name"/>
+                              SelectedItem="{Binding SelectedCategory}"
+                              ItemsSource="{Binding Categories}" DisplayMemberPath="Name" SelectedValuePath="Name"/>
                 </Border>
             </Grid>
             <Grid x:Name="gridTasksList" Grid.Row="1" Margin="5 5 5 8">
-                <ListView x:Name="listViewTasks" ItemsSource="{Binding Tasks}"
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1.3*"/>
+                    <RowDefinition Height="0.2*"/>
+                </Grid.RowDefinitions>
+                <ListView x:Name="listViewTasks" Grid.Row="0" ItemsSource="{Binding Tasks}"
                           BorderThickness="0">
                     <ListView.View>
                         <GridView>
+                            <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}"/>
                             <GridViewColumn Header="Владелец" DisplayMemberBinding="{Binding Owner}"/>
                             <GridViewColumn Header="Статус" DisplayMemberBinding="{Binding Status}"/>
                             <GridViewColumn Header="Заголовок" DisplayMemberBinding="{Binding Title}"/>
@@ -110,6 +115,11 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
+
+                <Border x:Name="borderCancelSelection" Style="{StaticResource ButtonStackPanel}" Grid.Row="1" Margin="20 5 20 5">
+                    <Button x:Name="buttonCancelSelection" Content="{StaticResource cancelSelection}" Style="{StaticResource BaseButton}"
+                            Command="{Binding CancelSelectionCommand}"/>
+                </Border>
             </Grid>
         </Grid>
     </Grid>

@@ -6,6 +6,12 @@ namespace TaskManager.Model
 {
     public class Task
     {
+        private int _id;
+        public int Id
+        {
+            get { return _id; }
+            set { _id = value; }
+        }
         private int _idOwner;
         public int IdOwner
         {
@@ -58,6 +64,12 @@ namespace TaskManager.Model
 
     public class TaskHumanReadable
     {
+        private int _id;
+        public int Id
+        {
+            get { return _id; }
+            set {  _id = value; }
+        }
         private string _owner;
         public string Owner
         {
