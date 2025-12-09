@@ -10,17 +10,21 @@ using System.Windows.Controls.Ribbon.Primitives;
 using System.Windows;
 using CommunityToolkit.Mvvm.Input;
 using System.Diagnostics;
+using TaskManager.Infrastucture.Navigation;
+using TaskManager.View.Pages.Admin;
 
 namespace TaskManager.ViewModel.Pages.Admin
 {
     public class MainPageViewModel : INotifyPropertyChanged
     {
-        public MainPageViewModel()
+        public MainPageViewModel(User enteredUser)
         {
+            _enteredUser = enteredUser;
             RefreshCategoriesCommand.Execute(this);
             RefreshTasksCommand.Execute(this);
         }
         // fields & properties
+        private User _enteredUser;
         private Category _selectedCategory;
         public Category SelectedCategory
         {
@@ -58,7 +62,6 @@ namespace TaskManager.ViewModel.Pages.Admin
         }
 
         // commands
-
         private AsyncRelayCommand _refreshCategoriesCommand;
         public IAsyncRelayCommand RefreshCategoriesCommand
         {
@@ -104,6 +107,23 @@ namespace TaskManager.ViewModel.Pages.Admin
                     );
             }
         }
+        private RelayCommand _goToEditScopesCommand;
+        public RelayCommand GoToEditScopesCommand
+        {
+            get {
+                return _goToEditScopesCommand ??
+                    (_goToEditScopesCommand = new RelayCommand(
+                        (obj) =>
+                        {
+                            MainFrame.mainFrame.Navigate(
+                                new EditScopesPage(_enteredUser) // TODO: add navigate
+                                );
+                        },
+                        (obj) => _enteredUser.idRole == 1
+                        ));
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {

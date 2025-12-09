@@ -10,20 +10,18 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using TaskManager.ViewModel.Pages.Admin;
 using TaskManager.Model;
 
 namespace TaskManager.View.Pages.Admin
 {
     /// <summary>
-    /// Логика взаимодействия для MainPage.xaml
+    /// Логика взаимодействия для EditScopesPage.xaml
     /// </summary>
-    public partial class MainPage : Page
+    public partial class EditScopesPage : Page
     {
-        public MainPage(User enteredUser)
+        public EditScopesPage(User enteredUser)
         {
             InitializeComponent();
-            DataContext = new MainPageViewModel(enteredUser);
         }
     }
 }

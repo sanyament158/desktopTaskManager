@@ -12,7 +12,6 @@ namespace TaskManager.Model
         public string? fname;
         public string? lname;
         public int idRole;
-        public string password;
     }
 
     public class UserResponse

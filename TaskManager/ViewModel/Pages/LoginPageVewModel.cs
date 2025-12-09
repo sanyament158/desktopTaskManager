@@ -57,7 +57,11 @@ namespace TaskManager.ViewModel.Pages
                                 MessageBox.Show(userResponseObj.username);
                                 if (userResponseObj.username == "sanyament")
                                 {
-                                    MainFrame.mainFrame.Navigate(new MainPage());
+                                    MainFrame.mainFrame.Navigate(
+                                        new MainPage(
+                                            new User { username = userResponseObj.username, idRole = userResponseObj.idRole }
+                                            )
+                                        );
                                 }
                             }
                             catch (Exception ex) { MessageBox.Show(ex.Message.ToString(), "viewModel error"); }

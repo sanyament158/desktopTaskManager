@@ -40,7 +40,8 @@
                     Style="{StaticResource ButtonStackPanel}" Margin="20 5 20 5">
                 <Button x:Name="buttonCategories"
                         Style="{StaticResource BigButton}"
-                        Content="{StaticResource toCategories}"/>
+                        Content="{StaticResource toCategories}"
+                        Command="{Binding GoToEditScopesCommand}"/>
             </Border>
             <Border x:Name="borderToEmployees" Grid.Row="2"
                     Style="{StaticResource ButtonStackPanel}" Margin="20 5 20 5">
