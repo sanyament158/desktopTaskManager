@@ -7,7 +7,7 @@
 
     <Style x:Key="BaseStackPanel" TargetType="Border"> <!-- use stackpanel only in <border> stackpanel here </border> | style available FOR BORDER ONLY-->
         <Setter Property="Background" Value="White"/>
-        <Setter Property="CornerRadius" Value="15"/>            
+        <Setter Property="CornerRadius" Value="10"/>            
     </Style>
 
     <Style x:Key="HeaderStackPanel" TargetType="Border" BasedOn="{StaticResource BaseStackPanel}">

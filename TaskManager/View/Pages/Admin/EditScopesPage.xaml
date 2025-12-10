@@ -51,7 +51,9 @@
 
                     <Border x:Name="borderAddScope" Grid.Row="0" Margin="5"
                             Style="{StaticResource ButtonStackPanel}">
-                        <Button x:Name="buttonAddScope" Content="add scope" Style="{StaticResource BigButton}"/>
+                        <Button x:Name="buttonAddScope" Content="add scope" 
+                                Style="{StaticResource BigButton}"
+                                Command="{Binding GoToAddScopeCommand}"/>
                     </Border>
                     <Border x:Name="borderRemoveScope" Grid.Row="1" Margin="5"
                             Style="{StaticResource ButtonStackPanel}">

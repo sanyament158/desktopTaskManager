@@ -63,7 +63,7 @@
             </StackPanel>
         </Border>
 
-        <Grid Grid.Row="2" HorizontalAlignment="Stretch">
+        <Grid x:Name="gridButtons" Grid.Row="2" HorizontalAlignment="Stretch">
             <Border x:Name="borderSignup" Style="{StaticResource ButtonStackPanel}" Margin="20"  HorizontalAlignment="Left">
                 <Button x:Name="buttonSignup" Style="{StaticResource BaseButton}">
                     <TextBlock Text="{StaticResource signup}" Style="{StaticResource ButtonTextBlock}" FontSize="14"/>

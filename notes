@@ -1,9 +1,8 @@
 todo: 
 
-- time now is 12:45
-- 
+- time now is 12:45 
+- crud scopes
 
 pre-commit: 
 
-- mini-refactoring DataBaseService.cs
-- implement sorting tasks logic
+- 
