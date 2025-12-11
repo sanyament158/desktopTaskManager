@@ -1,8 +1,5 @@
 todo: 
 
-- time now is 12:45 
-- crud scopes
+- on server: deletefromtablebyid (scope/deleteScope.php) -> to add check rows affected prop
 
 pre-commit: 
-
-- 

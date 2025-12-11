@@ -57,7 +57,9 @@
                     </Border>
                     <Border x:Name="borderRemoveScope" Grid.Row="1" Margin="5"
                             Style="{StaticResource ButtonStackPanel}">
-                        <Button x:Name="buttonRemoveScope" Content="remove scope" Style="{StaticResource BigButton}"/>
+                        <Button x:Name="buttonRemoveScope" Content="remove scope" 
+                                Style="{StaticResource BigButton}"
+                                Command="{Binding DeleteScopeCommand}"/>
                     </Border>
                     <Border x:Name="borderUpdateScope" Grid.Row="2" Margin="5"
                             Style="{StaticResource ButtonStackPanel}">
@@ -75,8 +77,9 @@
 
             <TextBlock Text="all scopes:" Style="{StaticResource InfoTextBlock}"/>
             <ListView x:Name="listViewScopes" Grid.Row="1" Margin="10"
-                      ItemsSource="{Binding Scopes}"
-                      BorderThickness="0">
+                      ItemsSource="{Binding Scopes}" BorderThickness="0"
+                      SelectedItem="{Binding SelectedScope}"
+                      >
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}"/>

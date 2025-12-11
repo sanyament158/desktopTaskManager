@@ -10,6 +10,7 @@ using CommunityToolkit.Mvvm.Input;
 using System.Diagnostics;
 using TaskManager.Infrastucture.Navigation;
 using TaskManager.View.Pages.Admin;
+using System.Windows;
 
 namespace TaskManager.ViewModel.Pages.Admin
 {
@@ -20,6 +21,16 @@ namespace TaskManager.ViewModel.Pages.Admin
             RefreshScopesCommand.Execute(this);
         }
         //Fields & properties
+        private Category _selectedScope;
+        public Category SelectedScope
+        {
+            get { return _selectedScope; }
+            set
+            {
+                _selectedScope = value;
+                OnPropertyChanged();
+            }
+        }
         private ObservableCollection<Category> _scopes;
         public ObservableCollection<Category> Scopes
         {
@@ -55,6 +66,29 @@ namespace TaskManager.ViewModel.Pages.Admin
                         }
                         )
                     ); }
+        }
+        private AsyncRelayCommand _deleteScopeCommand;
+        public IAsyncRelayCommand DeleteScopeCommand
+        {
+            get { return _deleteScopeCommand ??
+                    (
+                        _deleteScopeCommand = new AsyncRelayCommand(
+                            async (obj) =>
+                            {
+                                try
+                                {
+                                    int categoryId = SelectedScope.Id;
+                                    var res = await DataBaseService.DeleteCatetegory(categoryId);
+                                    MessageBox.Show(res.ToString());
+                                }
+                                catch (Exception ex)
+                                {
+                                MessageBox.Show(ex.ToString());
+                                }
+                            }
+                            )                        
+                    );
+                    }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

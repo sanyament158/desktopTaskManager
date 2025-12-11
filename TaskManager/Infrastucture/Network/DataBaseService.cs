@@ -92,5 +92,19 @@ namespace TaskManager.Infrastucture.Network
                 throw new Exception($"DataBaseService Exception Occured!\nMessage = {e.Message}");
             }
         }
+        public static async Task<bool> DeleteCatetegory(int catetegoryId)
+        {
+            var data = new Dictionary<string, object>
+            {
+                ["id"] = catetegoryId.ToString(),
+                ["table_name"] = "scope"
+            };
+            string requestJson = JsonSerializer.Serialize(data);
+
+            HttpResponseMessage httpResponseMessage = await client.PutAsync(_uri + "scope/deleteScope.php", new StringContent(requestJson, Encoding.UTF8, "application/json"));
+            JsonNode responseRootJson = JsonNode.Parse(await httpResponseMessage.Content.ReadAsStringAsync());
+
+            return responseRootJson["success"].GetValue<bool>();
+        }
     }
 }
