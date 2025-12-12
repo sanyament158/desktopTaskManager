@@ -39,16 +39,17 @@
                        Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="20"
                        />
             <Border x:Name="borderAddScope" Grid.Column="1"
-                    Style="{StaticResource BaseStackPanel}" Margin="20 70 40 70" Background="{StaticResource grey}" CornerRadius="10">
+                    Style="{StaticResource BaseStackPanel}" Margin="20 70 40 70" Background="{StaticResource grey}" CornerRadius="10"
+                    Padding="0">
                 <TextBox x:Name="textBoxAddScope" Grid.Column="1" 
                          Text="{Binding EnteredName, UpdateSourceTrigger=PropertyChanged}"
-                         Style="{StaticResource BaseTextBox}"/>
+                         Style="{StaticResource BaseTextBox}" Margin="0" Padding="40 0 0 0"/>
             </Border>
         </Grid>
         <Border x:Name="borderAccept" Grid.Row="2" 
                 Style="{StaticResource ButtonStackPanel}"
                 Margin="300 10 300 10">
-            <Button x:Name="buttonAccept" 
+            <Button x:Name="buttonAccept"
                     Content="{StaticResource add}" 
                     Style="{StaticResource BaseButton}"
                     Command="{Binding AcceptCommand}" CommandParameter="{Binding ElementName=buttonAccept}"/>

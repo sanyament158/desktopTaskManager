@@ -2,4 +2,6 @@ todo:
 
 - on server: deletefromtablebyid (scope/deleteScope.php) -> to add check rows affected prop
 
-pre-commit: 
+pre-commit:
+- viewModel addnewscope.cs - 
+- server : add new query - putTask.php 

@@ -19,10 +19,10 @@ namespace TaskManager.View.Pages.Admin
     /// </summary>
     public partial class AddNewScopePage : Page
     {
-        public AddNewScopePage()
+        public AddNewScopePage(EditScopesPageViewModel senderContext)
         {
             InitializeComponent();
-            DataContext = new AddNewScopePageViewModel();
+            DataContext = new AddNewScopePageViewModel(senderContext);
         }
     }
 }

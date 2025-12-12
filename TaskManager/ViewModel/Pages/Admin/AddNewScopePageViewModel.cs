@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.Input;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -8,12 +9,18 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using TaskManager.Infrastucture.Navigation;
+using TaskManager.Infrastucture.Network;
 
 namespace TaskManager.ViewModel.Pages.Admin
 {
     public class AddNewScopePageViewModel : INotifyPropertyChanged
     {
+        public AddNewScopePageViewModel(EditScopesPageViewModel senderContext)
+        {
+            senderContext = this.senderContext;
+        }
         //Fields & Properties
+        private EditScopesPageViewModel senderContext;
         private string _enteredName;
         public string EnteredName
         {
@@ -24,26 +31,24 @@ namespace TaskManager.ViewModel.Pages.Admin
         }
 
         //Commands 
-        private RelayCommand _acceptCommand;
-        public RelayCommand AcceptCommand
+        private AsyncRelayCommand<Button> _acceptCommand;
+        public AsyncRelayCommand<Button> AcceptCommand
         {
             get {
                 return _acceptCommand ?? (
-                    _acceptCommand = new RelayCommand(
-                        (obj) =>
+                    _acceptCommand = new AsyncRelayCommand<Button>(
+                        async (sender) =>
                         {
-                            Button sender = obj as Button;
                             if (sender.Name == "buttonAccept")
                             {
-                                try
-                                {
-                                    // database request
-                                    MessageBox.Show("db req");
-                                }
-                                catch (Exception ex)
-                                {
-                                    MessageBox.Show(ex.Message);
-                                }
+                                
+                                    bool result =  await DataBaseService.PutScope(EnteredName);
+                                    if (!result) MessageBox.Show("query error occured");
+                                    else
+                                    {
+                                        senderContext.RefreshScopesCommand.Execute(senderContext);
+                                    }
+                                
                             }
                             MainFrame.mainFrame.GoBack();
                         }

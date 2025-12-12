@@ -43,7 +43,7 @@ namespace TaskManager.ViewModel.Pages.Admin
 
         //Commands
         private AsyncRelayCommand _refreshScopesCommand;
-        public IAsyncRelayCommand RefreshScopesCommand
+        public AsyncRelayCommand RefreshScopesCommand
         {
             get {
                 return _refreshScopesCommand ?? (
@@ -62,7 +62,7 @@ namespace TaskManager.ViewModel.Pages.Admin
                     _goToAddScopeCommand = new RelayCommand(
                         (obj) =>
                         {
-                            MainFrame.mainFrame.Navigate(new AddNewScopePage());
+                            MainFrame.mainFrame.Navigate(new AddNewScopePage(this));
                         }
                         )
                     ); }
@@ -78,7 +78,7 @@ namespace TaskManager.ViewModel.Pages.Admin
                                 try
                                 {
                                     int categoryId = SelectedScope.Id;
-                                    var res = await DataBaseService.DeleteCatetegory(categoryId);
+                                    var res = await DataBaseService.DeleteFromTableById("scope", categoryId);
                                     MessageBox.Show(res.ToString());
                                 }
                                 catch (Exception ex)
