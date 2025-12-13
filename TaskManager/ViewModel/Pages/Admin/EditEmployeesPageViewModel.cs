@@ -22,6 +22,17 @@ namespace TaskManager.ViewModel.Pages.Admin
         }
         //Fields & Properties
         private User _enteredUser;
+        private User _selectedUser;
+        public User SelectedUser
+        {
+            get { return _selectedUser; }
+            set
+            {
+                _selectedUser = value;
+                OnPropertyChanged();
+                DeleteUserCommand.NotifyCanExecuteChanged();
+            }
+        }
         private ObservableCollection<User> _users;
         public ObservableCollection<User> Users
         {
@@ -45,6 +56,32 @@ namespace TaskManager.ViewModel.Pages.Admin
                         ));
             }
         }
+        private AsyncRelayCommand<User> _deleteUserCommand;
+        public AsyncRelayCommand<User> DeleteUserCommand
+        {
+            get
+            {
+                return _deleteUserCommand ??
+                    (_deleteUserCommand = new AsyncRelayCommand<User>(
+                        async (obj) =>
+                        {
+                            try
+                            {
+                                int categoryId = (int)SelectedUser.Id;
+                                var res = await DataBaseService.DeleteFromTableById("user", categoryId);
+                                if (res) MessageBox.Show("Успешно!");
+                                else MessageBox.Show("Ошибка!");
+                                RefreshUsersCommand.Execute(this);
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show(ex.ToString());
+                            }
+                        },
+                        (obj) => SelectedUser != null && SelectedUser.Username != null
+                        ));
+            }
+        }
         private RelayCommand _goToAddEmployeeCommand;
         public RelayCommand GoToAddEmployeeCommand
         {
@@ -59,6 +96,18 @@ namespace TaskManager.ViewModel.Pages.Admin
                         )
                     );
             }
+        }
+        private RelayCommand _goToUpdateUser;
+        public RelayCommand GoToUpdateUserCommand
+        {
+            get { return _goToUpdateUser ?? (
+                    _goToUpdateUser = new RelayCommand(
+                        (obj) =>
+                        {
+                            MainFrame.mainFrame.Navigate(new UpdateUserPage(_enteredUser));
+                        }
+                        )
+                    ); }
         }
         private RelayCommand _goBackCommand;
         public RelayCommand GoBackCommand

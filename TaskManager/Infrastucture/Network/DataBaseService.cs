@@ -94,11 +94,11 @@ namespace TaskManager.Infrastucture.Network
                 throw new Exception($"DataBaseService Exception Occured!\nMessage = {e.Message}");
             }
         }
-        public static async Task<bool> DeleteFromTableById(string tableName, int catetegoryId)
+        public static async Task<bool> DeleteFromTableById(string tableName, int id)
         {
             var data = new Dictionary<string, object>
             {
-                ["id"] = catetegoryId.ToString(),
+                ["id"] = id.ToString(),
                 ["table_name"] = tableName
             };
             string requestJson = JsonSerializer.Serialize(data);

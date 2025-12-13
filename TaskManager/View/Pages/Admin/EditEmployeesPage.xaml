@@ -57,13 +57,13 @@
                     Style="{StaticResource ButtonStackPanel}">
                         <Button x:Name="buttonRemoveUser" Content="remove User" 
                         Style="{StaticResource BigButton}"
-                        Command="{Binding DeleteScopeCommand}"/>
+                        Command="{Binding DeleteUserCommand}"/>
                     </Border>
                     <Border x:Name="borderUpdateUser" Grid.Row="2" Margin="5"
                     Style="{StaticResource ButtonStackPanel}">
                         <Button x:Name="buttonUpdateUser" Content="update User" 
                         Style="{StaticResource BigButton}"
-                        Command="{Binding GoToUpdateScopeCommand}"/>
+                        Command="{Binding GoToUpdateUserCommand}"/>
                     </Border>
                 </Grid>
             </Grid>
@@ -84,7 +84,7 @@
             <TextBlock Text="all users:" Style="{StaticResource InfoTextBlock}"/>
             <ListView x:Name="listViewUsers" Grid.Row="1" Margin="10"
               ItemsSource="{Binding Users}" BorderThickness="0"
-              SelectedItem="{Binding SelectedScope}"
+              SelectedItem="{Binding SelectedUser}"
               >
                 <ListView.View>
                     <GridView>
