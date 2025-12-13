@@ -116,13 +116,31 @@ namespace TaskManager.ViewModel.Pages.Admin
                         (obj) =>
                         {
                             MainFrame.mainFrame.Navigate(
-                                new EditScopesPage(_enteredUser) // TODO: add navigate
+                                new EditScopesPage(_enteredUser)
                                 );
                         },
                         (obj) => _enteredUser.idRole == 1
                         ));
             }
         }
+        private RelayCommand _goToEditEmployeesCommand;
+        public RelayCommand GoToEditEmployeesCommand
+        {
+            get
+            {
+                return _goToEditEmployeesCommand ??
+                    (_goToEditEmployeesCommand = new RelayCommand(
+                        (obj) =>
+                        {
+                            MainFrame.mainFrame.Navigate(
+                                new EditEmployeesPage(_enteredUser) 
+                                );
+                        },
+                        (obj) => _enteredUser.idRole == 1
+                        ));
+            }
+        }
+        //private RelayCommand _goTo
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")

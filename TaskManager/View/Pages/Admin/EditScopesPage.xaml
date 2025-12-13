@@ -71,6 +71,12 @@
             </Grid>
         </Grid>
 
+        <Border x:Name="borderBack" Grid.Row="1" Grid.Column="0"
+                Style="{StaticResource ButtonStackPanel}" Margin="20 10 20 10">
+            <Button x:Name="buttonBack" Content="{StaticResource back}"
+                    Style="{StaticResource BaseButton}"
+                    Command="{Binding GoBackCommand}"/>
+        </Border>     
         <Grid x:Name="gridListScopes" Grid.Column="1" Grid.Row="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="0.2*"/>

@@ -86,6 +86,21 @@ namespace TaskManager.ViewModel.Pages.Admin
                     );
             }
         }
+        private RelayCommand _goBackCommand;
+        public RelayCommand GoBackCommand
+        {
+            get
+            {
+                return _goBackCommand ?? (
+                    _goBackCommand = new RelayCommand(
+                        (obj) =>
+                        {
+                            MainFrame.mainFrame.Navigate(new MainPage(_enteredUser));
+                        }
+                        )
+                    );
+            }
+        }
         private AsyncRelayCommand _deleteScopeCommand;
         public AsyncRelayCommand DeleteScopeCommand
         {
