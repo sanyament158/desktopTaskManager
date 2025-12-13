@@ -101,7 +101,7 @@ namespace TaskManager.Infrastucture.Network
             };
             string requestJson = JsonSerializer.Serialize(data);
 
-            HttpResponseMessage httpResponseMessage = await client.PutAsync(_uri + "scope/deleteScope.php", new StringContent(requestJson, Encoding.UTF8, "application/json"));
+            HttpResponseMessage httpResponseMessage = await client.PutAsync(_uri + "deleteScope.php", new StringContent(requestJson, Encoding.UTF8, "application/json"));
             JsonNode responseRootJson = JsonNode.Parse(await httpResponseMessage.Content.ReadAsStringAsync());
 
             return responseRootJson["success"].GetValue<bool>();

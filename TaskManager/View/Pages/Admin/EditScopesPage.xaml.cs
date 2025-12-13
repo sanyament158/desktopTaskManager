@@ -23,7 +23,7 @@ namespace TaskManager.View.Pages.Admin
         public EditScopesPage(User enteredUser)
         {
             InitializeComponent();
-            DataContext = new EditScopesPageViewModel();
+            DataContext = new EditScopesPageViewModel(enteredUser);
         }
     }
 }

@@ -10,17 +10,19 @@ using System.Windows;
 using System.Windows.Controls;
 using TaskManager.Infrastucture.Navigation;
 using TaskManager.Infrastucture.Network;
+using TaskManager.Model;
+using TaskManager.View.Pages.Admin;
 
 namespace TaskManager.ViewModel.Pages.Admin
 {
     public class AddNewScopePageViewModel : INotifyPropertyChanged
     {
-        public AddNewScopePageViewModel(EditScopesPageViewModel senderContext)
+        public AddNewScopePageViewModel(User enteredUser)
         {
-            senderContext = this.senderContext;
+            _enteredUser = enteredUser;
         }
         //Fields & Properties
-        private EditScopesPageViewModel senderContext;
+        private User _enteredUser;
         private string _enteredName;
         public string EnteredName
         {
@@ -42,15 +44,12 @@ namespace TaskManager.ViewModel.Pages.Admin
                             if (sender.Name == "buttonAccept")
                             {
                                 
-                                    bool result =  await DataBaseService.PutScope(EnteredName);
-                                    if (!result) MessageBox.Show("query error occured");
-                                    else
-                                    {
-                                        senderContext.RefreshScopesCommand.Execute(senderContext);
-                                    }
+                                bool result =  await DataBaseService.PutScope(EnteredName);
+                                if (!result) MessageBox.Show("Ошибка!");
+                                else MessageBox.Show("Успешно!");
                                 
                             }
-                            MainFrame.mainFrame.GoBack();
+                            MainFrame.mainFrame.Navigate(new EditScopesPage(_enteredUser));
                         }
                         )
                     ); }

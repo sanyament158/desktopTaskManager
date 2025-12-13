@@ -16,11 +16,13 @@ namespace TaskManager.ViewModel.Pages.Admin
 {
     public class EditScopesPageViewModel : INotifyPropertyChanged
     {
-        public EditScopesPageViewModel()
+        public EditScopesPageViewModel(User enteredUser)
         {
+            _enteredUser = enteredUser;
             RefreshScopesCommand.Execute(this);
         }
         //Fields & properties
+        private User _enteredUser;
         private Category _selectedScope;
         public Category SelectedScope
         {
@@ -62,7 +64,7 @@ namespace TaskManager.ViewModel.Pages.Admin
                     _goToAddScopeCommand = new RelayCommand(
                         (obj) =>
                         {
-                            MainFrame.mainFrame.Navigate(new AddNewScopePage(this));
+                            MainFrame.mainFrame.Navigate(new AddNewScopePage(_enteredUser));
                         }
                         )
                     ); }
@@ -79,11 +81,13 @@ namespace TaskManager.ViewModel.Pages.Admin
                                 {
                                     int categoryId = SelectedScope.Id;
                                     var res = await DataBaseService.DeleteFromTableById("scope", categoryId);
-                                    MessageBox.Show(res.ToString());
+                                    if (res) MessageBox.Show("Успешно!");
+                                    else MessageBox.Show("Ошибка!");
+                                    RefreshScopesCommand.Execute(this);
                                 }
                                 catch (Exception ex)
                                 {
-                                MessageBox.Show(ex.ToString());
+                                    MessageBox.Show(ex.ToString());
                                 }
                             }
                             )                        
