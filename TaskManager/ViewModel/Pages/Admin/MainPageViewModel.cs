@@ -119,7 +119,7 @@ namespace TaskManager.ViewModel.Pages.Admin
                                 new EditScopesPage(_enteredUser)
                                 );
                         },
-                        (obj) => _enteredUser.idRole == 1
+                        (obj) => _enteredUser.IdRole == 1
                         ));
             }
         }
@@ -136,11 +136,10 @@ namespace TaskManager.ViewModel.Pages.Admin
                                 new EditEmployeesPage(_enteredUser) 
                                 );
                         },
-                        (obj) => _enteredUser.idRole == 1
+                        (obj) => _enteredUser.IdRole == 1
                         ));
             }
         }
-        //private RelayCommand _goTo
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")

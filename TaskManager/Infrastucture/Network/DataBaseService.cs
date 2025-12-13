@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Security.Policy;
 using System.Text;
@@ -134,6 +135,38 @@ namespace TaskManager.Infrastucture.Network
             HttpResponseMessage httpResponseMessage = await client.PutAsync(_uri + "updateScope.php", new StringContent(requestJson, Encoding.UTF8, "application/json"));
             JsonNode responseJson = JsonNode.Parse(await httpResponseMessage.Content.ReadAsStringAsync());
 
+            return responseJson["success"].GetValue<bool>();
+        }
+        public static async Task<List<User>> GetUsers()
+        {
+            try
+            {
+                HttpResponseMessage httpResponseMessage = await client.GetAsync(_uri + "getTable/getUsers.php");
+
+                JsonNode responseRootJson = JsonNode.Parse(await httpResponseMessage.Content.ReadAsStringAsync());
+                JsonArray responseDataJson = responseRootJson["data"].AsArray();
+                List<User> responseTasks = responseDataJson.Deserialize<List<User>>();
+                return responseTasks ?? throw new Exception("response was null");
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"DataBaseService Exception Occured!\nMessage = {e.Message}");
+            }
+        }
+        public static async Task<bool> PutUser(User user, string password)
+        {
+            var data = new Dictionary<string, string>
+            {
+                ["username"] = user.Username,
+                ["lname"] = user.Lname,
+                ["idRole"] = user.IdRole.ToString(),
+                ["password"] = password
+            };
+            string requestJson = JsonSerializer.Serialize(data);
+            HttpResponseMessage httpResponseMessage = await client.PutAsync(_uri + "user/putUser.php", new StringContent(requestJson, Encoding.UTF8, "application/json"));
+
+            JsonNode responseJson = JsonNode.Parse(await httpResponseMessage.Content.ReadAsStringAsync());
+            
             return responseJson["success"].GetValue<bool>();
         }
     }

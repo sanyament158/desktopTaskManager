@@ -59,7 +59,7 @@ namespace TaskManager.ViewModel.Pages
                                 {
                                     MainFrame.mainFrame.Navigate(
                                         new MainPage(
-                                            new User { username = userResponseObj.username, idRole = userResponseObj.idRole }
+                                            new User { Username = userResponseObj.username, IdRole = userResponseObj.idRole }
                                             )
                                         );
                                 }

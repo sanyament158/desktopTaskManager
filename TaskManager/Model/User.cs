@@ -10,11 +10,11 @@ namespace TaskManager.Model
 {
     public class User
     {
-        public int? id;
-        public string username;
-        public string? fname;
-        public string? lname;
-        public int idRole;
+        public int? Id { get; set; }
+        public string Username { get; set; }
+        public string? Fname { get; set; }
+        public string? Lname { get; set; }
+        public int IdRole { get; set; }
     }
 
     public class UserResponse

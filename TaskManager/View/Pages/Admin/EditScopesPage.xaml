@@ -20,7 +20,7 @@
         </ResourceDictionary>
     </Page.Resources>
     
-    <Grid>
+    <Grid x:Name="gridRoot">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
