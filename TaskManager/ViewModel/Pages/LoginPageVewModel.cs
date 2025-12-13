@@ -55,7 +55,7 @@ namespace TaskManager.ViewModel.Pages
                             {
                                 UserResponse userResponseObj = await DataBaseService.AuthorizeUser(userObj);
                                 MessageBox.Show(userResponseObj.username);
-                                if (userResponseObj.username == "sanyament")
+                                if (userResponseObj.idRole == 1)
                                 {
                                     MainFrame.mainFrame.Navigate(
                                         new MainPage(

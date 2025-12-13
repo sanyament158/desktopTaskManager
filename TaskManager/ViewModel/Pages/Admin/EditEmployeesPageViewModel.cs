@@ -31,6 +31,7 @@ namespace TaskManager.ViewModel.Pages.Admin
                 _selectedUser = value;
                 OnPropertyChanged();
                 DeleteUserCommand.NotifyCanExecuteChanged();
+                GoToUpdateUserCommand.NotifyCanExecuteChanged();
             }
         }
         private ObservableCollection<User> _users;
@@ -97,15 +98,16 @@ namespace TaskManager.ViewModel.Pages.Admin
                     );
             }
         }
-        private RelayCommand _goToUpdateUser;
-        public RelayCommand GoToUpdateUserCommand
+        private AsyncRelayCommand _goToUpdateUser;
+        public AsyncRelayCommand GoToUpdateUserCommand
         {
             get { return _goToUpdateUser ?? (
-                    _goToUpdateUser = new RelayCommand(
-                        (obj) =>
+                    _goToUpdateUser = new AsyncRelayCommand(
+                        async (obj) =>
                         {
-                            MainFrame.mainFrame.Navigate(new UpdateUserPage(_enteredUser));
-                        }
+                            MainFrame.mainFrame.Navigate(new UpdateUserPage(_enteredUser, SelectedUser, await DataBaseService.GetPasswordById((int)SelectedUser.Id)));
+                        },
+                        () => SelectedUser != null && SelectedUser.Username != null
                         )
                     ); }
         }

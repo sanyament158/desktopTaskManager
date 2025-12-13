@@ -153,6 +153,27 @@ namespace TaskManager.Infrastucture.Network
                 throw new Exception($"DataBaseService Exception Occured!\nMessage = {e.Message}");
             }
         }
+        public static async Task<string> GetPasswordById(int id)
+        {
+            var data = new Dictionary<string, string>
+            {
+                ["id"] = id.ToString()
+            };
+            StringContent content = new StringContent(JsonSerializer.Serialize(data), Encoding.UTF8, "application/json");
+            HttpResponseMessage httpResponseMessage = await client.PutAsync(_uri + "login/getPassword.php", content);
+            if (httpResponseMessage.IsSuccessStatusCode)
+            {
+                JsonNode responseJsonRoot = JsonNode.Parse(await httpResponseMessage.Content.ReadAsStringAsync());
+
+                if (responseJsonRoot["success"].GetValue<bool>())
+                {
+                    JsonObject responseJsonObject = responseJsonRoot["data"].AsObject();
+                    return responseJsonObject["password"].GetValue<string>();
+                }
+                else throw new Exception("response success is false");
+            }
+            else throw new Exception("response http code is not 200");
+        }
         public static async Task<bool> PutUser(User user, string password)
         {
             var data = new Dictionary<string, string>
@@ -167,6 +188,22 @@ namespace TaskManager.Infrastucture.Network
 
             JsonNode responseJson = JsonNode.Parse(await httpResponseMessage.Content.ReadAsStringAsync());
             
+            return responseJson["success"].GetValue<bool>();
+        }
+        public static async Task<bool> UpdateUserById(User user, string password)
+        {
+            var data = new Dictionary<string, string>
+            {
+                ["id"] = user.Id.ToString(),
+                ["login"] = user.Username,
+                ["lname"] = user.Lname,
+                ["idRole"] = user.IdRole.ToString(),
+                ["password"] = password
+            };
+            StringContent content = new StringContent(JsonSerializer.Serialize(data), Encoding.UTF8, "application/json");
+            HttpResponseMessage httpResponseMessage = await client.PutAsync(_uri + "user/updateUser.php", content);
+
+            JsonNode responseJson = JsonNode.Parse(await httpResponseMessage.Content.ReadAsStringAsync());
             return responseJson["success"].GetValue<bool>();
         }
     }
