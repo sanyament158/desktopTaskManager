@@ -135,8 +135,6 @@ namespace TaskManager.Infrastucture.Network
             JsonNode responseJson = JsonNode.Parse(await httpResponseMessage.Content.ReadAsStringAsync());
 
             return responseJson["success"].GetValue<bool>();
-
-
         }
     }
 }

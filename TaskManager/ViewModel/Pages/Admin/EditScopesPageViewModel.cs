@@ -31,6 +31,7 @@ namespace TaskManager.ViewModel.Pages.Admin
             {
                 _selectedScope = value;
                 OnPropertyChanged();
+                DeleteScopeCommand.NotifyCanExecuteChanged();
             }
         }
         private ObservableCollection<Category> _scopes;
@@ -69,8 +70,24 @@ namespace TaskManager.ViewModel.Pages.Admin
                         )
                     ); }
         }
+        private RelayCommand _goToUpdateScopeCommand;
+        public RelayCommand GoToUpdateScopeCommand
+        {
+            get
+            {
+                return _goToUpdateScopeCommand ?? (
+                    _goToUpdateScopeCommand = new RelayCommand(
+                        (obj) =>
+                        {
+                            MainFrame.mainFrame.Navigate(new UpdateScopePage(_enteredUser, SelectedScope));
+                        },
+                        (obj) => SelectedScope != null && SelectedScope.Name != null
+                        )
+                    );
+            }
+        }
         private AsyncRelayCommand _deleteScopeCommand;
-        public IAsyncRelayCommand DeleteScopeCommand
+        public AsyncRelayCommand DeleteScopeCommand
         {
             get { return _deleteScopeCommand ??
                     (
@@ -89,7 +106,8 @@ namespace TaskManager.ViewModel.Pages.Admin
                                 {
                                     MessageBox.Show(ex.ToString());
                                 }
-                            }
+                            },
+                            () => SelectedScope!= null && SelectedScope.Name!= null
                             )                        
                     );
                     }

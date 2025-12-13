@@ -15,11 +15,15 @@ namespace TaskManager.ViewModel.Pages.Admin
 {
     public class UpdateScopePageViewModel: INotifyPropertyChanged
     {
-        public UpdateScopePageViewModel(User enteredUser)
+        public UpdateScopePageViewModel(User enteredUser, Category selectedScope)
         {
+            _selectedCategory = selectedScope;
             _enteredUser = enteredUser;
+
+            _enteredName = selectedScope.Name;
         }
         //Fields & Properties
+        private Category _selectedCategory;
         private User _enteredUser;
         private string _enteredName;
         public string EnteredName
@@ -44,7 +48,7 @@ namespace TaskManager.ViewModel.Pages.Admin
                         {
                             if (sender.Name == "buttonAccept")
                             {
-                                bool result = await DataBaseService.PutScope(EnteredName);
+                                bool result = await DataBaseService.UpdateFieldFromTableById("scope", "name", _enteredName, _selectedCategory.Id);
                                 if (!result) MessageBox.Show("Ошибка!");
                                 else MessageBox.Show("Успешно!");
 
