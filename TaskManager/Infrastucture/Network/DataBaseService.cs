@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Security.Policy;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
@@ -22,7 +23,7 @@ namespace TaskManager.Infrastucture.Network
             if (!String.IsNullOrEmpty(userRequestObj.username))
             {
                 StringContent content = new StringContent(
-                    JsonSerializer.Serialize(userRequestObj), 
+                    JsonSerializer.Serialize(userRequestObj),
                     Encoding.UTF8, "application/json");
                 HttpResponseMessage httpResponseMessage = await client.PostAsync(_uri + "login/login.php", content);
 
@@ -33,7 +34,7 @@ namespace TaskManager.Infrastucture.Network
                     // getting root JsonNode from httpResponseMessage
                     try { responseRootJson = JsonNode.Parse(await httpResponseMessage.Content.ReadAsStringAsync()); }
                     catch (Exception) { throw new Exception("DataBaseService error \"getting clear JsonNode from httpResponseMessage\""); }
-                    
+
                     // checking and return result
                     if (responseRootJson["success"].GetValue<bool>())
                     {
@@ -65,10 +66,10 @@ namespace TaskManager.Infrastucture.Network
             try
             {
                 HttpResponseMessage httpResponseMessage = await client.GetAsync(_uri + "getTable/getScopes.php");
-                
+
                 JsonNode responseRootJson = JsonNode.Parse(await httpResponseMessage.Content.ReadAsStringAsync());
                 JsonArray responseCategoriesJson = responseRootJson["data"].AsArray();
-                
+
                 List<Category> categories = responseCategoriesJson.Deserialize<List<Category>>();
                 return categories ?? throw new Exception("response was null");
             }
@@ -83,7 +84,7 @@ namespace TaskManager.Infrastucture.Network
                 JsonNode responseRootJson = JsonNode.Parse(await httpResponseMessage.Content.ReadAsStringAsync());
                 // subarray with data
                 JsonArray responseDataJson = responseRootJson["data"].AsArray();
-                
+
                 List<TaskHumanReadable> responseTasks = responseDataJson.Deserialize<List<TaskHumanReadable>>();
                 return responseTasks ?? throw new Exception("response was null");
             }
@@ -118,6 +119,24 @@ namespace TaskManager.Infrastucture.Network
             JsonNode responseRootJson = JsonNode.Parse(await httpResponseMessage.Content.ReadAsStringAsync());
 
             return responseRootJson["success"].GetValue<bool>();
+        }
+        public static async Task<bool> UpdateFieldFromTableById(string tableName, string fieldName, string fieldNewValue, int id)
+        {
+            var data = new Dictionary<string, string>
+            {
+                ["table_name"] = tableName,
+                ["field_name"] = fieldName,
+                ["field_new_value"] = fieldNewValue,
+                ["id"] = id.ToString()
+            };
+            string requestJson = JsonSerializer.Serialize(data);
+
+            HttpResponseMessage httpResponseMessage = await client.PutAsync(_uri + "updateScope.php", new StringContent(requestJson, Encoding.UTF8, "application/json"));
+            JsonNode responseJson = JsonNode.Parse(await httpResponseMessage.Content.ReadAsStringAsync());
+
+            return responseJson["success"].GetValue<bool>();
+
+
         }
     }
 }

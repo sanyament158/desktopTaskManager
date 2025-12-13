@@ -3,6 +3,7 @@
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
     <sys:String x:Key="back">Назад</sys:String>
     <sys:String x:Key="add">Добавить</sys:String>
+    <sys:String x:Key="accept">Принять</sys:String>
     
     
     <sys:String x:Key="greeting">Привет!</sys:String>

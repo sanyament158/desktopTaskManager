@@ -1,0 +1,66 @@
+﻿<Page x:Class="TaskManager.View.Pages.Admin.UpdateScopePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:TaskManager.View.Pages.Admin"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="UpdateScopePage" Background="White">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Values/TextBlockStyles.xaml"/>
+                <ResourceDictionary Source="/Values/TextBoxStyles.xaml"/>
+                <ResourceDictionary Source="/Values/StackPanelStyles.xaml"/>
+                <ResourceDictionary Source="/Values/ButtonStyles.xaml"/>
+                <ResourceDictionary Source="/Values/Strings.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+    <Grid>
+            <Grid.RowDefinitions>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+                <TextBlock x:Name="textBlockHeader" Grid.Row="0"
+           Text="Редактировать область:"
+           Style="{StaticResource HeaderTextBlock}" Foreground="Black"/>
+                <Grid x:Name="gridInputField" Grid.Row="1" Margin="20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.5*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock x:Name="textBlockFieldName" Text="Имя:" Grid.Column="0"
+               Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="20"
+               />
+                    <Border x:Name="borderUpdateScope" Grid.Column="1"
+            Style="{StaticResource BaseStackPanel}" Margin="20 70 40 70" Background="{StaticResource grey}" CornerRadius="10"
+            Padding="0">
+                        <TextBox x:Name="textBoxUpdateScope" Grid.Column="1" 
+                 Text="{Binding EnteredName, UpdateSourceTrigger=PropertyChanged}"
+                 Style="{StaticResource BaseTextBox}" Margin="0" Padding="40 0 0 0"/>
+                    </Border>
+                </Grid>
+                <Border x:Name="borderAccept" Grid.Row="2" 
+        Style="{StaticResource ButtonStackPanel}"
+        Margin="300 10 300 10">
+                    <Button x:Name="buttonAccept"
+            Content="{StaticResource accept}" 
+            Style="{StaticResource BaseButton}"
+            Command="{Binding AcceptCommand}" CommandParameter="{Binding ElementName=buttonAccept}"/>
+                </Border>
+                <Border x:Name="borderBack" Grid.Row="2"
+            Style="{StaticResource ButtonStackPanel}"
+            HorizontalAlignment="Left" Width="{Binding ActualWidth, ElementName=borderAccept}"
+            Margin="10">
+                    <Button x:Name="buttonBack" 
+            Content="{StaticResource back}" 
+            Style="{StaticResource BaseButton}"
+            Command="{Binding AcceptCommand}" CommandParameter="{Binding ElementName=buttonBack}"/>
+                </Border>
+        </Grid>
+</Page>
