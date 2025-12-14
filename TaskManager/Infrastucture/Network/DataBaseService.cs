@@ -76,7 +76,7 @@ namespace TaskManager.Infrastucture.Network
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
         }
-        public static async Task<List<TaskHumanReadable>> GetTasks()
+        public static async Task<List<TaskHumanReadable>> GetTasksHumanReadable()
         {
             try
             {
@@ -87,6 +87,24 @@ namespace TaskManager.Infrastucture.Network
                 JsonArray responseDataJson = responseRootJson["data"].AsArray();
 
                 List<TaskHumanReadable> responseTasks = responseDataJson.Deserialize<List<TaskHumanReadable>>();
+                return responseTasks ?? throw new Exception("response was null");
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"DataBaseService Exception Occured!\nMessage = {e.Message}");
+            }
+        }
+        public static async Task<List<Model.Task>> GetTasks()
+        {
+            try
+            {
+                HttpResponseMessage httpResponseMessage = await client.GetAsync(_uri + "getTable/getTasks.php");
+
+                JsonNode responseRootJson = JsonNode.Parse(await httpResponseMessage.Content.ReadAsStringAsync());
+                // subarray with data
+                JsonArray responseDataJson = responseRootJson["data"].AsArray();
+
+                List<Model.Task> responseTasks = responseDataJson.Deserialize<List<Model.Task>>();
                 return responseTasks ?? throw new Exception("response was null");
             }
             catch (Exception e)
@@ -204,6 +222,49 @@ namespace TaskManager.Infrastucture.Network
             HttpResponseMessage httpResponseMessage = await client.PutAsync(_uri + "user/updateUser.php", content);
 
             JsonNode responseJson = JsonNode.Parse(await httpResponseMessage.Content.ReadAsStringAsync());
+            return responseJson["success"].GetValue<bool>();
+        }
+        public static async Task<User> GetUserByLname(string lname)
+        {
+            var data = new Dictionary<string, string>
+            {
+                ["lname"] = lname
+            };
+            StringContent content = new StringContent(JsonSerializer.Serialize(data), Encoding.UTF8, "application/json");
+            HttpResponseMessage httpResponseMessage = await client.PutAsync(_uri + "login/getUserByLname.php", content);
+
+            JsonNode responseJsonRoot = JsonNode.Parse(await httpResponseMessage.Content.ReadAsStringAsync());
+            if (responseJsonRoot["success"].GetValue<bool>())
+            {
+                JsonObject jsonObjectUser = responseJsonRoot["data"].AsObject();
+                return new User
+                {
+                    Id = jsonObjectUser["id"].GetValue<int>(),
+                    Username = jsonObjectUser["username"].GetValue<string>(),
+                    Lname = jsonObjectUser["lname"].GetValue<string>(),
+                    IdRole = jsonObjectUser["idRole"].GetValue<int>()
+                };
+            }
+            else throw new Exception("http response is not 200");
+        }
+        public static async Task<bool> UpdateTaskById(int id, Model.Task newTask)
+        {
+            var data = new Dictionary<string, string>
+            {
+                ["id"] = id.ToString(),
+                ["id_owner"] = newTask.IdOwner.ToString(),
+                ["id_scope"] = newTask.IdScope.ToString(),
+                ["title"] = newTask.Title,
+                ["since"] = newTask.Since.ToString("yyyy-MM-dd"),
+                ["deadline"] = newTask.Deadine.ToString("yyyy-MM-dd")
+            };
+
+            StringContent content = new StringContent(JsonSerializer.Serialize(data), Encoding.UTF8, "application/json");
+            MessageBox.Show(await content.ReadAsStringAsync());
+            HttpResponseMessage httpResponseMessage = await client.PutAsync(_uri + "task/updateTask.php", content);
+
+            JsonNode responseJson = JsonNode.Parse(await httpResponseMessage.Content.ReadAsStringAsync());
+
             return responseJson["success"].GetValue<bool>();
         }
     }

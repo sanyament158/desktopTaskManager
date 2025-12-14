@@ -25,6 +25,15 @@ namespace TaskManager.ViewModel.Pages.Admin
         }
         // fields & properties
         private User _enteredUser;
+        private TaskHumanReadable _selectedTask;
+        public TaskHumanReadable SelectedTask
+        {
+            get {  return _selectedTask; }
+            set { 
+                _selectedTask = value;
+                OnPropertyChanged();
+            }
+        }
         private Category _selectedCategory;
         public Category SelectedCategory
         {
@@ -77,7 +86,7 @@ namespace TaskManager.ViewModel.Pages.Admin
                 }
         }
         private AsyncRelayCommand _refreshTasksCommand;
-        public IAsyncRelayCommand RefreshTasksCommand
+        public AsyncRelayCommand RefreshTasksCommand
         {
             get
             {
@@ -85,7 +94,7 @@ namespace TaskManager.ViewModel.Pages.Admin
                     _refreshTasksCommand = new AsyncRelayCommand(
                         async () =>
                         {
-                            Tasks = new ObservableCollection<TaskHumanReadable>(await DataBaseService.GetTasks());
+                            Tasks = new ObservableCollection<TaskHumanReadable>(await DataBaseService.GetTasksHumanReadable());
                         }
                         )
                     );
@@ -123,6 +132,20 @@ namespace TaskManager.ViewModel.Pages.Admin
                         ));
             }
         }
+        private AsyncRelayCommand _goToUpdateTaskCommand;
+        public AsyncRelayCommand GoToUpdateTaskCommand
+        {
+            get { return _goToUpdateTaskCommand ?? (
+                    _goToUpdateTaskCommand = new AsyncRelayCommand(
+                        async (obj) => 
+                        {
+                            List<Model.Task> allTasks = await DataBaseService.GetTasks();
+                            Model.Task task = allTasks.Where((obj) => obj.Id == SelectedTask.Id).First();
+                            MainFrame.mainFrame.Navigate(new UpdateTaskPage(_enteredUser, SelectedTask, task));
+                        }
+                        )
+                    ); }
+        }
         private RelayCommand _goToEditEmployeesCommand;
         public RelayCommand GoToEditEmployeesCommand
         {
@@ -156,7 +179,7 @@ namespace TaskManager.ViewModel.Pages.Admin
 
             if (_selectedCategory != null)
             {
-                ObservableCollection<TaskHumanReadable> allTasks = new ObservableCollection<TaskHumanReadable>(await DataBaseService.GetTasks());
+                ObservableCollection<TaskHumanReadable> allTasks = new ObservableCollection<TaskHumanReadable>(await DataBaseService.GetTasksHumanReadable());
                 Tasks = new ObservableCollection<TaskHumanReadable>(allTasks.Where(obj => obj.Scope == _selectedCategory.Name));
             }
         }

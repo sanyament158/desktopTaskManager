@@ -51,7 +51,6 @@ namespace TaskManager.ViewModel.Pages.Admin
                                 bool result = await DataBaseService.UpdateFieldFromTableById("scope", "name", _enteredName, _selectedCategory.Id);
                                 if (!result) MessageBox.Show("Ошибка!");
                                 else MessageBox.Show("Успешно!");
-
                             }
                             MainFrame.mainFrame.Navigate(new EditScopesPage(_enteredUser));
                         }
