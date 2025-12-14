@@ -69,13 +69,15 @@
                 </Border>
                 <Border x:Name="borderToReports" Grid.Row="0" Grid.Column="1"
                             Style="{StaticResource ButtonStackPanel}" Margin="5 5 20 5">
-                    <Button x:Name="buttonReports" Content="{StaticResource toReports}"
-                            Style="{StaticResource BigButton}"/>
+                    <Button x:Name="buttonAddTask" Content="Добавить задачу"
+                            Style="{StaticResource BigButton}"
+                            Command="{Binding GoToAddTaskCommand}"/>
                 </Border>
-                <Border x:Name="borderToLogging" Grid.ColumnSpan="2" Grid.Row="1"
+                <Border x:Name="borderDeleteTask" Grid.ColumnSpan="2" Grid.Row="1"
                         Style="{StaticResource ButtonStackPanel}" Margin="20 5 20 8">
-                    <Button x:Name="buttonLogging" Content="{StaticResource toLogging}"
-                            Style="{StaticResource BigButton}"/>
+                    <Button x:Name="buttonDeleteTask" Content="Удалить задачу"
+                            Style="{StaticResource BigButton}"
+                            Command="{Binding DeleteTaskCommand}"/>
                 </Border>
             </Grid>
         </Grid>

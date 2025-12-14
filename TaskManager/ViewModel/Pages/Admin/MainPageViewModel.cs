@@ -32,6 +32,7 @@ namespace TaskManager.ViewModel.Pages.Admin
             set { 
                 _selectedTask = value;
                 OnPropertyChanged();
+                DeleteTaskCommand.NotifyCanExecuteChanged();
             }
         }
         private Category _selectedCategory;
@@ -116,6 +117,34 @@ namespace TaskManager.ViewModel.Pages.Admin
                     );
             }
         }
+        private AsyncRelayCommand _deleteTaskCommand;
+        public AsyncRelayCommand DeleteTaskCommand
+        {
+            get
+            {
+                return _deleteTaskCommand ??
+                    (
+                        _deleteTaskCommand = new AsyncRelayCommand(
+                            async (obj) =>
+                            {
+                                try
+                                {
+                                    int taskId = SelectedTask.Id;
+                                    var res = await DataBaseService.DeleteFromTableById("task", taskId);
+                                    if (res) MessageBox.Show("Успешно!");
+                                    else MessageBox.Show("Ошибка!");
+                                    RefreshTasksCommand.Execute(this);
+                                }
+                                catch (Exception ex)
+                                {
+                                    MessageBox.Show(ex.ToString());
+                                }
+                            },
+                            () => SelectedTask != null && SelectedTask.Title != null
+                            )
+                    );
+            }
+        }
         private RelayCommand _goToEditScopesCommand;
         public RelayCommand GoToEditScopesCommand
         {
@@ -162,6 +191,19 @@ namespace TaskManager.ViewModel.Pages.Admin
                         (obj) => _enteredUser.IdRole == 1
                         ));
             }
+        }
+        private RelayCommand _goToAddTaskCommand;
+        public RelayCommand GoToAddTaskCommand
+        {
+            get { return _goToAddTaskCommand ??
+                    (
+                    _goToAddTaskCommand = new RelayCommand(
+                        (obj) =>
+                        {
+                            MainFrame.mainFrame.Navigate(new AddTaskPage(_enteredUser));
+                        }
+                        )
+                    ); }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
