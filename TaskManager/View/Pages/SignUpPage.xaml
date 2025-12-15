@@ -66,18 +66,22 @@
         </Border>
 
         <Grid x:Name="gridButtons" Grid.Row="2" HorizontalAlignment="Stretch">
-            <Border x:Name="borderBack" Style="{StaticResource ButtonStackPanel}" Margin="20"  HorizontalAlignment="Left">
+            <Border x:Name="borderBack" Style="{StaticResource ButtonStackPanel}" Margin="20" HorizontalAlignment="Left" Width="120" >
                 <Button x:Name="buttonBack" 
+                    Content="Назад"
                     Style="{StaticResource BaseButton}"
-                    Command="{Binding AcceptCommand}">
+                    Command="{Binding AcceptCommand}"
+                    CommandParameter="{Binding ElementName=buttonBack}">
                 </Button>
             </Border>
 
-            <Border x:Name="borderAccept" Style="{StaticResource ButtonStackPanel}" Margin="20" HorizontalAlignment="Center">
+            <Border x:Name="borderAccept" Style="{StaticResource ButtonStackPanel}" Margin="20" 
+                    Width="{Binding ActualWidth, ElementName=borderBack}"
+                    HorizontalAlignment="Center">
                 <Button x:Name="buttonAccept" Content="{StaticResource accept}" 
-                    Command="{Binding AcceptCommand}"
+                    Command="{Binding AcceptCommand}" CommandParameter="{Binding ElementName=buttonAccept}"
                     Style="{StaticResource BaseButton}"
-                    Width="{Binding ActualWidth, ElementName=buttonAccept}">
+                    >
                 </Button>
             </Border>
         </Grid>

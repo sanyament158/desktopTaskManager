@@ -11,17 +11,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace TaskManager.ViewModel.Pages
+namespace TaskManager.View.Pages.User
 {
     /// <summary>
-    /// Логика взаимодействия для SignUpPage.xaml
+    /// Логика взаимодействия для UserPage.xaml
     /// </summary>
-    public partial class SignUpPage : Page
+    public partial class UserPage : Page
     {
-        public SignUpPage()
+        public UserPage()
         {
             InitializeComponent();
-            DataContext = new SignUpPageViewModel();
         }
     }
 }
