@@ -1,30 +1,31 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.Input;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Text;
-using TaskManager.Model;
-using TaskManager.Infrastucture.Network;
-using System.Collections.ObjectModel;
-using System.Windows.Controls.Ribbon.Primitives;
 using System.Windows;
-using CommunityToolkit.Mvvm.Input;
-using System.Diagnostics;
+using System.Windows.Controls.Ribbon.Primitives;
 using TaskManager.Infrastucture.Navigation;
+using TaskManager.Infrastucture.Network;
+using TaskManager.Model;
+using TaskManager.View.Pages;
 using TaskManager.View.Pages.Admin;
 
 namespace TaskManager.ViewModel.Pages.Admin
 {
     public class MainPageViewModel : INotifyPropertyChanged
     {
-        public MainPageViewModel(User enteredUser)
+        public MainPageViewModel(Model.User enteredUser)
         {
             _enteredUser = enteredUser;
             RefreshCategoriesCommand.Execute(this);
             RefreshTasksCommand.Execute(this);
         }
         // fields & properties
-        private User _enteredUser;
+        private Model.User _enteredUser;
         private TaskHumanReadable _selectedTask;
         public TaskHumanReadable SelectedTask
         {
@@ -95,7 +96,8 @@ namespace TaskManager.ViewModel.Pages.Admin
                     _refreshTasksCommand = new AsyncRelayCommand(
                         async () =>
                         {
-                            Tasks = new ObservableCollection<TaskHumanReadable>(await DataBaseService.GetTasksHumanReadable());
+                            List<TaskHumanReadable> allTasks = await DataBaseService.GetTasksHumanReadable();
+                            Tasks = new ObservableCollection<TaskHumanReadable>(allTasks.Where(obj => obj.Status == "В процессе"));
                         }
                         )
                     );
@@ -205,6 +207,42 @@ namespace TaskManager.ViewModel.Pages.Admin
                         )
                     ); }
         }
+        private AsyncRelayCommand _markAsFinishCommand;
+        public AsyncRelayCommand MarkAsFinishCommand
+        {
+            get { return _markAsFinishCommand ?? (
+                    new AsyncRelayCommand(
+                        async (obj) =>
+                        {
+                            try
+                            {
+                                bool res = await DataBaseService.UpdateFieldFromTableById("task", "idStatus", "2", SelectedTask.Id);
+                                if (res) MessageBox.Show("Успешно!");
+                                RefreshTasksCommand.Execute(this);
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show(ex.Message);
+                            }
+                        }
+                        )
+                    ); }
+        }
+        private RelayCommand _exitCommand;
+        public RelayCommand ExitCommand
+        {
+            get
+            {
+                return _exitCommand ?? (
+                    _exitCommand = new RelayCommand(
+                        (obj) =>
+                        {
+                            MainFrame.mainFrame.Navigate(new LoginPage());
+                        }
+                        )
+                    );
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")
@@ -222,7 +260,7 @@ namespace TaskManager.ViewModel.Pages.Admin
             if (_selectedCategory != null)
             {
                 ObservableCollection<TaskHumanReadable> allTasks = new ObservableCollection<TaskHumanReadable>(await DataBaseService.GetTasksHumanReadable());
-                Tasks = new ObservableCollection<TaskHumanReadable>(allTasks.Where(obj => obj.Scope == _selectedCategory.Name));
+                Tasks = new ObservableCollection<TaskHumanReadable>(allTasks.Where(obj => obj.Scope == _selectedCategory.Name && obj.Status == "В процессе"));
             }
         }
 

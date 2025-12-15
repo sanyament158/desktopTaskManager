@@ -12,6 +12,8 @@ using TaskManager.Infrastucture.Navigation;
 using TaskManager.Infrastucture.Network;
 using TaskManager.Model;
 using TaskManager.View.Pages.Admin;
+using TaskManager.View.Pages.Users;
+using TaskManager.View.Pages;
 
 namespace TaskManager.ViewModel.Pages.Admin
 {
@@ -19,6 +21,7 @@ namespace TaskManager.ViewModel.Pages.Admin
     {
         public AddNewTaskPageViewModel(User enteredUser) 
         {
+            Owner = enteredUser.Lname;
             _enteredUser = enteredUser;
             _since = DateTime.Now;
             _deadline = DateTime.Now;
@@ -117,6 +120,11 @@ namespace TaskManager.ViewModel.Pages.Admin
                                 User owner = null;
                                 try
                                 {
+                                    if (_enteredUser.IdRole != 1 && Owner != _enteredUser.Lname)
+                                    {
+                                        MessageBox.Show("В качестве владельца можно указать только себя!");
+                                        return;
+                                    }
                                     owner = await DataBaseService.GetUserByLname(Owner);
                                 }
                                 catch (Exception ex)
@@ -139,7 +147,8 @@ namespace TaskManager.ViewModel.Pages.Admin
                                 }
                                 else MessageBox.Show("Введенные поля неверны!");
                             }
-                            MainFrame.mainFrame.Navigate(new MainPage(_enteredUser));
+                            if (_enteredUser.IdRole == 1) MainFrame.mainFrame.Navigate(new MainPage(_enteredUser));
+                            else MainFrame.mainFrame.Navigate(new UserPage(_enteredUser));
                         }
                         )
                     );

@@ -247,6 +247,29 @@ namespace TaskManager.Infrastucture.Network
             }
             else throw new Exception("http response is not 200");
         }
+        public static async Task<User> GetUserByUsername(string username)
+        {
+            var data = new Dictionary<string, string>
+            {
+                ["username"] = username
+            };
+            StringContent content = new StringContent(JsonSerializer.Serialize(data), Encoding.UTF8, "application/json");
+            HttpResponseMessage httpResponseMessage = await client.PutAsync(_uri + "login/getUserByUsername.php", content);
+
+            JsonNode responseJsonRoot = JsonNode.Parse(await httpResponseMessage.Content.ReadAsStringAsync());
+            if (responseJsonRoot["success"].GetValue<bool>())
+            {
+                JsonObject jsonObjectUser = responseJsonRoot["data"].AsObject();
+                return new User
+                {
+                    Id = jsonObjectUser["id"].GetValue<int>(),
+                    Username = jsonObjectUser["username"].GetValue<string>(),
+                    Lname = jsonObjectUser["lname"].GetValue<string>(),
+                    IdRole = jsonObjectUser["idRole"].GetValue<int>()
+                };
+            }
+            else throw new Exception("http response is not 200");
+        }
         public static async Task<bool> UpdateTaskById(int id, Model.Task newTask)
         {
             var data = new Dictionary<string, string>

@@ -20,7 +20,7 @@ namespace TaskManager.View.Pages.Admin
     /// </summary>
     public partial class EditScopesPage : Page
     {
-        public EditScopesPage(User enteredUser)
+        public EditScopesPage(Model.User enteredUser)
         {
             InitializeComponent();
             DataContext = new EditScopesPageViewModel(enteredUser);

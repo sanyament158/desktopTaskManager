@@ -17,12 +17,12 @@ namespace TaskManager.ViewModel.Pages.Admin
 {
     public class AddNewScopePageViewModel : INotifyPropertyChanged
     {
-        public AddNewScopePageViewModel(User enteredUser)
+        public AddNewScopePageViewModel(Model.User enteredUser)
         {
             _enteredUser = enteredUser;
         }
         //Fields & Properties
-        private User _enteredUser;
+        private Model.User _enteredUser;
         private string _enteredName;
         public string EnteredName
         {

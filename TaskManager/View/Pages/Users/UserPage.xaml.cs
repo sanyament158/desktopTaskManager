@@ -10,17 +10,21 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TaskManager.Model;
+using TaskManager.View.Pages.Admin;
+using TaskManager.ViewModel.Pages.Admin;
 
-namespace TaskManager.View.Pages.User
+namespace TaskManager.View.Pages.Users
 {
     /// <summary>
     /// Логика взаимодействия для UserPage.xaml
     /// </summary>
     public partial class UserPage : Page
     {
-        public UserPage()
+        public UserPage(User enteredUser)
         {
             InitializeComponent();
+            DataContext = new MainPageViewModel(enteredUser);
         }
     }
 }

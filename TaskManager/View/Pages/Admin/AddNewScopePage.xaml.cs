@@ -20,7 +20,7 @@ namespace TaskManager.View.Pages.Admin
     /// </summary>
     public partial class AddNewScopePage : Page
     {
-        public AddNewScopePage(User enteredUser)
+        public AddNewScopePage(Model.User enteredUser)
         {
             InitializeComponent();
             DataContext = new AddNewScopePageViewModel(enteredUser);

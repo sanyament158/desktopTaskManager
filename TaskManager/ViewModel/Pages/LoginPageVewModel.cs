@@ -11,6 +11,7 @@ using TaskManager.Infrastucture.Navigation;
 using TaskManager.Infrastucture.Network;
 using TaskManager.Model;
 using TaskManager.View.Pages.Admin;
+using TaskManager.View.Pages.Users;
 
 namespace TaskManager.ViewModel.Pages
 {
@@ -62,6 +63,11 @@ namespace TaskManager.ViewModel.Pages
                                             new User { Username = userResponseObj.username, IdRole = userResponseObj.idRole }
                                             )
                                         );
+                                }
+                                else
+                                {
+                                    User user = await DataBaseService.GetUserByUsername(userResponseObj.username);
+                                    MainFrame.mainFrame.Navigate(new UserPage(user));
                                 }
                             }
                             catch (Exception ex) { MessageBox.Show(ex.Message.ToString(), "viewModel error"); }

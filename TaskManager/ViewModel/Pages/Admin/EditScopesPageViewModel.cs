@@ -16,13 +16,13 @@ namespace TaskManager.ViewModel.Pages.Admin
 {
     public class EditScopesPageViewModel : INotifyPropertyChanged
     {
-        public EditScopesPageViewModel(User enteredUser)
+        public EditScopesPageViewModel(Model.User enteredUser)
         {
             _enteredUser = enteredUser;
             RefreshScopesCommand.Execute(this);
         }
         //Fields & properties
-        private User _enteredUser;
+        private Model.User _enteredUser;
         private Category _selectedScope;
         public Category SelectedScope
         {
