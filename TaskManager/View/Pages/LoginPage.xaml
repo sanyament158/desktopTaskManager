@@ -65,7 +65,9 @@
 
         <Grid x:Name="gridButtons" Grid.Row="2" HorizontalAlignment="Stretch">
             <Border x:Name="borderSignup" Style="{StaticResource ButtonStackPanel}" Margin="20"  HorizontalAlignment="Left">
-                <Button x:Name="buttonSignup" Style="{StaticResource BaseButton}">
+                <Button x:Name="buttonSignup" 
+                        Style="{StaticResource BaseButton}"
+                        Command="{Binding SignUpCommand}">
                     <TextBlock Text="{StaticResource signup}" Style="{StaticResource ButtonTextBlock}" FontSize="14"/>
                 </Button>
             </Border>

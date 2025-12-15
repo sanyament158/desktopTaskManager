@@ -267,5 +267,23 @@ namespace TaskManager.Infrastucture.Network
 
             return responseJson["success"].GetValue<bool>();
         }
+        public static async Task<bool> PutTask(Model.Task task)
+        {
+            var data = new Dictionary<string, string>
+            {
+                ["idOwner"] = task.IdOwner.ToString(),
+                ["idStatus"] = task.IdStatus.ToString(),
+                ["title"] = task.Title,
+                ["idScope"] = task.IdScope.ToString(),
+                ["since"] = task.Since.ToString("yyyy-MM-dd"),
+                ["deadline"] = task.Deadine.ToString("yyyy-MM-dd")
+            };
+
+            StringContent content = new StringContent(JsonSerializer.Serialize(data), Encoding.UTF8, "application/json");
+            HttpResponseMessage httpResponseMessage = await client.PutAsync(_uri + "task/putTask.php", content);
+
+            JsonNode responseRootJson = JsonNode.Parse(await httpResponseMessage.Content.ReadAsStringAsync());
+            return responseRootJson["success"].GetValue<bool>();
+        }
     }
 }

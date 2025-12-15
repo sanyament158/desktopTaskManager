@@ -71,6 +71,19 @@ namespace TaskManager.ViewModel.Pages
                     );
             }
         }
+        private RelayCommand _signUpCommand;
+        public RelayCommand SignUpCommand
+        {
+            get { return _signUpCommand ??
+                    (
+                    _signUpCommand = new RelayCommand(
+                        (obj) =>
+                        {
+                            MainFrame.mainFrame.Navigate(new SignUpPage());
+                        }
+                        )
+                    ); }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName]string prop = "")

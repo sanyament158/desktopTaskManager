@@ -55,25 +55,19 @@
             <Grid x:Name="gridBottomPart" Grid.Row="3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <Border x:Name="borderToProfile" Grid.Row="0" Grid.Column="0"
-                        Style="{StaticResource ButtonStackPanel}" Margin="20 5 5 5">
-                    <Button x:Name="buttonProfile" Content="{StaticResource toProfile}"
-                            Style="{StaticResource BigButton}"/>
-                </Border>
-                <Border x:Name="borderToReports" Grid.Row="0" Grid.Column="1"
-                            Style="{StaticResource ButtonStackPanel}" Margin="5 5 20 5">
+                <Border x:Name="borderToReports" Grid.Row="0"
+                            Style="{StaticResource ButtonStackPanel}" Margin="20 5 20 8">
                     <Button x:Name="buttonAddTask" Content="Добавить задачу"
                             Style="{StaticResource BigButton}"
                             Command="{Binding GoToAddTaskCommand}"/>
                 </Border>
-                <Border x:Name="borderDeleteTask" Grid.ColumnSpan="2" Grid.Row="1"
+                <Border x:Name="borderDeleteTask" Grid.Row="1"
                         Style="{StaticResource ButtonStackPanel}" Margin="20 5 20 8">
                     <Button x:Name="buttonDeleteTask" Content="Удалить задачу"
                             Style="{StaticResource BigButton}"
@@ -116,12 +110,12 @@
                     </i:Interaction.Triggers>
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}"/>
                             <GridViewColumn Header="Владелец" DisplayMemberBinding="{Binding Owner}"/>
                             <GridViewColumn Header="Статус" DisplayMemberBinding="{Binding Status}"/>
                             <GridViewColumn Header="Заголовок" DisplayMemberBinding="{Binding Title}"/>
                             <GridViewColumn Header="Начало" DisplayMemberBinding="{Binding Since}"/>
                             <GridViewColumn Header="Дедлайн" DisplayMemberBinding="{Binding Deadline}"/>
+                            <GridViewColumn Header="Зона ответственности" DisplayMemberBinding="{Binding Scope}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>

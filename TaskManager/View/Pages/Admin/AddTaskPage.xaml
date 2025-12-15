@@ -6,9 +6,106 @@
       xmlns:local="clr-namespace:TaskManager.View.Pages.Admin"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="AddTaskPage">
+      Title="AddTaskPage" Background="White">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Values/TextBlockStyles.xaml"/>
+                <ResourceDictionary Source="/Values/TextBoxStyles.xaml"/>
+                <ResourceDictionary Source="/Values/StackPanelStyles.xaml"/>
+                <ResourceDictionary Source="/Values/ButtonStyles.xaml"/>
+                <ResourceDictionary Source="/Values/Strings.xaml"/>
+                <ResourceDictionary Source="/Values/ComboBoxStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
 
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock x:Name="textBlockHeader" Grid.Row="0"
+            Text="Добавить задачу:"
+            Style="{StaticResource HeaderTextBlock}" Foreground="Black"/>
+
+        <Grid x:Name="gridFields" Grid.Row="1" Margin="50 10 50 10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border x:Name="borderOwner" Grid.Column="1" Grid.Row="0"
+            Style="{StaticResource BaseStackPanel}"  Background="{StaticResource grey}" Margin="10">
+                <TextBox x:Name="textBoxOwner" 
+                Style="{StaticResource BaseTextBox}" Margin="20 0 0 0"
+                Text="{Binding Owner, UpdateSourceTrigger=PropertyChanged}"/>
+            </Border>
+            <ComboBox x:Name="comboBoxScope" Grid.Column="1" Grid.Row="1"
+            Style="{StaticResource BaseComboBox}" Margin="10" ItemsSource="{Binding Scopes}"
+            SelectedValue="{Binding Scope}" DisplayMemberPath="Name" SelectedValuePath="Id">
+            </ComboBox>
+            <Border x:Name="borderTitle" Grid.Column="1" Grid.Row="2"
+            Style="{StaticResource BaseStackPanel}"  Background="{StaticResource grey}" Margin="10">
+                <TextBox x:Name="textBoxTitle"
+                Style="{StaticResource BaseTextBox}" Margin="20 0 0 0"
+                Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"/>
+            </Border>
+            <Border x:Name="borderBegin" Grid.Column="1" Grid.Row="3"
+            Style="{StaticResource BaseStackPanel}"  Background="{StaticResource grey}" Margin="10">
+                <TextBox x:Name="textBoxBegin"  
+                Style="{StaticResource BaseTextBox}" Margin="20 0 0 0"
+                Text="{Binding Since, UpdateSourceTrigger=PropertyChanged}"/>
+            </Border>
+            <Border x:Name="borderDeadline" Grid.Column="1" Grid.Row="4"
+            Style="{StaticResource BaseStackPanel}"  Background="{StaticResource grey}" Margin="10">
+                <TextBox x:Name="textBoxDeadline" 
+                Style="{StaticResource BaseTextBox}" Margin="20 0 0 0"
+                Text="{Binding Deadline, UpdateSourceTrigger=PropertyChanged}"/>
+            </Border>
+            <TextBlock x:Name="textBlockOwner" Text="Владелец:" Grid.Row="0" Grid.Column="0"
+            Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="20"
+            />
+            <TextBlock x:Name="textBlockScope" Text="Область:" Grid.Row="1" Grid.Column="0"
+            Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="20"
+            />
+            <TextBlock x:Name="textBlockTitle" Text="Заголовок:" Grid.Row="2" Grid.Column="0"
+            Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="20"
+            />
+            <TextBlock x:Name="textBlockBegin" Text="Начало:" Grid.Row="3" Grid.Column="0"
+            Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="20"
+            />
+            <TextBlock x:Name="textBlockDeadline" Text="Дедлайн:" Grid.Row="4" Grid.Column="0"
+            Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="20"
+            />
+        </Grid>
+
+        <Border x:Name="borderAccept" Grid.Row="2" 
+        Style="{StaticResource ButtonStackPanel}"
+        HorizontalAlignment="Right" Width="120" Margin="10">
+            <Button x:Name="buttonAccept"
+            Content="{StaticResource add}" 
+            Style="{StaticResource BaseButton}"
+            Command="{Binding AcceptCommand}" CommandParameter="{Binding ElementName=buttonAccept}"/>
+        </Border>
+        <Border x:Name="borderBack" Grid.Row="3"
+        Style="{StaticResource ButtonStackPanel}"
+        HorizontalAlignment="Left" Width="{Binding ActualWidth, ElementName=borderAccept}"
+        Margin="10">
+            <Button x:Name="buttonBack"
+        Content="{StaticResource back}" 
+        Style="{StaticResource BaseButton}"
+        Command="{Binding AcceptCommand}" CommandParameter="{Binding ElementName=buttonBack}"/>
+        </Border>
     </Grid>
 </Page>
