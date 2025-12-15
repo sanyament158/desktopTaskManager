@@ -38,7 +38,7 @@
             </Grid.RowDefinitions>
             
             <Grid x:Name="gridFunctionsHeader" Grid.Row="0">
-                <TextBlock Text="available actions:" Style="{StaticResource InfoTextBlock}"/>
+                <TextBlock Text="Доступные действия:" Style="{StaticResource InfoTextBlock}"/>
             </Grid>
             
             <Grid x:Name="gridFunctionsButtons" Grid.Row="1">
@@ -51,19 +51,19 @@
 
                     <Border x:Name="borderAddScope" Grid.Row="0" Margin="5"
                             Style="{StaticResource ButtonStackPanel}">
-                        <Button x:Name="buttonAddScope" Content="add scope" 
+                        <Button x:Name="buttonAddScope" Content="Добавить" 
                                 Style="{StaticResource BigButton}"
                                 Command="{Binding GoToAddScopeCommand}"/>
                     </Border>
                     <Border x:Name="borderRemoveScope" Grid.Row="1" Margin="5"
                             Style="{StaticResource ButtonStackPanel}">
-                        <Button x:Name="buttonRemoveScope" Content="remove scope" 
+                        <Button x:Name="buttonRemoveScope" Content="Удалить" 
                                 Style="{StaticResource BigButton}"
                                 Command="{Binding DeleteScopeCommand}"/>
                     </Border>
                     <Border x:Name="borderUpdateScope" Grid.Row="2" Margin="5"
                             Style="{StaticResource ButtonStackPanel}">
-                        <Button x:Name="buttonUpdateScope" Content="update scope" 
+                        <Button x:Name="buttonUpdateScope" Content="Изменить" 
                                 Style="{StaticResource BigButton}"
                                 Command="{Binding GoToUpdateScopeCommand}"/>
                     </Border>
@@ -83,7 +83,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Text="all scopes:" Style="{StaticResource InfoTextBlock}"/>
+            <TextBlock Text="Все зоны ответственности:" Style="{StaticResource InfoTextBlock}"/>
             <ListView x:Name="listViewScopes" Grid.Row="1" Margin="10"
                       ItemsSource="{Binding Scopes}" BorderThickness="0"
                       SelectedItem="{Binding SelectedScope}"

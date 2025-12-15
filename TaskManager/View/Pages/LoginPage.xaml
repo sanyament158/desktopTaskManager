@@ -27,7 +27,7 @@
 
         <Border x:Name="headerStackPanel" Style="{StaticResource HeaderStackPanel}" CornerRadius="0 0 15 15">
             <StackPanel VerticalAlignment="Center">
-                <TextBlock Text="{StaticResource greeting}"
+                <TextBlock Text="Авторизация"
                    Style="{StaticResource HeaderTextBlock}"
                    FontWeight="Regular"/>
             </StackPanel>

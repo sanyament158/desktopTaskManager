@@ -122,10 +122,10 @@ namespace TaskManager.Model
         private DateTime _deadline;
         public string Deadline
         {
-            get { return _deadline.ToString(); }
+            get { return _deadline.ToShortDateString(); }
             set { _deadline = DateTime.ParseExact(
                     value,
-                    "yyyy-MM-dd HH:mm:ss",
+                    "yyyy-MM-dd",
                     System.Globalization.CultureInfo.InvariantCulture
                 ); }
         }

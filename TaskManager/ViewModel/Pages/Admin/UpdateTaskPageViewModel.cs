@@ -76,22 +76,30 @@ namespace TaskManager.ViewModel.Pages.Admin
             }
         }
         private DateTime _since;
-        public DateTime Since
+        public string Since
         {
-            get { return _since; }
+            get { return _since.ToString("yyyy-MM-dd"); }
             set
             {
-                _since = value;
+                _since = DateTime.ParseExact(
+                    value,
+                    "yyyy-MM-dd",
+                    System.Globalization.CultureInfo.InvariantCulture
+                );
                 OnPropertyChanged();
             }
         }
         private DateTime _deadline;
-        public DateTime Deadline
+        public string Deadline
         {
-            get { return _deadline; }
+            get { return _deadline.ToString("yyyy-MM-dd"); }
             set
             {
-                _deadline = value;
+                _deadline = DateTime.ParseExact(
+                    value,
+                    "yyyy-MM-dd",
+                    System.Globalization.CultureInfo.InvariantCulture
+                );
                 OnPropertyChanged();
             }
         }
@@ -108,21 +116,27 @@ namespace TaskManager.ViewModel.Pages.Admin
                         {
                             if (sender.Name == "buttonAccept")
                             {
+                                bool res = false;
                                 User user;
                                 try
                                 {
                                     User newOwner = await DataBaseService.GetUserByLname(Owner);
-                                    MessageBox.Show(newOwner.Id.ToString());
-                                    bool res = await DataBaseService.UpdateTaskById(task.Id, new Model.Task
+                                    try
                                     {
-                                        Id = task.Id,
-                                        IdOwner = (int)newOwner.Id,
-                                        Title = this.Title,
-                                        IdScope = this.Scope,
-                                        Since = this.Since,
-                                        Deadine = this.Deadline
-                                    });
-                                    MessageBox.Show(this.Since.ToString("yyyy-MM-dd"));
+                                        res = await DataBaseService.UpdateTaskById(task.Id, new Model.Task
+                                        {
+                                            Id = task.Id,
+                                            IdOwner = (int)newOwner.Id,
+                                            Title = this.Title,
+                                            IdScope = this.Scope,
+                                            Since = this._since,
+                                            Deadine = this._deadline
+                                        });
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        MessageBox.Show("Формат даты некорректен");
+                                    }
                                     if (res) { MessageBox.Show("Успешно!"); }
                                 }
                                 catch (Exception ex)

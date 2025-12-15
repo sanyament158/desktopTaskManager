@@ -36,7 +36,7 @@
 
             </Grid.RowDefinitions>
 
-            <TextBlock x:Name="textBlockHeader" Text="available actions:" Grid.Row="0"
+            <TextBlock x:Name="textBlockHeader" Text="Доступные действия:" Grid.Row="0"
                            Style="{StaticResource InfoTextBlock}"/>
 
             <Grid x:Name="gridFunctionsButtons" Grid.Row="1">
@@ -49,19 +49,19 @@
 
                     <Border x:Name="borderAddUser" Grid.Row="0" Margin="5"
                     Style="{StaticResource ButtonStackPanel}">
-                        <Button x:Name="buttonAddUser" Content="add User" 
+                        <Button x:Name="buttonAddUser" Content="Добавить сотрудника" 
                         Style="{StaticResource BigButton}"
                         Command="{Binding GoToAddEmployeeCommand}"/>
                     </Border>
                     <Border x:Name="borderRemoveUser" Grid.Row="1" Margin="5"
                     Style="{StaticResource ButtonStackPanel}">
-                        <Button x:Name="buttonRemoveUser" Content="remove User" 
+                        <Button x:Name="buttonRemoveUser" Content="Удалить сотрудника" 
                         Style="{StaticResource BigButton}"
                         Command="{Binding DeleteUserCommand}"/>
                     </Border>
                     <Border x:Name="borderUpdateUser" Grid.Row="2" Margin="5"
                     Style="{StaticResource ButtonStackPanel}">
-                        <Button x:Name="buttonUpdateUser" Content="update User" 
+                        <Button x:Name="buttonUpdateUser" Content="Редактировать" 
                         Style="{StaticResource BigButton}"
                         Command="{Binding GoToUpdateUserCommand}"/>
                     </Border>
@@ -81,7 +81,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Text="all users:" Style="{StaticResource InfoTextBlock}"/>
+            <TextBlock Text="Все пользователи:" Style="{StaticResource InfoTextBlock}"/>
             <ListView x:Name="listViewUsers" Grid.Row="1" Margin="10"
               ItemsSource="{Binding Users}" BorderThickness="0"
               SelectedItem="{Binding SelectedUser}"

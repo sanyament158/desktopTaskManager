@@ -34,9 +34,9 @@
                 <RowDefinition Height="0.7*"/>
                 <RowDefinition Height="0.7*"/>
                 <RowDefinition Height="1.2*"/>
+                <RowDefinition Height="0.7*"/>
             </Grid.RowDefinitions>
-            <TextBlock x:Name="textBlockTime" Grid.Row="0"
-                       Style="{StaticResource InfoTextBlock}" Text="time now is 12:45"/>
+            
             <Border x:Name="borderToCategories" Grid.Row="1"
                     Style="{StaticResource ButtonStackPanel}" Margin="20 5 20 5">
                 <Button x:Name="buttonCategories"
@@ -51,7 +51,7 @@
                     Content="{StaticResource toEmployees}"
                     Command="{Binding GoToEditEmployeesCommand}"/>
             </Border>
-
+            
             <Grid x:Name="gridBottomPart" Grid.Row="3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -74,6 +74,14 @@
                             Command="{Binding DeleteTaskCommand}"/>
                 </Border>
             </Grid>
+
+            <Border x:Name="borderExit" Grid.Row="4"
+                Style="{StaticResource ButtonStackPanel}" Margin="20">
+                <Button x:Name="buttonExit"
+                    Style="{StaticResource BigButton}"
+                    Content="Выйти"
+                    Command="{Binding ExitCommand}"/>
+            </Border>
         </Grid>
         <Grid x:Name="gridTasksTable" Grid.Column="1">
             <Grid.RowDefinitions>
@@ -87,7 +95,7 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <TextBlock x:Name="textBlockAllTasks" Grid.Row="0" 
-                           Text="{StaticResource allTasks}" Style="{StaticResource InfoTextBlock}"/>
+                           Text="Задачи на сегодня:" Style="{StaticResource InfoTextBlock}"/>
                 <Border x:Name="borderCategories" Grid.Row="1"
                         Style="{StaticResource ComboBoxHeaderStackPanel}">
                     <ComboBox x:Name="comboBoxCategories" 

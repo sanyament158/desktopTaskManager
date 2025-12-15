@@ -283,7 +283,6 @@ namespace TaskManager.Infrastucture.Network
             };
 
             StringContent content = new StringContent(JsonSerializer.Serialize(data), Encoding.UTF8, "application/json");
-            MessageBox.Show(await content.ReadAsStringAsync());
             HttpResponseMessage httpResponseMessage = await client.PutAsync(_uri + "task/updateTask.php", content);
 
             JsonNode responseJson = JsonNode.Parse(await httpResponseMessage.Content.ReadAsStringAsync());

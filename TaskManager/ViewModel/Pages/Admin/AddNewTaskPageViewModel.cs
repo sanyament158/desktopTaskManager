@@ -71,22 +71,30 @@ namespace TaskManager.ViewModel.Pages.Admin
             }
         }
         private DateTime _since;
-        public DateTime Since
+        public string Since
         {
-            get { return _since; }
+            get { return _since.ToString("yyyy-MM-dd"); }
             set
             {
-                _since = value;
+                _since = DateTime.ParseExact(
+                    value,
+                    "yyyy-MM-dd",
+                    System.Globalization.CultureInfo.InvariantCulture
+                );
                 OnPropertyChanged();
             }
         }
         private DateTime _deadline;
-        public DateTime Deadline
+        public string Deadline
         {
-            get { return _deadline; }
+            get { return _deadline.ToString("yyyy-MM-dd"); }
             set
             {
-                _deadline = value;
+                _deadline = DateTime.ParseExact(
+                    value,
+                    "yyyy-MM-dd",
+                    System.Globalization.CultureInfo.InvariantCulture
+                );
                 OnPropertyChanged();
             }
         }
@@ -139,8 +147,8 @@ namespace TaskManager.ViewModel.Pages.Admin
                                         IdStatus = 1,
                                         Title = this.Title,
                                         IdScope = Scope,
-                                        Since = this.Since,
-                                        Deadine = this.Deadline
+                                        Since = this._since,
+                                        Deadine = this._deadline
                                     };
                                     bool res = await DataBaseService.PutTask(newTask);
                                     if (res) MessageBox.Show("Успешно!");

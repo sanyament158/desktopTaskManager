@@ -32,6 +32,10 @@
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
+
+            <TextBlock x:Name="textBlockHeader" Text="Доступные действия:" Grid.Row="0"
+               Style="{StaticResource InfoTextBlock}"/>
+
             <Border x:Name="borderMarkAsFinish" Grid.Row="1"
                 Style="{StaticResource ButtonStackPanel}" Margin="20">
                 <Button x:Name="buttonMarkAsFinish"
