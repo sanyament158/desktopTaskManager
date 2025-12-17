@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <Folder Include="ConnectionTools\" />
+    <Folder Include="ViewModel\Windows\" />
   </ItemGroup>
 
   <ItemGroup>

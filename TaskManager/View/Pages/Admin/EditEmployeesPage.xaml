@@ -12,7 +12,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Values/ButtonStyles.xaml"/>
-                <ResourceDictionary Source="/Values/StackPanelStyles.xaml"/>
+                <ResourceDictionary Source="/Values/BorderStyles.xaml"/>
                 <ResourceDictionary Source="/Values/Strings.xaml"/>
                 <ResourceDictionary Source="/Values/TextBlockStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>

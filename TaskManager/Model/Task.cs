@@ -24,12 +24,6 @@ namespace TaskManager.Model
             get { return _idStatus; }
             set { _idStatus= value; }
         }
-        //private int _idImportance;
-        //public int IdImportance
-        //{
-        //    get { return _idImportance; }
-        //    set { _idImportance = value; }
-        //}
         private string _title;
         public string Title
         {

@@ -24,7 +24,6 @@
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Foreground" Value="{StaticResource cheese}"/>
                             <Setter Property="Cursor" Value="Arrow"/>
-                            <!-- Важно: убедитесь, что контент видим -->
                             <Setter TargetName="contentPresenter" Property="Opacity" Value="1"/>
                         </Trigger>
                     </ControlTemplate.Triggers>

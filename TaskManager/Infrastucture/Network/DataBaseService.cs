@@ -28,15 +28,12 @@ namespace TaskManager.Infrastucture.Network
                     Encoding.UTF8, "application/json");
                 HttpResponseMessage httpResponseMessage = await client.PostAsync(_uri + "login/login.php", content);
 
-                // deserialize response
                 if (httpResponseMessage.IsSuccessStatusCode)
                 {
                     JsonNode responseRootJson;
-                    // getting root JsonNode from httpResponseMessage
                     try { responseRootJson = JsonNode.Parse(await httpResponseMessage.Content.ReadAsStringAsync()); }
                     catch (Exception) { throw new Exception("DataBaseService error \"getting clear JsonNode from httpResponseMessage\""); }
 
-                    // checking and return result
                     if (responseRootJson["success"].GetValue<bool>())
                     {
                         JsonObject responseUserJson = responseRootJson["user"].AsObject();
@@ -58,7 +55,7 @@ namespace TaskManager.Infrastucture.Network
                         throw new Exception("Неверный логин или пароль!");
                     }
                 }
-                else throw new Exception("error on DataBaseService \"AuthorizeUser()\"\nhttp code = " + httpResponseMessage.StatusCode);
+                else throw new Exception("DataBaseService error\"AuthorizeUser()\"\nhttp code = " + httpResponseMessage.StatusCode);
             }
             throw new Exception("userObj.username is null or empty");
         }
@@ -121,7 +118,7 @@ namespace TaskManager.Infrastucture.Network
             };
             string requestJson = JsonSerializer.Serialize(data);
 
-            HttpResponseMessage httpResponseMessage = await client.PutAsync(_uri + "deleteScope.php", new StringContent(requestJson, Encoding.UTF8, "application/json"));
+            HttpResponseMessage httpResponseMessage = await client.PutAsync(_uri + "deleteFromTableById.php", new StringContent(requestJson, Encoding.UTF8, "application/json"));
             JsonNode responseRootJson = JsonNode.Parse(await httpResponseMessage.Content.ReadAsStringAsync());
 
             return responseRootJson["success"].GetValue<bool>();
@@ -150,7 +147,7 @@ namespace TaskManager.Infrastucture.Network
             };
             string requestJson = JsonSerializer.Serialize(data);
 
-            HttpResponseMessage httpResponseMessage = await client.PutAsync(_uri + "updateScope.php", new StringContent(requestJson, Encoding.UTF8, "application/json"));
+            HttpResponseMessage httpResponseMessage = await client.PutAsync(_uri + "updateFieldFromTableById.php", new StringContent(requestJson, Encoding.UTF8, "application/json"));
             JsonNode responseJson = JsonNode.Parse(await httpResponseMessage.Content.ReadAsStringAsync());
 
             return responseJson["success"].GetValue<bool>();
