@@ -12,17 +12,17 @@ namespace TaskManager.Model
             get { return _id; }
             set { _id = value; }
         }
-        private int _idOwner;
-        public int IdOwner
-        {
-            get { return _idOwner; }
-            set { _idOwner = value; } 
+        private User _owner;
+        public User Owner 
+        { 
+            get { return _owner; } 
+            set {  Owner = value; }
         }
-        private int _idStatus;
-        public int IdStatus
+        private Status _status;
+        public Status Status
         {
-            get { return _idStatus; }
-            set { _idStatus= value; }
+            get { return _status; }
+            set { _status= value; }
         }
         private string _title;
         public string Title
@@ -36,11 +36,11 @@ namespace TaskManager.Model
             get { return _description ?? throw new Exception("_description field was null"); }
             set { _description = value; }
         }
-        private int _idScope;
-        public int IdScope
+        private Category _scope;
+        public Category Scope
         {
-            get { return _idScope; }
-            set { _idScope = value; }
+            get { return _scope; }
+            set { _scope = value; }
         }
         private DateTime _since;
         public DateTime Since
@@ -49,80 +49,25 @@ namespace TaskManager.Model
             set { _since = value; }
         }
         private DateTime _deadline;
-        public DateTime Deadine
+        public DateTime Deadline
         {
             get { return _deadline; }
             set { _deadline = value; }
         }
     }
-
-    public class TaskHumanReadable
+    public class Status
     {
         private int _id;
         public int Id
         {
             get { return _id; }
-            set {  _id = value; }
+            set { _id = value; }
         }
-        private string _owner;
-        public string Owner
+        private string _name;
+        public string Name
         {
-            get { return _owner; }
-            set { _owner = value; }
+            get { return _name; }
+            set { _name = value; }
         }
-        private string _status;
-        public string Status
-        {
-            get { return _status; }
-            set { _status = value; }
-        }
-        private string _importance;
-        public string Importance
-        {
-            get { return _importance; }
-            set { _importance = value; }
-        }
-        private string _title;
-        public string Title
-        {
-            get { return _title; }
-            set { _title = value; }
-        }
-        private string? _description;
-        public string Description
-        {
-            get { return _description ?? throw new Exception("_description field was null"); }
-            set { _description = value; }
-        }
-        private string _scope;
-        public string Scope
-        {
-            get { return _scope; }
-            set { _scope = value; }
-        }
-        private DateTime _since;
-        public string Since
-        {
-            get { return _since.ToShortDateString(); }
-            set
-            {
-                _since = DateTime.ParseExact(
-                    value,
-                    "yyyy-MM-dd",
-                    System.Globalization.CultureInfo.InvariantCulture
-                );
-            }
-        }
-        private DateTime _deadline;
-        public string Deadline
-        {
-            get { return _deadline.ToShortDateString(); }
-            set { _deadline = DateTime.ParseExact(
-                    value,
-                    "yyyy-MM-dd",
-                    System.Globalization.CultureInfo.InvariantCulture
-                ); }
-        }
-
     }
 }

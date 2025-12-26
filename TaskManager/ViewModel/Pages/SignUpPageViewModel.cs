@@ -64,7 +64,7 @@ namespace TaskManager.ViewModel.Pages
                                     {
                                         Username = Login,
                                         Lname = this.Lname,
-                                        IdRole = 2
+                                        Role = new Role { Id = 2 }
                                     }, Password
                                     );
                                 if (!result) MessageBox.Show("Ошибка!");

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Security.RightsManagement;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
@@ -14,7 +15,12 @@ namespace TaskManager.Model
         public string Username { get; set; }
         public string? Fname { get; set; }
         public string? Lname { get; set; }
-        public int IdRole { get; set; }
+        private Role role;
+        public Role Role
+        {
+            get { return role; }
+            set { role = value; }
+        }
     }
 
     public class UserResponse
@@ -26,5 +32,20 @@ namespace TaskManager.Model
     {
         public string username { get; set; }
         public string password { get; set; }
+    }
+    public class Role
+    {
+        private int _id;
+        public int Id
+        {
+            get { return _id; }
+            set { _id = value; }
+        }
+        private string _name;
+        public string Name
+        {
+            get { return _name; }
+            set { _name = value; }
+        }
     }
 }

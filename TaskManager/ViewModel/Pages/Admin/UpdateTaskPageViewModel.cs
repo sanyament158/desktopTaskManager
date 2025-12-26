@@ -16,154 +16,162 @@ using TaskManager.View.Pages.Admin;
 
 namespace TaskManager.ViewModel.Pages.Admin
 {
-    public class UpdateTaskPageViewModel : INotifyPropertyChanged
+    public class UpdateTaskPageViewModel //: INotifyPropertyChanged
     {
-        public UpdateTaskPageViewModel(User enteredUser, TaskHumanReadable taskHR, Model.Task task)
-        {
+        //public UpdateTaskPageViewModel(User enteredUser, TaskHumanReadable taskHR, Model.Task task)
+        //{
 
-            RefreshScopesCommand.Execute(this);
-            _enteredUser = enteredUser;
-            this.task = task;
-            this.taskHR = taskHR;
+        //    RefreshScopesCommand.Execute(this);
+        //    _enteredUser = enteredUser;
+        //    this.task = task;
+        //    this.taskHR = taskHR;
 
-            _owner = taskHR.Owner;
-            _scope = task.IdScope;
-            _title = taskHR.Title;
-            _since = task.Since;
-            _deadline = task.Deadine;
-        }
-        //Fields & Properties
-        private Model.Task task;
-        private User _enteredUser;
-        private TaskHumanReadable taskHR;
+        //    _owner = taskHR.Owner;
+        //    _scope = task.IdScope;
+        //    _title = taskHR.Title;
+        //    _since = task.Since;
+        //    _deadline = task.Deadline;
+        //}
+        ////Fields & Properties
+        //private Model.Task task;
+        //private User _enteredUser;
+        //private TaskHumanReadable taskHR;
 
-        private ObservableCollection<Category> _scopes;
-        public ObservableCollection<Category> Scopes
-        {
-            get { return _scopes; }
-            set { _scopes = value;
-                OnPropertyChanged();
-            }
-        }
-        private string _owner;
-        public string Owner
-        {
-            get { return _owner; }
-            set
-            {
-                _owner = value;
-                OnPropertyChanged();
-            }
-        }
-        private int _scope;
-        public int Scope
-        {
-            get { return _scope; }
-            set { _scope = value;
-                OnPropertyChanged();
-            }
-        }
-        private string _title;
-        public string Title
-        {
-            get { return _title; }
-            set
-            {
-                _title = value;
-                OnPropertyChanged();
-            }
-        }
-        private DateTime _since;
-        public string Since
-        {
-            get { return _since.ToString("yyyy-MM-dd"); }
-            set
-            {
-                _since = DateTime.ParseExact(
-                    value,
-                    "yyyy-MM-dd",
-                    System.Globalization.CultureInfo.InvariantCulture
-                );
-                OnPropertyChanged();
-            }
-        }
-        private DateTime _deadline;
-        public string Deadline
-        {
-            get { return _deadline.ToString("yyyy-MM-dd"); }
-            set
-            {
-                _deadline = DateTime.ParseExact(
-                    value,
-                    "yyyy-MM-dd",
-                    System.Globalization.CultureInfo.InvariantCulture
-                );
-                OnPropertyChanged();
-            }
-        }
+        //private ObservableCollection<Category> _scopes;
+        //public ObservableCollection<Category> Scopes
+        //{
+        //    get { return _scopes; }
+        //    set
+        //    {
+        //        _scopes = value;
+        //        OnPropertyChanged();
+        //    }
+        //}
+        //private string _owner;
+        //public string Owner
+        //{
+        //    get { return _owner; }
+        //    set
+        //    {
+        //        _owner = value;
+        //        OnPropertyChanged();
+        //    }
+        //}
+        //private int _scope;
+        //public int Scope
+        //{
+        //    get { return _scope; }
+        //    set
+        //    {
+        //        _scope = value;
+        //        OnPropertyChanged();
+        //    }
+        //}
+        //private string _title;
+        //public string Title
+        //{
+        //    get { return _title; }
+        //    set
+        //    {
+        //        _title = value;
+        //        OnPropertyChanged();
+        //    }
+        //}
+        //private DateTime _since;
+        //public string Since
+        //{
+        //    get { return _since.ToString("yyyy-MM-dd"); }
+        //    set
+        //    {
+        //        _since = DateTime.ParseExact(
+        //            value,
+        //            "yyyy-MM-dd",
+        //            System.Globalization.CultureInfo.InvariantCulture
+        //        );
+        //        OnPropertyChanged();
+        //    }
+        //}
+        //private DateTime _deadline;
+        //public string Deadline
+        //{
+        //    get { return _deadline.ToString("yyyy-MM-dd"); }
+        //    set
+        //    {
+        //        _deadline = DateTime.ParseExact(
+        //            value,
+        //            "yyyy-MM-dd",
+        //            System.Globalization.CultureInfo.InvariantCulture
+        //        );
+        //        OnPropertyChanged();
+        //    }
+        //}
 
-        //Commands
-        private AsyncRelayCommand<Button> _acceptCommand;
-        public AsyncRelayCommand<Button> AcceptCommand
-        {
-            get
-            {
-                return _acceptCommand ?? (
-                    _acceptCommand = new AsyncRelayCommand<Button>(
-                        async (sender) =>
-                        {
-                            if (sender.Name == "buttonAccept")
-                            {
-                                bool res = false;
-                                User user;
-                                try
-                                {
-                                    User newOwner = await DataBaseService.GetUserByLname(Owner);
-                                    try
-                                    {
-                                        res = await DataBaseService.UpdateTaskById(task.Id, new Model.Task
-                                        {
-                                            Id = task.Id,
-                                            IdOwner = (int)newOwner.Id,
-                                            Title = this.Title,
-                                            IdScope = this.Scope,
-                                            Since = this._since,
-                                            Deadine = this._deadline
-                                        });
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        MessageBox.Show("Формат даты некорректен");
-                                    }
-                                    if (res) { MessageBox.Show("Успешно!"); }
-                                }
-                                catch (Exception ex)
-                                {
-                                    MessageBox.Show(ex.Message);
-                                }
-                            }
-                            MainFrame.mainFrame.Navigate(new MainPage(_enteredUser));
-                        }
-                        )
-                    );
-            }
-        }
-        private AsyncRelayCommand _refreshScopesCommand;
-        public AsyncRelayCommand RefreshScopesCommand
-        {
-            get { return _refreshScopesCommand ?? (
-                    _refreshScopesCommand = new AsyncRelayCommand(
-                        async () => {
-                            Scopes = new ObservableCollection<Category>(await DataBaseService.GetCategories());
-                        }
-                        )
-                    ); }
-        }
+        ////Commands
+        //private AsyncRelayCommand<Button> _acceptCommand;
+        //public AsyncRelayCommand<Button> AcceptCommand
+        //{
+        //    get
+        //    {
+        //        return _acceptCommand ?? (
+        //            _acceptCommand = new AsyncRelayCommand<Button>(
+        //                async (sender) =>
+        //                {
+        //                    if (sender.Name == "buttonAccept")
+        //                    {
+        //                        bool res = false;
+        //                        User user;
+        //                        try
+        //                        {
+        //                            User newOwner = await DataBaseService.GetUserByLname(Owner);
+        //                            try
+        //                            {
+        //                                res = await DataBaseService.UpdateTaskById(task.Id, new Model.Task
+        //                                {
+        //                                    Id = task.Id,
+        //                                    IdOwner = (int)newOwner.Id,
+        //                                    Title = this.Title,
+        //                                    IdScope = this.Scope,
+        //                                    Since = this._since,
+        //                                    Deadline = this._deadline
+        //                                });
+        //                            }
+        //                            catch (Exception ex)
+        //                            {
+        //                                MessageBox.Show("Формат даты некорректен");
+        //                            }
+        //                            if (res) { MessageBox.Show("Успешно!"); }
+        //                        }
+        //                        catch (Exception ex)
+        //                        {
+        //                            MessageBox.Show(ex.Message);
+        //                        }
+        //                    }
+        //                    MainFrame.mainFrame.Navigate(new MainPage(_enteredUser));
+        //                }
+        //                )
+        //            );
+        //    }
+        //}
+        //private AsyncRelayCommand _refreshScopesCommand;
+        //public AsyncRelayCommand RefreshScopesCommand
+        //{
+        //    get
+        //    {
+        //        return _refreshScopesCommand ?? (
+        //            _refreshScopesCommand = new AsyncRelayCommand(
+        //                async () =>
+        //                {
+        //                    Scopes = new ObservableCollection<Category>(await DataBaseService.GetCategories());
+        //                }
+        //                )
+        //            );
+        //    }
+        //}
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName]string prop="")
-        {
-            if (PropertyChanged != null) PropertyChanged(this, new PropertyChangedEventArgs(prop));
-        }
+        //public event PropertyChangedEventHandler PropertyChanged;
+        //public void OnPropertyChanged([CallerMemberName] string prop = "")
+        //{
+        //    if (PropertyChanged != null) PropertyChanged(this, new PropertyChangedEventArgs(prop));
+        //}
     }
 }

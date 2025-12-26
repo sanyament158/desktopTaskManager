@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Net.Http;
 using System.Security.Policy;
 using System.Text;
@@ -73,24 +74,6 @@ namespace TaskManager.Infrastucture.Network
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
         }
-        public static async Task<List<TaskHumanReadable>> GetTasksHumanReadable()
-        {
-            try
-            {
-                HttpResponseMessage httpResponseMessage = await client.GetAsync(_uri + "getTable/getTasks-HumanReadable.php");
-
-                JsonNode responseRootJson = JsonNode.Parse(await httpResponseMessage.Content.ReadAsStringAsync());
-                // subarray with data
-                JsonArray responseDataJson = responseRootJson["data"].AsArray();
-
-                List<TaskHumanReadable> responseTasks = responseDataJson.Deserialize<List<TaskHumanReadable>>();
-                return responseTasks ?? throw new Exception("response was null");
-            }
-            catch (Exception e)
-            {
-                throw new Exception($"DataBaseService Exception Occured!\nMessage = {e.Message}");
-            }
-        }
         public static async Task<List<Model.Task>> GetTasks()
         {
             try
@@ -101,7 +84,27 @@ namespace TaskManager.Infrastucture.Network
                 // subarray with data
                 JsonArray responseDataJson = responseRootJson["data"].AsArray();
 
-                List<Model.Task> responseTasks = responseDataJson.Deserialize<List<Model.Task>>();
+                List<Model.Task> responseTasks = new List<Model.Task>();
+                foreach (var item in responseDataJson)
+                {
+                    var task = new Model.Task();
+                    task.Id = item["Id"].GetValue<int>();
+                    task.Owner.Id = item["IdOwner"].GetValue<int>();
+                    task.Owner.Username = item["OwnerUsername"].GetValue<string>();
+                    task.Owner.Lname = item["OwnerLname"].GetValue<string>();
+                    task.Owner.Role.Id = item["OwnerIdRole"].GetValue<int>();
+                    task.Owner.Role.Name = item["OwnerRoleName"].GetValue<string>();
+                    task.Status.Id = item["IdStatus"].GetValue<int>();
+                    task.Status.Name = item["StatusName"].GetValue<string>();
+                    task.Title = item["Title"].GetValue<string>();
+                    task.Description = item["Description"].GetValue<string>();
+                    task.Scope.Id = item["IdScope"].GetValue<int>();
+                    task.Scope.Name = item["ScopeName"].GetValue<string>();
+                    task.Since = DateTime.ParseExact(item["Since"].GetValue<string>(), "yyyy-MM-dd", CultureInfo.InvariantCulture);
+                    task.Deadline = DateTime.ParseExact(item["Deadline"].GetValue<string>(), "yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+                    responseTasks.Add(task);
+                }
                 return responseTasks ?? throw new Exception("response was null");
             }
             catch (Exception e)
@@ -174,7 +177,7 @@ namespace TaskManager.Infrastucture.Network
             {
                 ["username"] = user.Username,
                 ["lname"] = user.Lname,
-                ["idRole"] = user.IdRole.ToString(),
+                ["idRole"] = user.Role.Id.ToString(),
                 ["password"] = password
             };
             string requestJson = JsonSerializer.Serialize(data);
@@ -191,7 +194,7 @@ namespace TaskManager.Infrastucture.Network
                 ["id"] = user.Id.ToString(),
                 ["login"] = user.Username,
                 ["lname"] = user.Lname,
-                ["idRole"] = user.IdRole.ToString(),
+                ["idRole"] = user.Role.Id.ToString(),
                 ["password"] = password
             };
             StringContent content = new StringContent(JsonSerializer.Serialize(data), Encoding.UTF8, "application/json");
@@ -239,7 +242,7 @@ namespace TaskManager.Infrastucture.Network
                     Id = jsonObjectUser["id"].GetValue<int>(),
                     Username = jsonObjectUser["username"].GetValue<string>(),
                     Lname = jsonObjectUser["lname"].GetValue<string>(),
-                    IdRole = jsonObjectUser["idRole"].GetValue<int>()
+                    Role = new Role { Id = jsonObjectUser["idRole"].GetValue<int>() }
                 };
             }
             else throw new Exception("http response is not 200");
@@ -262,7 +265,7 @@ namespace TaskManager.Infrastucture.Network
                     Id = jsonObjectUser["id"].GetValue<int>(),
                     Username = jsonObjectUser["username"].GetValue<string>(),
                     Lname = jsonObjectUser["lname"].GetValue<string>(),
-                    IdRole = jsonObjectUser["idRole"].GetValue<int>()
+                    Role = new Role { Id = jsonObjectUser["idRole"].GetValue<int>() }
                 };
             }
             else throw new Exception("http response is not 200");
@@ -272,11 +275,11 @@ namespace TaskManager.Infrastucture.Network
             var data = new Dictionary<string, string>
             {
                 ["id"] = id.ToString(),
-                ["id_owner"] = newTask.IdOwner.ToString(),
-                ["id_scope"] = newTask.IdScope.ToString(),
+                ["id_owner"] = newTask.Owner.Id.ToString(),
+                ["id_scope"] = newTask.Scope.Id.ToString(),
                 ["title"] = newTask.Title,
                 ["since"] = newTask.Since.ToString("yyyy-MM-dd"),
-                ["deadline"] = newTask.Deadine.ToString("yyyy-MM-dd")
+                ["deadline"] = newTask.Deadline.ToString("yyyy-MM-dd")
             };
 
             StringContent content = new StringContent(JsonSerializer.Serialize(data), Encoding.UTF8, "application/json");
@@ -290,12 +293,12 @@ namespace TaskManager.Infrastucture.Network
         {
             var data = new Dictionary<string, string>
             {
-                ["idOwner"] = task.IdOwner.ToString(),
-                ["idStatus"] = task.IdStatus.ToString(),
+                ["idOwner"] = task.Owner.Id.ToString(),
+                ["idStatus"] = task.Status.Id.ToString(),
                 ["title"] = task.Title,
-                ["idScope"] = task.IdScope.ToString(),
+                ["idScope"] = task.Scope.Id.ToString(),
                 ["since"] = task.Since.ToString("yyyy-MM-dd"),
-                ["deadline"] = task.Deadine.ToString("yyyy-MM-dd")
+                ["deadline"] = task.Deadline.ToString("yyyy-MM-dd")
             };
 
             StringContent content = new StringContent(JsonSerializer.Serialize(data), Encoding.UTF8, "application/json");

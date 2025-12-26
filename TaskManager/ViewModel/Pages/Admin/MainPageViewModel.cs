@@ -26,14 +26,24 @@ namespace TaskManager.ViewModel.Pages.Admin
         }
         // fields & properties
         private Model.User _enteredUser;
-        private TaskHumanReadable _selectedTask;
-        public TaskHumanReadable SelectedTask
+        private ObservableCollection<Model.Task> _tasks;
+        public ObservableCollection<Model.Task> Tasks
         {
-            get {  return _selectedTask; }
-            set { 
+            get { return _tasks; }
+            set
+            {
+                _tasks = value;
+                OnPropertyChanged();
+            }
+        }
+        private Model.Task _selectedTask;
+        public Model.Task SelectedTask
+        {
+            get { return _selectedTask; }
+            set
+            {
                 _selectedTask = value;
                 OnPropertyChanged();
-                DeleteTaskCommand.NotifyCanExecuteChanged();
             }
         }
         private Category _selectedCategory;
@@ -61,16 +71,6 @@ namespace TaskManager.ViewModel.Pages.Admin
                 return _categories;
             }
         }
-        private ObservableCollection<TaskHumanReadable> _tasks;
-        public ObservableCollection<TaskHumanReadable> Tasks
-        {
-            get { return _tasks; }
-            set
-            {
-                _tasks = value;
-                OnPropertyChanged();
-            }
-        }
 
         // commands
         private AsyncRelayCommand _refreshCategoriesCommand;
@@ -96,8 +96,8 @@ namespace TaskManager.ViewModel.Pages.Admin
                     _refreshTasksCommand = new AsyncRelayCommand(
                         async () =>
                         {
-                            List<TaskHumanReadable> allTasks = await DataBaseService.GetTasksHumanReadable();
-                            Tasks = new ObservableCollection<TaskHumanReadable>(allTasks.Where(obj => obj.Status == "В процессе"));
+                            List<Model.Task> allTasks = await DataBaseService.GetTasks();
+                            Tasks = new ObservableCollection<Model.Task>(allTasks.Where(obj => obj.Status.Id == 1));
                         }
                         )
                     );
@@ -159,7 +159,7 @@ namespace TaskManager.ViewModel.Pages.Admin
                                 new EditScopesPage(_enteredUser)
                                 );
                         },
-                        (obj) => _enteredUser.IdRole == 1
+                        (obj) => _enteredUser.Role.Id == 1
                         ));
             }
         }
@@ -172,7 +172,7 @@ namespace TaskManager.ViewModel.Pages.Admin
                         {
                             List<Model.Task> allTasks = await DataBaseService.GetTasks();
                             Model.Task task = allTasks.Where((obj) => obj.Id == SelectedTask.Id).First();
-                            MainFrame.mainFrame.Navigate(new UpdateTaskPage(_enteredUser, SelectedTask, task));
+                            //MainFrame.mainFrame.Navigate(new UpdateTaskPage(_enteredUser, SelectedTask, task));
                         }
                         )
                     ); }
@@ -190,7 +190,7 @@ namespace TaskManager.ViewModel.Pages.Admin
                                 new EditEmployeesPage(_enteredUser) 
                                 );
                         },
-                        (obj) => _enteredUser.IdRole == 1
+                        (obj) => _enteredUser.Role.Id == 1
                         ));
             }
         }
@@ -259,8 +259,8 @@ namespace TaskManager.ViewModel.Pages.Admin
 
             if (_selectedCategory != null)
             {
-                ObservableCollection<TaskHumanReadable> allTasks = new ObservableCollection<TaskHumanReadable>(await DataBaseService.GetTasksHumanReadable());
-                Tasks = new ObservableCollection<TaskHumanReadable>(allTasks.Where(obj => obj.Scope == _selectedCategory.Name && obj.Status == "В процессе"));
+                ObservableCollection<Model.Task> allTasks = new ObservableCollection<Model.Task>(await DataBaseService.GetTasks());
+                Tasks = new ObservableCollection<Model.Task>(allTasks.Where(obj => obj.Scope.Id == _selectedCategory.Id && obj.Status.Id == 1));
             }
         }
 

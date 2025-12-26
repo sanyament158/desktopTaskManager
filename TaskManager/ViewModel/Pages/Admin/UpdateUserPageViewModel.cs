@@ -22,7 +22,7 @@ namespace TaskManager.ViewModel.Pages.Admin
 
             _inputedLogin = selectedUser.Username;
             _inputedLname = selectedUser.Lname;
-            _inputedIdRole = selectedUser.IdRole;
+            _inputedIdRole = selectedUser.Role.Id;
             _inputedPassword = pass;
         }
         //Fields & Properties
@@ -87,7 +87,7 @@ namespace TaskManager.ViewModel.Pages.Admin
                                         Id = _selectedUser.Id,
                                         Username = InputedLogin,
                                         Lname = InputedLname,
-                                        IdRole = InputedIdRole
+                                        Role = new Role { Id = InputedIdRole }
                                     }, InputedPassword
                                     );
                                 if (!result) MessageBox.Show("Ошибка!");

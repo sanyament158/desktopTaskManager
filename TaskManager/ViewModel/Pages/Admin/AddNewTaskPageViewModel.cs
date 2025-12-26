@@ -27,6 +27,9 @@ namespace TaskManager.ViewModel.Pages.Admin
             _since = DateTime.Now;
             _deadline = DateTime.Now;
         }
+        
+        
+        
         //Fields & Properties
         private User _enteredUser;
 
@@ -50,13 +53,13 @@ namespace TaskManager.ViewModel.Pages.Admin
                 OnPropertyChanged();
             }
         }
-        private int _scope;
-        public int Scope
+        private int _idScope;
+        public int IdScope
         {
-            get { return _scope; }
+            get { return _idScope; }
             set
             {
-                _scope = value;
+                _idScope = value;
                 OnPropertyChanged();
             }
         }
@@ -99,6 +102,8 @@ namespace TaskManager.ViewModel.Pages.Admin
             }
         }
 
+        
+        
         //Commands
         private AsyncRelayCommand _refreshScopesCommand;
         public AsyncRelayCommand RefreshScopesCommand
@@ -128,7 +133,7 @@ namespace TaskManager.ViewModel.Pages.Admin
                                 User owner = null;
                                 try
                                 {
-                                    if (_enteredUser.IdRole != 1 && Owner != _enteredUser.Lname)
+                                    if (_enteredUser.Role.Id != 1 && Owner != _enteredUser.Lname)
                                     {
                                         MessageBox.Show("В качестве владельца можно указать только себя!");
                                         return;
@@ -143,19 +148,19 @@ namespace TaskManager.ViewModel.Pages.Admin
                                 {
                                     Model.Task newTask = new Model.Task
                                     {
-                                        IdOwner = (int)owner.Id,
-                                        IdStatus = 1,
+                                        Owner = new User { Id = (int)owner.Id },
+                                        Status =  new Status { Id = 1 },
                                         Title = this.Title,
-                                        IdScope = Scope,
+                                        Scope = new Category { Id = this.IdScope },
                                         Since = this._since,
-                                        Deadine = this._deadline
+                                        Deadline = this._deadline
                                     };
                                     bool res = await DataBaseService.PutTask(newTask);
                                     if (res) MessageBox.Show("Успешно!");
                                 }
                                 else MessageBox.Show("Введенные поля неверны!");
                             }
-                            if (_enteredUser.IdRole == 1) MainFrame.mainFrame.Navigate(new MainPage(_enteredUser));
+                            if (_enteredUser.Role.Id == 1) MainFrame.mainFrame.Navigate(new MainPage(_enteredUser));
                             else MainFrame.mainFrame.Navigate(new UserPage(_enteredUser));
                         }
                         )

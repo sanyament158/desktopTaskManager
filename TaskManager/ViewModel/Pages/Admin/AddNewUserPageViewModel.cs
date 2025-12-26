@@ -78,7 +78,7 @@ namespace TaskManager.ViewModel.Pages.Admin
                                     {
                                         Username = InputedLogin,
                                         Lname = InputedLname,
-                                        IdRole = InputedIdRole
+                                        Role = new Role { Id = InputedIdRole }
                                     }, InputedPassword
                                     );
                                 if (!result) MessageBox.Show("Ошибка!");
