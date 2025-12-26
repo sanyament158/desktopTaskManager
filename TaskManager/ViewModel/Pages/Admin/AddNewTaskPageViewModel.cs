@@ -21,11 +21,11 @@ namespace TaskManager.ViewModel.Pages.Admin
     {
         public AddNewTaskPageViewModel(User enteredUser) 
         {
-            Owner = enteredUser.Lname;
+            RefreshScopesCommand.Execute(this);
+            _owner = enteredUser.Lname;
             _enteredUser = enteredUser;
             _since = DateTime.Now;
             _deadline = DateTime.Now;
-            RefreshScopesCommand.Execute(this);
         }
         //Fields & Properties
         private User _enteredUser;

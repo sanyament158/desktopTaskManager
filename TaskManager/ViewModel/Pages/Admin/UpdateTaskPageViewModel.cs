@@ -31,8 +31,6 @@ namespace TaskManager.ViewModel.Pages.Admin
             _title = taskHR.Title;
             _since = task.Since;
             _deadline = task.Deadine;
-
-
         }
         //Fields & Properties
         private Model.Task task;

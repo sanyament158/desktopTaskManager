@@ -59,10 +59,8 @@ namespace TaskManager.ViewModel.Pages
                                 if (userResponseObj.idRole == 1)
                                 {
                                     MainFrame.mainFrame.Navigate(
-                                        new MainPage(
-                                            new User { Username = userResponseObj.username, IdRole = userResponseObj.idRole }
-                                            )
-                                        );
+                                        new MainPage(await DataBaseService.GetUserByUsername(userResponseObj.username))
+                                    );
                                 }
                                 else
                                 {
