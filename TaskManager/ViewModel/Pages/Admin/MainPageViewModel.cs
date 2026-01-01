@@ -43,6 +43,7 @@ namespace TaskManager.ViewModel.Pages.Admin
             set
             {
                 _selectedTask = value;
+                DeleteTaskCommand.NotifyCanExecuteChanged();
                 OnPropertyChanged();
             }
         }
@@ -141,7 +142,8 @@ namespace TaskManager.ViewModel.Pages.Admin
                                 {
                                     MessageBox.Show(ex.ToString());
                                 }
-                            }
+                            },
+                            () => (SelectedTask != null && SelectedTask.Id != 0)
                             )
                     );
             }
