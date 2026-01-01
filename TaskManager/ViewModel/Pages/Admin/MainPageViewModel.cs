@@ -141,8 +141,7 @@ namespace TaskManager.ViewModel.Pages.Admin
                                 {
                                     MessageBox.Show(ex.ToString());
                                 }
-                            },
-                            () => SelectedTask != null && SelectedTask.Title != null
+                            }
                             )
                     );
             }
