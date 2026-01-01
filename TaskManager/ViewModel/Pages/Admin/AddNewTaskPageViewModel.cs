@@ -26,6 +26,7 @@ namespace TaskManager.ViewModel.Pages.Admin
             _enteredUser = enteredUser;
             _since = DateTime.Now;
             _deadline = DateTime.Now;
+            
         }
         
         
@@ -82,8 +83,7 @@ namespace TaskManager.ViewModel.Pages.Admin
                 _since = DateTime.ParseExact(
                     value,
                     "yyyy-MM-dd",
-                    System.Globalization.CultureInfo.InvariantCulture
-                );
+                    System.Globalization.CultureInfo.InvariantCulture);
                 OnPropertyChanged();
             }
         }
@@ -94,10 +94,9 @@ namespace TaskManager.ViewModel.Pages.Admin
             set
             {
                 _deadline = DateTime.ParseExact(
-                    value,
-                    "yyyy-MM-dd",
-                    System.Globalization.CultureInfo.InvariantCulture
-                );
+                         value,
+                         "yyyy-MM-dd",
+                         System.Globalization.CultureInfo.InvariantCulture);
                 OnPropertyChanged();
             }
         }
@@ -149,7 +148,7 @@ namespace TaskManager.ViewModel.Pages.Admin
                                     Model.Task newTask = new Model.Task
                                     {
                                         Owner = new User { Id = (int)owner.Id },
-                                        Status =  new Status { Id = 1 },
+                                        Status = new Status { Id = 1 },
                                         Title = this.Title,
                                         Scope = new Category { Id = this.IdScope },
                                         Since = this._since,
@@ -157,11 +156,15 @@ namespace TaskManager.ViewModel.Pages.Admin
                                     };
                                     bool res = await DataBaseService.PutTask(newTask);
                                     if (res) MessageBox.Show("Успешно!");
+                                    MainFrame.mainFrame.Navigate(new MainPage(_enteredUser));
                                 }
                                 else MessageBox.Show("Введенные поля неверны!");
                             }
-                            if (_enteredUser.Role.Id == 1) MainFrame.mainFrame.Navigate(new MainPage(_enteredUser));
-                            else MainFrame.mainFrame.Navigate(new UserPage(_enteredUser));
+                            else
+                            {
+                                if (_enteredUser.Role.Id != 1) MainFrame.mainFrame.Navigate(new UserPage(_enteredUser));
+                                else MainFrame.mainFrame.Navigate(new MainPage(_enteredUser));
+                            }
                         }
                         )
                     );

@@ -33,7 +33,7 @@ namespace TaskManager.Model
         private string _description;
         public string Description
         {
-            get { return _description ?? throw new Exception("_description field was null"); }
+            get { return _description ?? (_description = "Без описания"); }
             set { _description = value; }
         }
         private Category _scope;
