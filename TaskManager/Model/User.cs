@@ -11,7 +11,12 @@ namespace TaskManager.Model
 {
     public class User
     {
-        public int? Id { get; set; }
+        private int _id;
+        public int Id
+        {
+            get { return _id; }
+            set { _id = value; }
+        }
         public string Username { get; set; }
         public string? Fname { get; set; }
         public string? Lname { get; set; }

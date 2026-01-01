@@ -89,17 +89,30 @@ namespace TaskManager.Infrastucture.Network
                 {
                     var task = new Model.Task();
                     task.Id = item["Id"].GetValue<int>();
-                    task.Owner.Id = item["IdOwner"].GetValue<int>();
-                    task.Owner.Username = item["OwnerUsername"].GetValue<string>();
-                    task.Owner.Lname = item["OwnerLname"].GetValue<string>();
-                    task.Owner.Role.Id = item["OwnerIdRole"].GetValue<int>();
-                    task.Owner.Role.Name = item["OwnerRoleName"].GetValue<string>();
-                    task.Status.Id = item["IdStatus"].GetValue<int>();
-                    task.Status.Name = item["StatusName"].GetValue<string>();
+                    task.Owner = new User
+                    {
+                        Id = item["IdOwner"].GetValue<int>(),
+                        Username = item["OwnerUsername"].GetValue<string>(),
+                        Lname = item["OwnerLname"].GetValue<string>(),
+                        Role = new Role
+                        {
+                            Id = item["OwnerIdRole"].GetValue<int>(),
+                            Name = item["OwnerRoleName"].GetValue<string>()
+                        }
+                    };
+                    task.Status = new Status 
+                    { 
+                        Id = item["IdStatus"].GetValue<int>(),
+                        Name = item["StatusName"].GetValue<string>()
+                    };
                     task.Title = item["Title"].GetValue<string>();
-                    task.Description = item["Description"].GetValue<string>();
-                    task.Scope.Id = item["IdScope"].GetValue<int>();
-                    task.Scope.Name = item["ScopeName"].GetValue<string>();
+                    if (item["Description"] != null) task.Description = item["Description"].GetValue<string>();
+                    else task.Description = "Без описания";
+                    task.Scope = new Category
+                    {
+                        Id = item["IdScope"].GetValue<int>(),
+                        Name = item["ScopeName"].GetValue<string>()
+                    }; 
                     task.Since = DateTime.ParseExact(item["Since"].GetValue<string>(), "yyyy-MM-dd", CultureInfo.InvariantCulture);
                     task.Deadline = DateTime.ParseExact(item["Deadline"].GetValue<string>(), "yyyy-MM-dd", CultureInfo.InvariantCulture);
 

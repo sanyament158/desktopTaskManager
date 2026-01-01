@@ -16,7 +16,7 @@ namespace TaskManager.Model
         public User Owner 
         { 
             get { return _owner; } 
-            set {  Owner = value; }
+            set {  _owner = value; }
         }
         private Status _status;
         public Status Status
@@ -30,7 +30,7 @@ namespace TaskManager.Model
             get { return _title; }
             set { _title = value; }
         }
-        private string? _description;
+        private string _description;
         public string Description
         {
             get { return _description ?? throw new Exception("_description field was null"); }

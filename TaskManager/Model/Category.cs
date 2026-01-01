@@ -19,7 +19,5 @@ namespace TaskManager.Model
             set { _name = value; }
             get { return _name; } 
         }
-
-        
     }
 }

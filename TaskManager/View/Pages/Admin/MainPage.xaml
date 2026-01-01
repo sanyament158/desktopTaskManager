@@ -118,12 +118,12 @@
                     </i:Interaction.Triggers>
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="Владелец" DisplayMemberBinding="{Binding Owner}"/>
-                            <GridViewColumn Header="Статус" DisplayMemberBinding="{Binding Status}"/>
+                            <GridViewColumn Header="Владелец" DisplayMemberBinding="{Binding Owner.Lname}"/>
+                            <GridViewColumn Header="Статус" DisplayMemberBinding="{Binding Status.Name}"/>
                             <GridViewColumn Header="Заголовок" DisplayMemberBinding="{Binding Title}"/>
                             <GridViewColumn Header="Начало" DisplayMemberBinding="{Binding Since}"/>
                             <GridViewColumn Header="Дедлайн" DisplayMemberBinding="{Binding Deadline}"/>
-                            <GridViewColumn Header="Зона ответственности" DisplayMemberBinding="{Binding Scope}"/>
+                            <GridViewColumn Header="Зона ответственности" DisplayMemberBinding="{Binding Scope.Name}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
