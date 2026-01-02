@@ -20,10 +20,10 @@ namespace TaskManager.View.Pages.Admin
     /// </summary>
     public partial class UpdateTaskPage : Page
     {
-        public UpdateTaskPage(User enteredUser)
+        public UpdateTaskPage(User enteredUser, Model.Task selectedTask)
         {
             InitializeComponent();
-            DataContext = new UpdateTaskPageViewModel();
+            DataContext = new UpdateTaskPageViewModel(enteredUser, selectedTask);
         }
     }
 }

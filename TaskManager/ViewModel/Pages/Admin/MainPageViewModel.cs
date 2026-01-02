@@ -18,7 +18,7 @@ namespace TaskManager.ViewModel.Pages.Admin
 {
     public class MainPageViewModel : INotifyPropertyChanged
     {
-        public MainPageViewModel(Model.User enteredUser)
+        public MainPageViewModel(User enteredUser)
         {
             _enteredUser = enteredUser;
             RefreshCategoriesCommand.Execute(this);
@@ -171,9 +171,7 @@ namespace TaskManager.ViewModel.Pages.Admin
                     _goToUpdateTaskCommand = new AsyncRelayCommand(
                         async (obj) => 
                         {
-                            List<Model.Task> allTasks = await DataBaseService.GetTasks();
-                            Model.Task task = allTasks.Where((obj) => obj.Id == SelectedTask.Id).First();
-                            //MainFrame.mainFrame.Navigate(new UpdateTaskPage(_enteredUser, SelectedTask, task));
+                            MainFrame.mainFrame.Navigate(new UpdateTaskPage(_enteredUser, SelectedTask));
                         }
                         )
                     ); }
