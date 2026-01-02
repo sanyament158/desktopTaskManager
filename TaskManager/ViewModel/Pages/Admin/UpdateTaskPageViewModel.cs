@@ -16,13 +16,19 @@ using TaskManager.View.Pages.Admin;
 
 namespace TaskManager.ViewModel.Pages.Admin
 {
-    public class UpdateTaskPageViewModel //: INotifyPropertyChanged
+    public class UpdateTaskPageViewModel: INotifyPropertyChanged
     {
-        public UpdateTaskPageViewModel(User enteredUser, Model.Task task)
+        public UpdateTaskPageViewModel(User enteredUser, Model.Task task, List<Category> scopes)
         {
 
-            RefreshScopesCommand.Execute(this);
             _enteredUser = enteredUser;
+            this.task = task;
+            _since = task.Since;
+            _deadline = task.Deadline;
+            _title = task.Title;
+            _owner = task.Owner.Lname;
+            _scopes = new ObservableCollection<Category>(scopes);
+            _scope = task.Scope;
         }
         //Fields & Properties
         private Model.Task task;
@@ -142,20 +148,6 @@ namespace TaskManager.ViewModel.Pages.Admin
                         )
                     );
             }
-        }
-        private AsyncRelayCommand _refreshScopesCommand;
-        public IAsyncRelayCommand RefreshScopesCommand
-        {
-            get {
-                return _refreshScopesCommand ?? 
-                    (_refreshScopesCommand = new AsyncRelayCommand(
-                        async () =>
-                        {
-                            Scopes = new ObservableCollection<Category>(await DataBaseService.GetCategories());
-                        }
-                        )
-                    );
-                }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -8,7 +8,7 @@ using TaskManager.Model;
 
 namespace TaskManager.ViewModel.Pages.Admin
 {
-    public class UpdateTaskViewModel: INotifyPropertyChanged
+    public class UpdateTaskViewModel: INotifyPropertyChanged // NOT USED!!!
     {
         //Fields & Properties
         private ObservableCollection<Category> _scopes;

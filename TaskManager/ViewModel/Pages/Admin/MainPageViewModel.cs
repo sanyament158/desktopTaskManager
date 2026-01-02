@@ -171,7 +171,7 @@ namespace TaskManager.ViewModel.Pages.Admin
                     _goToUpdateTaskCommand = new AsyncRelayCommand(
                         async (obj) => 
                         {
-                            MainFrame.mainFrame.Navigate(new UpdateTaskPage(_enteredUser, SelectedTask));
+                            MainFrame.mainFrame.Navigate(new UpdateTaskPage(_enteredUser, _selectedTask, await DataBaseService.GetCategories()));
                         }
                         )
                     ); }
