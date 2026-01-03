@@ -92,7 +92,6 @@ namespace TaskManager.ViewModel.Pages.Admin
                                     );
                                 if (!result) MessageBox.Show("Ошибка!");
                                 else MessageBox.Show("Успешно!");
-
                             }
                             MainFrame.mainFrame.Navigate(new EditEmployeesPage(_enteredUser));
                         }

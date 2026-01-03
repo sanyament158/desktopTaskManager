@@ -174,8 +174,26 @@ namespace TaskManager.Infrastucture.Network
 
                 JsonNode responseRootJson = JsonNode.Parse(await httpResponseMessage.Content.ReadAsStringAsync());
                 JsonArray responseDataJson = responseRootJson["data"].AsArray();
-                List<User> responseTasks = responseDataJson.Deserialize<List<User>>();
-                return responseTasks ?? throw new Exception("response was null");
+                
+                List<User> responseUsers = new List<User>();
+                foreach (var item in responseDataJson)
+                {
+                    responseUsers.Add(
+                        new User
+                        {
+                            Id = item["Id"].GetValue<int>(),
+                            Username = item["Username"].GetValue<string>(),
+                            Lname = item["Lname"].GetValue<string>(),
+                            Role = new Role
+                            {
+                                Id = item["RoleId"].GetValue<int>(),
+                                Name = item["RoleName"].GetValue<string>()
+                            }
+                        }
+                        );
+                }
+                
+                return responseUsers ?? throw new Exception("response was null");
             }
             catch (Exception e)
             {

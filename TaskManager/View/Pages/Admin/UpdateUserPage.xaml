@@ -13,7 +13,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Values/TextBlockStyles.xaml"/>
                 <ResourceDictionary Source="/Values/TextBoxStyles.xaml"/>
-                <ResourceDictionary Source="/Values/StackPanelStyles.xaml"/>
+                <ResourceDictionary Source="/Values/BorderStyles.xaml"/>
                 <ResourceDictionary Source="/Values/ButtonStyles.xaml"/>
                 <ResourceDictionary Source="/Values/Strings.xaml"/>
                 <ResourceDictionary Source="/Values/ComboBoxStyles.xaml"/>
@@ -56,7 +56,7 @@
                  Style="{StaticResource BaseTextBox}" Margin="20 0 0 0"
                  Text="{Binding InputedLname, UpdateSourceTrigger=PropertyChanged}"/>
             </Border>
-            <ComboBox x:Name="comboBoxIdRole" Grid.Column="1" Grid.Row="2"
+            <ComboBox x:Name="comboBoxRole" Grid.Column="1" Grid.Row="2"
               Style="{StaticResource BaseComboBox}" Margin="10"
               SelectedValue="{Binding InputedIdRole}"
               SelectedValuePath="Tag">
@@ -87,7 +87,7 @@
     Style="{StaticResource ButtonStackPanel}"
     Margin="300 10 300 10">
             <Button x:Name="buttonAccept"
-    Content="{StaticResource add}" 
+    Content="Редактировать" 
     Style="{StaticResource BaseButton}"
     Command="{Binding AcceptCommand}" CommandParameter="{Binding ElementName=buttonAccept}"/>
         </Border>

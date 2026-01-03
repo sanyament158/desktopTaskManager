@@ -127,7 +127,7 @@ namespace TaskManager.ViewModel.Pages.Admin
                     _goToUpdateUser = new AsyncRelayCommand(
                         async (obj) =>
                         {
-                            MainFrame.mainFrame.Navigate(new UpdateUserPage(_enteredUser, SelectedUser, await DataBaseService.GetPasswordById((int)SelectedUser.Id)));
+                            MainFrame.mainFrame.Navigate(new UpdateUserPage(_enteredUser, SelectedUser, await DataBaseService.GetPasswordById(SelectedUser.Id)));
                         },
                         () => SelectedUser != null && SelectedUser.Username != null
                         )
