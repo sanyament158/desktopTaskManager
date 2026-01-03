@@ -117,7 +117,7 @@ namespace TaskManager.ViewModel.Pages.Admin
                                     if (selectedScopeInAllTasks > 0)
                                     {
                                         MessageBoxResult answer = MessageBox.Show(
-                                            $"{selectedScopeInAllTasks} задач автоматически удалятся при уничтожении этой категории",
+                                            $"{selectedScopeInAllTasks} задачи автоматически удалятся при уничтожении этой категории",
                                             "Внимание",
                                             MessageBoxButton.YesNo,
                                             MessageBoxImage.Warning

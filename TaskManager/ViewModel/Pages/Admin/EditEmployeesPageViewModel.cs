@@ -3,9 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics.Eventing.Reader;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows;
+using System.Windows.Annotations;
 using TaskManager.Infrastucture.Navigation;
 using TaskManager.Infrastucture.Network;
 using TaskManager.Model;
@@ -68,10 +70,30 @@ namespace TaskManager.ViewModel.Pages.Admin
                         {
                             try
                             {
-                                int categoryId = (int)SelectedUser.Id;
-                                var res = await DataBaseService.DeleteFromTableById("user", categoryId);
-                                if (res) MessageBox.Show("Успешно!");
-                                else MessageBox.Show("Ошибка!");
+                                List<Model.Task> allTasks = await DataBaseService.GetTasks();
+                                int userTasks = allTasks.Where(x => x.Owner.Id == SelectedUser.Id).Count();
+                                
+                                if (userTasks > 0)
+                                {
+                                    MessageBoxResult answer = MessageBox.Show(
+                                            $"{userTasks} задачи автоматически удалятся при уничтожении этого сотрудника",
+                                            "Внимание",
+                                            MessageBoxButton.YesNo,
+                                            MessageBoxImage.Warning
+                                            );
+                                    if (answer == MessageBoxResult.Yes)
+                                    {
+                                        var res = await DataBaseService.DeleteFromTableById("user", SelectedUser.Id);
+                                        if (res) MessageBox.Show("Успешно!");
+                                        else MessageBox.Show("Ошибка!");
+                                    }
+                                }
+                                else
+                                {
+                                    var res = await DataBaseService.DeleteFromTableById("user", SelectedUser.Id);
+                                    if (res) MessageBox.Show("Успешно!");
+                                    else MessageBox.Show("Ошибка!");
+                                }
                                 RefreshUsersCommand.Execute(this);
                             }
                             catch (Exception ex)
