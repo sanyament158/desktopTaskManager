@@ -28,7 +28,7 @@ namespace TaskManager.ViewModel.Pages.Admin
             _title = task.Title;
             _owner = task.Owner.Lname;
             _scopes = new ObservableCollection<Category>(scopes);
-            _scope = task.Scope;
+            _selectedScope = task.Scope;
         }
         //Fields & Properties
         private Model.Task task;
@@ -54,13 +54,13 @@ namespace TaskManager.ViewModel.Pages.Admin
                 OnPropertyChanged();
             }
         }
-        private Category _scope;
-        public Category Scope
+        private Category _selectedScope;
+        public Category SelectedScope
         {
-            get { return _scope; }
+            get { return _selectedScope; }
             set
             {
-                _scope = value;
+                _selectedScope = value;
                 OnPropertyChanged();
             }
         }
@@ -127,7 +127,7 @@ namespace TaskManager.ViewModel.Pages.Admin
                                             Id = task.Id,
                                             Owner = newOwner,
                                             Title = this.Title,
-                                            Scope = this.Scope,
+                                            Scope = this.SelectedScope,
                                             Since = this._since,
                                             Deadline = this._deadline
                                         });

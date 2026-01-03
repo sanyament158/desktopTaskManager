@@ -111,11 +111,34 @@ namespace TaskManager.ViewModel.Pages.Admin
                             {
                                 try
                                 {
-                                    int categoryId = SelectedScope.Id;
-                                    var res = await DataBaseService.DeleteFromTableById("scope", categoryId);
-                                    if (res) MessageBox.Show("Успешно!");
-                                    else MessageBox.Show("Ошибка!");
-                                    RefreshScopesCommand.Execute(this);
+                                    List<Model.Task> allTasks = await DataBaseService.GetTasks();
+                                    int selectedScopeInAllTasks = allTasks.Where(x => x.Scope.Id == SelectedScope.Id).Count();
+                                    
+                                    if (selectedScopeInAllTasks > 0)
+                                    {
+                                        MessageBoxResult answer = MessageBox.Show(
+                                            $"{selectedScopeInAllTasks} задач автоматически удалятся при уничтожении этой категории",
+                                            "Внимание",
+                                            MessageBoxButton.YesNo,
+                                            MessageBoxImage.Warning
+                                            );
+                                        if (answer == MessageBoxResult.Yes)
+                                        {
+                                            var res = await DataBaseService.DeleteFromTableById("scope", SelectedScope.Id);
+                                            if (res) MessageBox.Show("Успешно!");
+                                            else MessageBox.Show("Ошибка!");
+                                            RefreshScopesCommand.Execute(this);
+                                            return;
+                                        }
+                                        else return;
+                                    }
+                                    else
+                                    {
+                                        var res = await DataBaseService.DeleteFromTableById("scope", SelectedScope.Id);
+                                        if (res) MessageBox.Show("Успешно!");
+                                        else MessageBox.Show("Ошибка!");
+                                        RefreshScopesCommand.Execute(this);
+                                    }
                                 }
                                 catch (Exception ex)
                                 {

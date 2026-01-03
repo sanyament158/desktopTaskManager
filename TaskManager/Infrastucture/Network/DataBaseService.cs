@@ -161,9 +161,7 @@ namespace TaskManager.Infrastucture.Network
                 ["field_new_value"] = fieldNewValue,
                 ["id"] = id.ToString()
             };
-            string requestJson = JsonSerializer.Serialize(data);
-
-            HttpResponseMessage httpResponseMessage = await client.PutAsync(_uri + "generics/updateFieldFromTableById.php", new StringContent(requestJson, Encoding.UTF8, "application/json"));
+            HttpResponseMessage httpResponseMessage = await client.PutAsync(_uri + "generics/updateFieldFromTableById.php", new StringContent(JsonSerializer.Serialize(data), Encoding.UTF8, "application/json"));
             JsonNode responseJson = JsonNode.Parse(await httpResponseMessage.Content.ReadAsStringAsync());
 
             return responseJson["success"].GetValue<bool>();
