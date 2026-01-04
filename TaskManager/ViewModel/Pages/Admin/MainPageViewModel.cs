@@ -13,6 +13,7 @@ using TaskManager.Infrastucture.Network;
 using TaskManager.Model;
 using TaskManager.View.Pages;
 using TaskManager.View.Pages.Admin;
+using TaskManager.View.Pages.Users;
 
 namespace TaskManager.ViewModel.Pages.Admin
 {
@@ -207,10 +208,11 @@ namespace TaskManager.ViewModel.Pages.Admin
                     ); }
         }
         private AsyncRelayCommand _markAsFinishCommand;
+        //employees commands
         public AsyncRelayCommand MarkAsFinishCommand
         {
             get { return _markAsFinishCommand ?? (
-                    new AsyncRelayCommand(
+                    _markAsFinishCommand = new AsyncRelayCommand(
                         async (obj) =>
                         {
                             try
@@ -227,6 +229,30 @@ namespace TaskManager.ViewModel.Pages.Admin
                         )
                     ); }
         }
+        private RelayCommand _goToShowDetailsCommand;
+        public RelayCommand GoToShowDetailsCommand
+        {
+            get
+            {
+                return _goToShowDetailsCommand ?? (
+                    _goToShowDetailsCommand = new RelayCommand(
+                            (obj) =>
+                            {
+                                if (obj is Model.Task task)
+                                {
+                                    MainFrame.mainFrame.Navigate(new ShowTaskDetailsPage(_enteredUser, task));
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Ошибка!");
+                                }
+                            },
+                            (obj) => (SelectedTask != null && SelectedTask.Id != 0)
+                        )
+                    );
+            }
+        }
+
         private RelayCommand _exitCommand;
         public RelayCommand ExitCommand
         {

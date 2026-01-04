@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:TaskManager.View.Pages.Users"
+      xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="UserPage" Background="White">
@@ -40,7 +41,7 @@
                 Style="{StaticResource ButtonStackPanel}" Margin="20">
                 <Button x:Name="buttonMarkAsFinish"
                     Style="{StaticResource BigButton}"
-                    Content="Пометить как выполнено"
+                    Content="{StaticResource markAsFinished}"
                     Command="{Binding MarkAsFinishCommand}"/>
             </Border>
             <Border x:Name="borderAddNewTask" Grid.Row="2"
@@ -87,14 +88,19 @@
                 </Grid.RowDefinitions>
                 <ListView x:Name="listViewTasks" Grid.Row="0" ItemsSource="{Binding Tasks}" SelectedItem="{Binding SelectedTask}"
                       BorderThickness="0">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDoubleClick">
+                            <i:InvokeCommandAction Command="{Binding GoToShowDetailsCommand}" CommandParameter="{Binding SelectedTask}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="Владелец" DisplayMemberBinding="{Binding Owner}"/>
-                            <GridViewColumn Header="Статус" DisplayMemberBinding="{Binding Status}"/>
+                            <GridViewColumn Header="Владелец" DisplayMemberBinding="{Binding Owner.Lname}"/>
+                            <GridViewColumn Header="Статус" DisplayMemberBinding="{Binding Status.Name}"/>
                             <GridViewColumn Header="Заголовок" DisplayMemberBinding="{Binding Title}"/>
                             <GridViewColumn Header="Начало" DisplayMemberBinding="{Binding Since}"/>
                             <GridViewColumn Header="Дедлайн" DisplayMemberBinding="{Binding Deadline}"/>
-                            <GridViewColumn Header="Зона ответственности" DisplayMemberBinding="{Binding Scope}"/>
+                            <GridViewColumn Header="Зона ответственности" DisplayMemberBinding="{Binding Scope.Name}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
