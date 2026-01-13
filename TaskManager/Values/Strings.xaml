@@ -6,6 +6,7 @@
     <sys:String x:Key="accept">Принять</sys:String>
     <sys:String x:Key="markAsFinished">Пометить как выполнено</sys:String>
     <sys:String x:Key="finished">Выполнено</sys:String>
+    <sys:String x:Key="checked">Проверено</sys:String>
     
     
     <sys:String x:Key="greeting">Привет!</sys:String>

@@ -20,6 +20,8 @@ namespace TaskManager.Infrastucture.Network
         private static readonly Uri _uri = new Uri($"http://{_host}/rmpPhpApi/api/");
         private static HttpClient client = new HttpClient();
         //methods
+        
+        // login
         public static async Task<UserResponse> AuthorizeUser(UserRequest userRequestObj)
         {
             if (!String.IsNullOrEmpty(userRequestObj.username))
@@ -60,6 +62,7 @@ namespace TaskManager.Infrastucture.Network
             }
             throw new Exception("userObj.username is null or empty");
         }
+        // scopes
         public static async Task<List<Category>> GetCategories()
         {
             try
@@ -74,57 +77,20 @@ namespace TaskManager.Infrastucture.Network
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
         }
-        public static async Task<List<Model.Task>> GetTasks()
+        public static async Task<bool> PutScope(string name)
         {
-            try
+            var data = new Dictionary<string, string>
             {
-                HttpResponseMessage httpResponseMessage = await client.GetAsync(_uri + "getTable/getTasks.php");
+                ["name"] = name
+            };
+            string requestJson = JsonSerializer.Serialize(data);
 
-                JsonNode responseRootJson = JsonNode.Parse(await httpResponseMessage.Content.ReadAsStringAsync());
-                // subarray with data
-                JsonArray responseDataJson = responseRootJson["data"].AsArray();
+            HttpResponseMessage httpResponseMessage = await client.PutAsync(_uri + "scope/putScope.php", new StringContent(requestJson, Encoding.UTF8, "application/json"));
+            JsonNode responseRootJson = JsonNode.Parse(await httpResponseMessage.Content.ReadAsStringAsync());
 
-                List<Model.Task> responseTasks = new List<Model.Task>();
-                foreach (var item in responseDataJson)
-                {
-                    var task = new Model.Task();
-                    task.Id = item["Id"].GetValue<int>();
-                    task.Owner = new User
-                    {
-                        Id = item["IdOwner"].GetValue<int>(),
-                        Username = item["OwnerUsername"].GetValue<string>(),
-                        Lname = item["OwnerLname"].GetValue<string>(),
-                        Role = new Role
-                        {
-                            Id = item["OwnerIdRole"].GetValue<int>(),
-                            Name = item["OwnerRoleName"].GetValue<string>()
-                        }
-                    };
-                    task.Status = new Status 
-                    { 
-                        Id = item["IdStatus"].GetValue<int>(),
-                        Name = item["StatusName"].GetValue<string>()
-                    };
-                    task.Title = item["Title"].GetValue<string>();
-                    if (item["Description"] != null) task.Description = item["Description"].GetValue<string>();
-                    else task.Description = "Без описания";
-                    task.Scope = new Category
-                    {
-                        Id = item["IdScope"].GetValue<int>(),
-                        Name = item["ScopeName"].GetValue<string>()
-                    }; 
-                    task.Since = DateTime.ParseExact(item["Since"].GetValue<string>(), "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                    task.Deadline = DateTime.ParseExact(item["Deadline"].GetValue<string>(), "yyyy-MM-dd", CultureInfo.InvariantCulture);
-
-                    responseTasks.Add(task);
-                }
-                return responseTasks ?? throw new Exception("response was null");
-            }
-            catch (Exception e)
-            {
-                throw new Exception($"DataBaseService Exception Occured!\nMessage = {e.Message}");
-            }
+            return responseRootJson["success"].GetValue<bool>();
         }
+        // generics
         public static async Task<bool> DeleteFromTableById(string tableName, int id)
         {
             var data = new Dictionary<string, object>
@@ -135,19 +101,6 @@ namespace TaskManager.Infrastucture.Network
             string requestJson = JsonSerializer.Serialize(data);
 
             HttpResponseMessage httpResponseMessage = await client.PutAsync(_uri + "generics/deleteFromTableById.php", new StringContent(requestJson, Encoding.UTF8, "application/json"));
-            JsonNode responseRootJson = JsonNode.Parse(await httpResponseMessage.Content.ReadAsStringAsync());
-
-            return responseRootJson["success"].GetValue<bool>();
-        }
-        public static async Task<bool> PutScope(string name)
-        {
-            var data = new Dictionary<string, string>
-            {
-                ["name"] = name
-            };
-            string requestJson = JsonSerializer.Serialize(data);
-
-            HttpResponseMessage httpResponseMessage = await client.PutAsync(_uri + "scope/putScope.php", new StringContent(requestJson, Encoding.UTF8, "application/json"));
             JsonNode responseRootJson = JsonNode.Parse(await httpResponseMessage.Content.ReadAsStringAsync());
 
             return responseRootJson["success"].GetValue<bool>();
@@ -166,6 +119,7 @@ namespace TaskManager.Infrastucture.Network
 
             return responseJson["success"].GetValue<bool>();
         }
+        // users
         public static async Task<List<User>> GetUsers()
         {
             try
@@ -299,6 +253,58 @@ namespace TaskManager.Infrastucture.Network
             }
             else throw new Exception("http response is not 200");
         }
+        // tasks
+        public static async Task<List<Model.Task>> GetTasks()
+        {
+            try
+            {
+                HttpResponseMessage httpResponseMessage = await client.GetAsync(_uri + "getTable/getTasks.php");
+
+                JsonNode responseRootJson = JsonNode.Parse(await httpResponseMessage.Content.ReadAsStringAsync());
+                // subarray with data
+                JsonArray responseDataJson = responseRootJson["data"].AsArray();
+
+                List<Model.Task> responseTasks = new List<Model.Task>();
+                foreach (var item in responseDataJson)
+                {
+                    var task = new Model.Task();
+                    task.Id = item["Id"].GetValue<int>();
+                    task.Owner = new User
+                    {
+                        Id = item["IdOwner"].GetValue<int>(),
+                        Username = item["OwnerUsername"].GetValue<string>(),
+                        Lname = item["OwnerLname"].GetValue<string>(),
+                        Role = new Role
+                        {
+                            Id = item["OwnerIdRole"].GetValue<int>(),
+                            Name = item["OwnerRoleName"].GetValue<string>()
+                        }
+                    };
+                    task.Status = new Status
+                    {
+                        Id = item["IdStatus"].GetValue<int>(),
+                        Name = item["StatusName"].GetValue<string>()
+                    };
+                    task.Title = item["Title"].GetValue<string>();
+                    if (item["Description"] != null) task.Description = item["Description"].GetValue<string>();
+                    else task.Description = "Без описания";
+                    task.Scope = new Category
+                    {
+                        Id = item["IdScope"].GetValue<int>(),
+                        Name = item["ScopeName"].GetValue<string>()
+                    };
+                    task.Since = DateTime.ParseExact(item["Since"].GetValue<string>(), "yyyy-MM-dd", CultureInfo.InvariantCulture);
+                    task.Deadline = DateTime.ParseExact(item["Deadline"].GetValue<string>(), "yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+                    responseTasks.Add(task);
+                }
+                return responseTasks ?? throw new Exception("response was null");
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"DataBaseService Exception Occured!\nMessage = {e.Message}");
+            }
+        }
         public static async Task<bool> UpdateTaskById(int id, Model.Task newTask)
         {
             var data = new Dictionary<string, string>
@@ -335,6 +341,19 @@ namespace TaskManager.Infrastucture.Network
 
             JsonNode responseRootJson = JsonNode.Parse(await httpResponseMessage.Content.ReadAsStringAsync());
             return responseRootJson["success"].GetValue<bool>();
+        }
+        public static async Task<bool> PutFinishedTask(Model.Task task, int finishedUserId)
+        {
+            var data = new Dictionary<string, string>
+            {
+                ["idTask"] = task.Id.ToString(),
+                ["idFinishedUser"] = finishedUserId.ToString()
+            };
+            StringContent content = new StringContent(JsonSerializer.Serialize(data), Encoding.UTF8, "application/json");
+            HttpResponseMessage httpResponseMessage = await client.PutAsync(_uri + "task/putFinishedTask.php", content);
+            JsonNode responseJson = JsonNode.Parse(await httpResponseMessage.Content.ReadAsStringAsync());
+
+            return responseJson["success"].GetValue<bool>();
         }
     }
 }

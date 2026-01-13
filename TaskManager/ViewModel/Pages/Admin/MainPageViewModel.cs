@@ -99,7 +99,7 @@ namespace TaskManager.ViewModel.Pages.Admin
                         async () =>
                         {
                             List<Model.Task> allTasks = await DataBaseService.GetTasks();
-                            Tasks = new ObservableCollection<Model.Task>(allTasks.Where(obj => obj.Status.Id == 1));
+                            Tasks = new ObservableCollection<Model.Task>(allTasks.Where(obj => obj.Status.Id != 2));
                         }
                         )
                     );
@@ -217,9 +217,22 @@ namespace TaskManager.ViewModel.Pages.Admin
                         {
                             try
                             {
-                                bool res = await DataBaseService.UpdateFieldFromTableById("task", "idStatus", "2", SelectedTask.Id);
-                                if (res) MessageBox.Show("Успешно!");
-                                RefreshTasksCommand.Execute(this);
+                                if (SelectedTask.Owner.Id == _enteredUser.Id)
+                                {
+                                    bool res = await DataBaseService.UpdateFieldFromTableById("task", "idStatus", "2", SelectedTask.Id);
+                                    if (res && SelectedTask.Status.Id == 1) MessageBox.Show("Задача выполнена и автоматически проверена");
+                                    else if (res && SelectedTask.Status.Id == 3) MessageBox.Show("Задача проверена");
+                                    
+                                    if (SelectedTask.Status.Id == 1) await DataBaseService.PutFinishedTask(SelectedTask, _enteredUser.Id);
+                                    RefreshTasksCommand.Execute(this);
+                                }
+                                else
+                                {
+                                    bool res = await DataBaseService.UpdateFieldFromTableById("task", "idStatus", "3", SelectedTask.Id);
+                                    await DataBaseService.PutFinishedTask(SelectedTask, _enteredUser.Id);
+                                    if (res) MessageBox.Show("Успешно!");
+                                    RefreshTasksCommand.Execute(this);
+                                }
                             }
                             catch (Exception ex)
                             {
@@ -240,7 +253,8 @@ namespace TaskManager.ViewModel.Pages.Admin
                             {
                                 if (obj is Model.Task task)
                                 {
-                                    MainFrame.mainFrame.Navigate(new ShowTaskDetailsPage(_enteredUser, task));
+                                    if (_enteredUser.Id == task.Owner.Id) MainFrame.mainFrame.Navigate(new ShowTaskDetailsPage(_enteredUser, task, "owner"));
+                                    else MainFrame.mainFrame.Navigate(new ShowTaskDetailsPage(_enteredUser, task, "user"));
                                 }
                                 else
                                 {
@@ -285,7 +299,7 @@ namespace TaskManager.ViewModel.Pages.Admin
             if (_selectedCategory != null)
             {
                 ObservableCollection<Model.Task> allTasks = new ObservableCollection<Model.Task>(await DataBaseService.GetTasks());
-                Tasks = new ObservableCollection<Model.Task>(allTasks.Where(obj => obj.Scope.Id == _selectedCategory.Id && obj.Status.Id == 1));
+                Tasks = new ObservableCollection<Model.Task>(allTasks.Where(obj => obj.Scope.Id == _selectedCategory.Id && obj.Status.Id != 2));
             }
         }
 

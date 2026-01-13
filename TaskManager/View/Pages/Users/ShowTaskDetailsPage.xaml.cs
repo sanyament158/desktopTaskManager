@@ -20,10 +20,10 @@ namespace TaskManager.View.Pages.Users
     /// </summary>
     public partial class ShowTaskDetailsPage : Page
     {
-        public ShowTaskDetailsPage(User enteredUser, Model.Task enteredTask)
+        public ShowTaskDetailsPage(User enteredUser, Model.Task enteredTask, string source)
         {
             InitializeComponent();
-            DataContext = new ShowTaskDetailsPageViewModel(enteredUser, enteredTask);
+            DataContext = new ShowTaskDetailsPageViewModel(enteredUser, enteredTask, source);
         }
     }
 }
