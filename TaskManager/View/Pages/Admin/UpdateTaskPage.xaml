@@ -94,7 +94,7 @@
             Style="{StaticResource ButtonStackPanel}"
             HorizontalAlignment="Right" Width="120" Margin="10">
             <Button x:Name="buttonAccept"
-                Content="{StaticResource add}" 
+                Content="Изменить" 
                 Style="{StaticResource BaseButton}"
                 Command="{Binding AcceptCommand}" CommandParameter="{Binding ElementName=buttonAccept}"/>
         </Border>

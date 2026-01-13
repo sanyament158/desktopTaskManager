@@ -157,7 +157,7 @@ namespace TaskManager.ViewModel.Pages.Admin
                                     bool res = await DataBaseService.PutTask(newTask);
                                     if (res) MessageBox.Show("Успешно!");
 
-                                    if (_enteredUser.Id == 1) MainFrame.mainFrame.Navigate(new MainPage(_enteredUser));
+                                    if (_enteredUser.Role.Id == 1) MainFrame.mainFrame.Navigate(new MainPage(_enteredUser));
                                     else MainFrame.mainFrame.Navigate(new UserPage(_enteredUser));
                                 }
                                 else MessageBox.Show("Введенные поля неверны!");
