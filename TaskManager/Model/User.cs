@@ -26,6 +26,12 @@ namespace TaskManager.Model
             get { return role; }
             set { role = value; }
         }
+        private List<Category> _scopes;
+        public List<Category> Scopes
+        {
+            set { _scopes = value; }
+            get { return _scopes; }
+        }
     }
 
     public class UserResponse

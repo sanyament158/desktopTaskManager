@@ -77,6 +77,25 @@ namespace TaskManager.Infrastucture.Network
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
         }
+        public static async Task<Category> GetCategory(int id)
+        {
+            string requestJson = JsonSerializer.Serialize(
+                new Dictionary<string, string>()
+                {
+                    ["id"] = id.ToString()
+                });
+
+            HttpResponseMessage httpResponseMessage = await client.PutAsync(_uri + "scope/getScopeById.php", new StringContent(requestJson, Encoding.UTF8, "application/json"));
+            JsonNode responseRootJson = JsonNode.Parse(await httpResponseMessage.Content.ReadAsStringAsync());
+            JsonObject responseCategoryJson = responseRootJson["scope"].AsObject();
+
+            return new Category
+            {
+                Id = responseCategoryJson["id"].GetValue<int>(),
+                Name = responseCategoryJson["name"].GetValue<string>()
+            };
+
+        }
         public static async Task<bool> PutScope(string name)
         {
             var data = new Dictionary<string, string>
@@ -125,24 +144,38 @@ namespace TaskManager.Infrastucture.Network
             try
             {
                 HttpResponseMessage httpResponseMessage = await client.GetAsync(_uri + "getTable/getUsers.php");
-
                 JsonNode responseRootJson = JsonNode.Parse(await httpResponseMessage.Content.ReadAsStringAsync());
-                JsonArray responseDataJson = responseRootJson["data"].AsArray();
+
+                // fetch data
+                JsonArray responseResponsibilityJson = responseRootJson["responsibility"].AsArray();
+                // responsibility list
+                JsonArray responseUsersJson = responseRootJson["user"].AsArray();
                 
                 List<User> responseUsers = new List<User>();
-                foreach (var item in responseDataJson)
+                foreach (var userJson in responseUsersJson)
                 {
+                    // get list of user responsibilities
+                    List<Category> scopes = new List<Category>();
+                    int[] index = responseResponsibilityJson
+                        .Where(x => x["idResponsibleUser"].GetValue<int>() == userJson["Id"].GetValue<int>())
+                        .Select(x => x["idScope"].GetValue<int>()).ToArray();
+                    foreach (int i in index)
+                    {
+                        scopes.Add(await GetCategory(i));
+                    }
+
                     responseUsers.Add(
                         new User
                         {
-                            Id = item["Id"].GetValue<int>(),
-                            Username = item["Username"].GetValue<string>(),
-                            Lname = item["Lname"].GetValue<string>(),
+                            Id = userJson["Id"].GetValue<int>(),
+                            Username = userJson["Username"].GetValue<string>(),
+                            Lname = userJson["Lname"].GetValue<string>(),
                             Role = new Role
                             {
-                                Id = item["RoleId"].GetValue<int>(),
-                                Name = item["RoleName"].GetValue<string>()
-                            }
+                                Id = userJson["RoleId"].GetValue<int>(),
+                                Name = userJson["RoleName"].GetValue<string>()
+                            },
+                            Scopes = scopes
                         }
                         );
                 }

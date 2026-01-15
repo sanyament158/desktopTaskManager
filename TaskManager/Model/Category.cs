@@ -17,7 +17,7 @@ namespace TaskManager.Model
         public string Name 
         { 
             set { _name = value; }
-            get { return _name; } 
+            get { return _name; }
         }
     }
 }
