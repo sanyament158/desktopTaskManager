@@ -1,0 +1,116 @@
+﻿<Page x:Class="TaskManager.View.Pages.Users.FinishedTasksPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:TaskManager.View.Pages.Users"
+      xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="FinishedTasksPage" Background="White">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Values/Strings.xaml"/>
+                <ResourceDictionary Source="/Values/TextBlockStyles.xaml"/>
+                <ResourceDictionary Source="/Values/TextBoxStyles.xaml"/>
+                <ResourceDictionary Source="/Values/ButtonStyles.xaml"/>
+                <ResourceDictionary Source="/Values/BorderStyles.xaml"/>
+                <ResourceDictionary Source="/Values/ComboBoxStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid Margin="0 10 0 0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1.2*"/>
+            <RowDefinition Height="0.2*"/>
+        </Grid.RowDefinitions>
+        
+        <Grid x:Name="gridListView">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.2*"/>
+                <RowDefinition Height="0.5*"/>
+            </Grid.RowDefinitions>
+
+            
+            <Grid x:Name="headerListView">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1.4*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="1.2*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.6*"/>
+                    <RowDefinition Height="0.6*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                
+                <!--functions-->
+                <TextBox x:Name="search" Grid.Row="2" 
+                         Style="{StaticResource BaseTextBox}"
+                         Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"
+                         />
+                <DatePicker x:Name="dateSince" Grid.Row="2" Grid.Column="1" 
+                            BorderThickness="0" SelectedDate="{Binding Since}"/>
+                <DatePicker x:Name="dateDeadline" Grid.Row="2" Grid.Column="2" 
+                            BorderThickness="0" SelectedDate="{Binding Deadline}"/>
+                <ComboBox x:Name="selectScope" Grid.Row="2" Grid.Column="3" 
+                          Style="{StaticResource BaseComboBox}" Margin="6"
+                          SelectedItem="{Binding SelectedScope}"
+                          ItemsSource="{Binding Scopes}"
+                          DisplayMemberPath="Name" SelectedValuePath="Id"/>
+                <Border x:Name="cancelSelection" Grid.Column="3"
+                        Style="{StaticResource ButtonStackPanel}" Margin="4">
+                    <Button Content="{StaticResource cancelSelection}"
+                            Style="{StaticResource BaseButton}"
+                            Command="{Binding CancelSelection}"/>
+                </Border>
+                <!--hints-->
+                <TextBlock x:Name="textBlockSearch" Grid.Row="1"
+                           Text="Заголовок"
+                           Style="{StaticResource InfoTextBlock}"/>
+                <TextBlock x:Name="textBlockSince" Grid.Row="1" Grid.Column="1"
+                           Text="Начало"
+                           Style="{StaticResource InfoTextBlock}"/>
+                <TextBlock x:Name="textBlockDeadline" Grid.Row="1" Grid.Column="2"
+                           Text="Дедлайн"
+                           Style="{StaticResource InfoTextBlock}"/>
+                <TextBlock x:Name="textBlockScope" Grid.Row="1" Grid.Column="3"
+                           Text="Область"
+                           Style="{StaticResource InfoTextBlock}"/>
+            </Grid>
+            <ListView x:Name="listViewFinishedTasks" Grid.Row="1" Grid.ColumnSpan="2"
+                      BorderThickness="0" ItemsSource="{Binding Tasks}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseDoubleClick">
+                        <i:InvokeCommandAction Command="{Binding GoToShowDetailsCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Владелец" DisplayMemberBinding="{Binding Owner.Lname}"/>
+                        <GridViewColumn Header="Статус" DisplayMemberBinding="{Binding Status.Name}"/>
+                        <GridViewColumn Header="Заголовок" DisplayMemberBinding="{Binding Title}"/>
+                        <GridViewColumn Header="Начало" DisplayMemberBinding="{Binding Since}"/>
+                        <GridViewColumn Header="Дедлайн" DisplayMemberBinding="{Binding Deadline}"/>
+                        <GridViewColumn Header="Зона ответственности" DisplayMemberBinding="{Binding Scope.Name}"/>
+                        <GridViewColumn Header="Кто выполнил" DisplayMemberBinding="{Binding Scope.Name}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+        <Border x:Name="borderBack" 
+                Grid.Row="2"
+                Style="{StaticResource ButtonStackPanel}"
+                Margin="280 5 280 5"
+                >
+            <Button x:Name="buttonBack" 
+                    Style="{StaticResource BaseButton}"
+                    Content="{StaticResource back}"
+                    Command="{Binding GoBackCommand}"/>
+        </Border>
+    </Grid>
+</Page>

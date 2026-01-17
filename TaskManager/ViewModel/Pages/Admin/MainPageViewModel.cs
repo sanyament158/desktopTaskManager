@@ -266,6 +266,22 @@ namespace TaskManager.ViewModel.Pages.Admin
                     );
             }
         }
+        private AsyncRelayCommand _goToFinishedTasksCommand;
+        public AsyncRelayCommand GoToFinishedTasksCommand
+        {
+            get
+            {
+                return _goToFinishedTasksCommand ?? (
+                        _goToFinishedTasksCommand = new AsyncRelayCommand(
+                            async (obj) =>
+                            {
+                                List<Model.Task> tasks = await DataBaseService.GetTasks();
+                                MainFrame.mainFrame.Navigate(new FinishedTasksPage(_enteredUser, tasks, _categories.ToList())); 
+                            }
+                            )
+                    );
+            }
+        }
 
         private RelayCommand _exitCommand;
         public RelayCommand ExitCommand

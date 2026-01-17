@@ -28,7 +28,8 @@
 
         <Grid x:Name="gridFunctions" Grid.Column="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="0.7*"/>
+                <RowDefinition Height="0.6*"/>
+                <RowDefinition Height="1*"/>
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="1*"/>
@@ -38,25 +39,32 @@
                Style="{StaticResource InfoTextBlock}"/>
 
             <Border x:Name="borderMarkAsFinish" Grid.Row="1"
-                Style="{StaticResource ButtonStackPanel}" Margin="20">
+                Style="{StaticResource ButtonStackPanel}" Margin="15">
                 <Button x:Name="buttonMarkAsFinish"
                     Style="{StaticResource BigButton}"
                     Content="{StaticResource markAsFinished}"
                     Command="{Binding MarkAsFinishCommand}"/>
             </Border>
             <Border x:Name="borderAddNewTask" Grid.Row="2"
-                Style="{StaticResource ButtonStackPanel}" Margin="20">
+                Style="{StaticResource ButtonStackPanel}" Margin="15">
                 <Button x:Name="buttonAddNewTask"
                     Style="{StaticResource BigButton}"
                     Content="Создать задачу"
                     Command="{Binding GoToAddTaskCommand}"/>
             </Border>
-            <Border x:Name="borderBack" Grid.Row="3"
-                Style="{StaticResource ButtonStackPanel}" Margin="20">
+            <Border x:Name="borderBack" Grid.Row="4"
+                Style="{StaticResource ButtonStackPanel}" Margin="15">
                 <Button x:Name="buttonBack"
                     Style="{StaticResource BigButton}"
                     Content="Выйти"
                     Command="{Binding ExitCommand}"/>
+            </Border>
+            <Border x:Name="borderFinishedTasks" Grid.Row="3"
+                Style="{StaticResource ButtonStackPanel}" Margin="15">
+                <Button x:Name="buttonFinishedTasks"
+                    Style="{StaticResource BigButton}"
+                    Content="Выполненные задачи"
+                    Command="{Binding GoToFinishedTasksCommand}"/>
             </Border>
 
         </Grid>
