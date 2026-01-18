@@ -13,6 +13,7 @@ using TaskManager.Model;
 using TaskManager.View.Pages.Admin;
 using TaskManager.View.Pages.Users;
 
+
 namespace TaskManager.ViewModel.Pages
 {
     public class LoginPageVewModel : INotifyPropertyChanged
@@ -55,17 +56,18 @@ namespace TaskManager.ViewModel.Pages
                             try
                             {
                                 UserResponse userResponseObj = await DataBaseService.AuthorizeUser(userObj);
-                                MessageBox.Show(userResponseObj.username);
+                                List<User> users = await DataBaseService.GetUsers();
+                                User enteredUser = users.Where(u => u.Username == userResponseObj.username).First();
+                                
                                 if (userResponseObj.idRole == 1)
                                 {
                                     MainFrame.mainFrame.Navigate(
-                                        new MainPage(await DataBaseService.GetUserByUsername(userResponseObj.username))
+                                        new MainPage(enteredUser)
                                     );
                                 }
                                 else
                                 {
-                                    User user = await DataBaseService.GetUserByUsername(userResponseObj.username);
-                                    MainFrame.mainFrame.Navigate(new UserPage(user));
+                                    MainFrame.mainFrame.Navigate(new UserPage(enteredUser));
                                 }
                             }
                             catch (Exception ex) { MessageBox.Show(ex.Message.ToString(), "viewModel error"); }

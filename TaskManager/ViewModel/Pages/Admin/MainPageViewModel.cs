@@ -24,6 +24,7 @@ namespace TaskManager.ViewModel.Pages.Admin
             _enteredUser = enteredUser;
             RefreshCategoriesCommand.Execute(this);
             RefreshTasksCommand.Execute(this);
+
         }
         // fields & properties
         private Model.User _enteredUser;
@@ -31,7 +32,7 @@ namespace TaskManager.ViewModel.Pages.Admin
         {
             get 
             { 
-                switch (StatusSwitcher) 
+                switch (StatusSwitcher)
                 {
                     case 1: return "В процессе";
                     case 2: return "Выполнено";
@@ -39,12 +40,11 @@ namespace TaskManager.ViewModel.Pages.Admin
                     default: return "error";
                 } 
             }
-            
         }
         private int _statusSwitcher = 0;                
         private int StatusSwitcher // return taskStatus.Id as in database
         {
-            get { 
+            get {
                 switch (_statusSwitcher % 3) 
                 {
                     case 0: return 1;
@@ -262,7 +262,7 @@ namespace TaskManager.ViewModel.Pages.Admin
                                 if (SelectedTask.Owner.Id == _enteredUser.Id)
                                 {
                                     bool res = await DataBaseService.UpdateFieldFromTableById("task", "idStatus", "2", SelectedTask.Id);
-                                    if (res && SelectedTask.Status.Id == 1) MessageBox.Show("Задача выполнена и автоматически проверена");
+                                    if ((res && SelectedTask.Status.Id == 1)) MessageBox.Show("Задача выполнена и автоматически проверена");
                                     else if (res && SelectedTask.Status.Id == 3) MessageBox.Show("Задача проверена");
                                     
                                     if (SelectedTask.Status.Id == 1) await DataBaseService.PutFinishedTask(SelectedTask, _enteredUser.Id);
@@ -270,7 +270,9 @@ namespace TaskManager.ViewModel.Pages.Admin
                                 }
                                 else
                                 {
-                                    bool res = await DataBaseService.UpdateFieldFromTableById("task", "idStatus", "3", SelectedTask.Id);
+                                    string status;
+                                    if (SelectedTask.Owner.Role.Id == 1) status = "2"; else status = "3";
+                                    bool res = await DataBaseService.UpdateFieldFromTableById("task", "idStatus", status, SelectedTask.Id);
                                     await DataBaseService.PutFinishedTask(SelectedTask, _enteredUser.Id);
                                     if (res) MessageBox.Show("Успешно!");
                                     RefreshTasksCommand.Execute(this);
