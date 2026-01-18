@@ -27,6 +27,33 @@ namespace TaskManager.ViewModel.Pages.Admin
         }
         // fields & properties
         private Model.User _enteredUser;
+        public string DisplayedStatus
+        {
+            get 
+            { 
+                switch (StatusSwitcher) 
+                {
+                    case 1: return "В процессе";
+                    case 2: return "Выполнено";
+                    case 3: return "На проверке";
+                    default: return "error";
+                } 
+            }
+            
+        }
+        private int _statusSwitcher = 0;                
+        private int StatusSwitcher // return taskStatus.Id as in database
+        {
+            get { 
+                switch (_statusSwitcher % 3) 
+                {
+                    case 0: return 1;
+                    case 1: return 2;
+                    case 2: return 3;
+                    default: return 0;
+                } 
+            }
+        }
         private ObservableCollection<Model.Task> _tasks;
         public ObservableCollection<Model.Task> Tasks
         {
@@ -75,6 +102,21 @@ namespace TaskManager.ViewModel.Pages.Admin
         }
 
         // commands
+        private AsyncRelayCommand _switchStatusCommand;
+        public AsyncRelayCommand SwitchStatusCommand
+        {
+            get {
+                return _switchStatusCommand ?? (
+                    _switchStatusCommand = new AsyncRelayCommand(
+                        async () =>
+                        {
+                            _statusSwitcher++;
+                            OnPropertyChanged("DisplayedStatus");
+                            SortCategoryList();
+                        }
+                        )
+                    ); }
+        }
         private AsyncRelayCommand _refreshCategoriesCommand;
         public IAsyncRelayCommand RefreshCategoriesCommand
         {
@@ -99,7 +141,7 @@ namespace TaskManager.ViewModel.Pages.Admin
                         async () =>
                         {
                             List<Model.Task> allTasks = await DataBaseService.GetTasks();
-                            Tasks = new ObservableCollection<Model.Task>(allTasks.Where(obj => obj.Status.Id != 2));
+                            Tasks = new ObservableCollection<Model.Task>(allTasks.Where(obj => obj.Status.Id == StatusSwitcher));
                         }
                         )
                     );
@@ -312,11 +354,10 @@ namespace TaskManager.ViewModel.Pages.Admin
         private async void SortCategoryList()
         {
 
+            ObservableCollection<Model.Task> allTasks = new ObservableCollection<Model.Task>(await DataBaseService.GetTasks());
             if (_selectedCategory != null)
-            {
-                ObservableCollection<Model.Task> allTasks = new ObservableCollection<Model.Task>(await DataBaseService.GetTasks());
-                Tasks = new ObservableCollection<Model.Task>(allTasks.Where(obj => obj.Scope.Id == _selectedCategory.Id && obj.Status.Id != 2));
-            }
+            Tasks = new ObservableCollection<Model.Task>(allTasks.Where(obj => obj.Scope.Id == _selectedCategory.Id && obj.Status.Id == StatusSwitcher));
+            else Tasks = new ObservableCollection<Model.Task>(allTasks.Where(obj => obj.Status.Id == StatusSwitcher));
         }
 
     }

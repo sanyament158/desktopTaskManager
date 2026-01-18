@@ -24,7 +24,7 @@
     </Page.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="0.55*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
@@ -94,8 +94,13 @@
                     <RowDefinition Height="0.8*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <TextBlock x:Name="textBlockAllTasks" Grid.Row="0" 
-                           Text="Задачи на сегодня:" Style="{StaticResource InfoTextBlock}"/>
+                <Border x:Name="switchStatus" 
+                        Style="{StaticResource ButtonStackPanel}"
+                        Margin="150 2 150 2">
+                    <Button Content="{Binding DisplayedStatus}" 
+                            Command="{Binding SwitchStatusCommand}"
+                            Style="{StaticResource BaseButton}"/>
+                </Border>
                 <Border x:Name="borderCategories" Grid.Row="1"
                         Style="{StaticResource ComboBoxHeaderStackPanel}">
                     <ComboBox x:Name="comboBoxCategories" 
