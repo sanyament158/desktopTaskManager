@@ -15,4 +15,12 @@
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderThickness" Value="0"/>
     </Style>
+
+    <Style x:Key="BaseListView" TargetType="{x:Type ListView}">
+        <Setter Property="Background" Value="{StaticResource grey}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource brown}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="FontFamily" Value="Candara"/>
+        <Setter Property="FontSize" Value="16"/>
+    </Style>
 </ResourceDictionary>

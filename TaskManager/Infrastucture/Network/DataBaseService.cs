@@ -109,6 +109,18 @@ namespace TaskManager.Infrastucture.Network
 
             return responseRootJson["success"].GetValue<bool>();
         }
+        public static async Task<bool> PutResponsibility(int idScope, int idResponsibleUser)
+        {
+            var data = new Dictionary<string, string>()
+            {
+                ["idScope"] = idScope.ToString(),
+                ["idResponsibleUser"] = idResponsibleUser.ToString()
+            };
+            string requestJson = JsonSerializer.Serialize(data);
+            HttpResponseMessage httpResponseMessage = await client.PutAsync(_uri + "responsibility/putResponsibility.php", new StringContent(requestJson, Encoding.UTF8, "application/json"));
+            JsonNode responseJsonRoot = JsonNode.Parse(await httpResponseMessage.Content.ReadAsStringAsync());
+            return responseJsonRoot["success"].GetValue<bool>();
+        }
         // generics
         public static async Task<bool> DeleteFromTableById(string tableName, int id)
         {

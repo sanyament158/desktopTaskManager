@@ -25,10 +25,15 @@ namespace TaskManager.ViewModel.Pages.Admin
             _inputedIdRole = selectedUser.Role.Id;
             _inputedPassword = pass;
         }
-        //Fields & Properties
+        // Fields & Properties
         private User _enteredUser;
         private User _selectedUser;
+        public User SelectedUser
+        {
+            get {  return _selectedUser; }
+        }
 
+            // user's fields
         private string _inputedLogin;
         public string InputedLogin
         {
@@ -70,6 +75,26 @@ namespace TaskManager.ViewModel.Pages.Admin
             }
         }
 
+        // Commands
+        private RelayCommand _editScopesCommand; // edit a user RESPONSIBILITY scopes
+        public RelayCommand EditScopesCommand
+        {
+            get { return _editScopesCommand ?? (
+                    _editScopesCommand = new RelayCommand(
+                        async (obj) =>
+                        {
+                            List<Category> allScopes = await DataBaseService.GetCategories();
+                            List<Category> availScopes = allScopes
+                            .Where(s => !SelectedUser.Scopes
+                            .Any(sc => sc.Id == s.Id))
+                            .ToList();
+
+
+                            MainFrame.mainFrame.Navigate(new EditUserResponsibilityPage(_enteredUser, _selectedUser, availScopes));
+                        }
+                        )
+                    ); }
+        }
         private AsyncRelayCommand<Button> _acceptCommand;
         public AsyncRelayCommand<Button> AcceptCommand
         {
