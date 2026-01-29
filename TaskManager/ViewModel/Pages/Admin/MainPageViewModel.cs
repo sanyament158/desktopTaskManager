@@ -28,6 +28,14 @@ namespace TaskManager.ViewModel.Pages.Admin
         }
         // fields & properties
         private Model.User _enteredUser;
+        private List<Model.Task> _userTasks; // only for employees
+        public List<Model.Task> UserTasks
+        {
+            set { _userTasks =  value;
+                OnPropertyChanged();
+            }
+            get { return _userTasks; }
+        }
         public string DisplayedStatus
         {
             get 
@@ -42,7 +50,7 @@ namespace TaskManager.ViewModel.Pages.Admin
             }
         }
         private int _statusSwitcher = 0;                
-        private int StatusSwitcher // return taskStatus.Id as in database
+        private int StatusSwitcher // returns taskStatus.Id as in database
         {
             get {
                 switch (_statusSwitcher % 3) 

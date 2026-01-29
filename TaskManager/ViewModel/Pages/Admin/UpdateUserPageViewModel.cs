@@ -76,11 +76,11 @@ namespace TaskManager.ViewModel.Pages.Admin
         }
 
         // Commands
-        private RelayCommand _editScopesCommand; // edit a user RESPONSIBILITY scopes
-        public RelayCommand EditScopesCommand
+        private RelayCommand _goToEditScopesCommand; // edit a user RESPONSIBILITY scopes
+        public RelayCommand GoToEditScopesCommand
         {
-            get { return _editScopesCommand ?? (
-                    _editScopesCommand = new RelayCommand(
+            get { return _goToEditScopesCommand ?? (
+                    _goToEditScopesCommand = new RelayCommand(
                         async (obj) =>
                         {
                             List<Category> allScopes = await DataBaseService.GetCategories();
@@ -89,8 +89,7 @@ namespace TaskManager.ViewModel.Pages.Admin
                             .Any(sc => sc.Id == s.Id))
                             .ToList();
 
-
-                            MainFrame.mainFrame.Navigate(new EditUserResponsibilityPage(_enteredUser, _selectedUser, availScopes));
+                            MainFrame.mainFrame.Navigate(new EditUserResponsibilityPage(_enteredUser, _selectedUser, availScopes, InputedPassword));
                         }
                         )
                     ); }

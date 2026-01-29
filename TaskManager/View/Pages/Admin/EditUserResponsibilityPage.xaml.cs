@@ -20,10 +20,10 @@ namespace TaskManager.View.Pages.Admin
     /// </summary>
     public partial class EditUserResponsibilityPage : Page
     {
-        public EditUserResponsibilityPage(User enteredUser, User selectedUser, List<Category> availScopes)
+        public EditUserResponsibilityPage(User enteredUser, User selectedUser, List<Category> availScopes, string pass)
         {
             InitializeComponent();
-            DataContext = new EditUserResponsibilityPageViewModel(enteredUser, selectedUser, availScopes);
+            DataContext = new EditUserResponsibilityPageViewModel(enteredUser, selectedUser, availScopes, pass);
         }
     }
 }

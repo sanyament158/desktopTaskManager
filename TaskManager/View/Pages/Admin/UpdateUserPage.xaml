@@ -101,7 +101,7 @@
                             Style="{StaticResource ButtonStackPanel}" Margin="100 6 100 6">
                         <Button Content="Изменить" 
                                 Style="{StaticResource BaseButton}"
-                                Command="{Binding EditScopesCommand}"/> 
+                                Command="{Binding GoToEditScopesCommand}"/> 
                     </Border>
                 </Grid>
             </Border>

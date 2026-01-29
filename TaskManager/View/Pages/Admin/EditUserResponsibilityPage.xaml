@@ -44,9 +44,9 @@
                 <Run Text="{Binding SelectedUser.Lname}"/>
                 <Run Text=" ответственнен за"/>
             </TextBlock>
-            <ListView Grid.Row="1" Grid.Column="0"
+            <ListView x:Name="userResponsibilites" Grid.Row="1" Grid.Column="0"
                       Style="{StaticResource BaseListView}" Margin="10"
-                      ItemsSource="{Binding SelectedUser.Scopes}" 
+                      ItemsSource="{Binding UserScopes}" 
                       SelectedItem="{Binding UserSelectedScope}"
                       DisplayMemberPath="Name">
             </ListView>
