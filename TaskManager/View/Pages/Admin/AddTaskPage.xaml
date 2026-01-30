@@ -68,10 +68,10 @@
                 Text="{Binding Since, UpdateSourceTrigger=PropertyChanged}"/>
             </Border>
             <Border x:Name="borderDeadline" Grid.Column="1" Grid.Row="4"
-            Style="{StaticResource BaseStackPanel}"  Background="{StaticResource grey}" Margin="10">
+                Style="{StaticResource BaseStackPanel}"  Background="{StaticResource grey}" Margin="10">
                 <TextBox x:Name="textBoxDeadline" 
-                Style="{StaticResource BaseTextBox}" Margin="20 0 0 0"
-                Text="{Binding Deadline, UpdateSourceTrigger=PropertyChanged}"/>
+                    Style="{StaticResource BaseTextBox}" Margin="20 0 0 0"
+                    Text="{Binding Deadline, UpdateSourceTrigger=PropertyChanged}"/>
             </Border>
             <TextBlock x:Name="textBlockOwner" Text="Владелец:" Grid.Row="0" Grid.Column="0"
             Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="20"

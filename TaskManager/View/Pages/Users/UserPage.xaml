@@ -106,8 +106,8 @@
                             <GridViewColumn Header="Владелец" DisplayMemberBinding="{Binding Owner.Lname}"/>
                             <GridViewColumn Header="Статус" DisplayMemberBinding="{Binding Status.Name}"/>
                             <GridViewColumn Header="Заголовок" DisplayMemberBinding="{Binding Title}"/>
-                            <GridViewColumn Header="Начало" DisplayMemberBinding="{Binding Since}"/>
-                            <GridViewColumn Header="Дедлайн" DisplayMemberBinding="{Binding Deadline}"/>
+                            <GridViewColumn Header="Начало" DisplayMemberBinding="{Binding Since, StringFormat=\{0:d\}}"/>
+                            <GridViewColumn Header="Дедлайн" DisplayMemberBinding="{Binding Deadline, StringFormat=\{0:d\}}"/>
                             <GridViewColumn Header="Зона ответственности" DisplayMemberBinding="{Binding Scope.Name}"/>
                         </GridView>
                     </ListView.View>

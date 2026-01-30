@@ -14,6 +14,7 @@ using TaskManager.Model;
 using TaskManager.View.Pages.Admin;
 using TaskManager.View.Pages.Users;
 using TaskManager.View.Pages;
+using System.Diagnostics;
 
 namespace TaskManager.ViewModel.Pages.Admin
 {
@@ -111,8 +112,25 @@ namespace TaskManager.ViewModel.Pages.Admin
             {
                 return _refreshScopesCommand ?? (
                     _refreshScopesCommand = new AsyncRelayCommand(
-                        async () => {
-                            Scopes = new ObservableCollection<Category>(await DataBaseService.GetCategories());
+                        async () =>
+                        {
+                            var allScopes = await DataBaseService.GetCategories();
+
+                            if (_enteredUser.Role.Id == 1)
+                            {
+                                Scopes = new ObservableCollection<Category>(allScopes);
+                                return;
+                            }
+                            
+                            var filteredScopes = new List<Category>();
+                            foreach (var responsibility in _enteredUser.Scopes)
+                            {
+                                foreach (var scope in allScopes)
+                                {
+                                    if (scope.Id == responsibility.Id) filteredScopes.Add(scope);
+                                }
+                            }
+                            Scopes = new ObservableCollection<Category>(filteredScopes);
                         }
                         )
                     );

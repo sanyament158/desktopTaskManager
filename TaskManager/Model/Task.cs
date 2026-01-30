@@ -45,14 +45,14 @@ namespace TaskManager.Model
         private DateTime _since;
         public DateTime Since
         {
-            get { return _since; }
-            set { _since = value; }
+            get { return _since.Date; }
+            set { _since = value.Date; }
         }
         private DateTime _deadline;
         public DateTime Deadline
         {
-            get { return _deadline; }
-            set { _deadline = value; }
+            get { return _deadline.Date; }
+            set { _deadline = value.Date; }
         }
     }
     public class Status

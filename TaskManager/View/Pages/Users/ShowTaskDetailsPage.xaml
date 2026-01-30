@@ -53,10 +53,10 @@
                        Text="{Binding EnteredTask.Scope.Name}"
                        Style="{StaticResource FieldTextBlock}"/>
             <TextBlock x:Name="textBlockBeginField" Grid.Column="1" Grid.Row="2"
-                       Text="{Binding EnteredTask.Since}"
+                       Text="{Binding EnteredTask.Since, StringFormat=\{0:d\}}"
                        Style="{StaticResource FieldTextBlock}"/>
             <TextBlock x:Name="textBlockDeadlineField" Grid.Column="1" Grid.Row="3"
-                       Text="{Binding EnteredTask.Deadline}"
+                       Text="{Binding EnteredTask.Deadline, StringFormat=\{0:d\}}"
                        Style="{StaticResource FieldTextBlock}"/>
             
             <TextBlock x:Name="textBlockOwner" Text="Владелец:" Grid.Row="0" Grid.Column="0"

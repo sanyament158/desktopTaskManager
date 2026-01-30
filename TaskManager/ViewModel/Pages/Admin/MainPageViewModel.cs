@@ -28,14 +28,6 @@ namespace TaskManager.ViewModel.Pages.Admin
         }
         // fields & properties
         private Model.User _enteredUser;
-        private List<Model.Task> _userTasks; // only for employees
-        public List<Model.Task> UserTasks
-        {
-            set { _userTasks =  value;
-                OnPropertyChanged();
-            }
-            get { return _userTasks; }
-        }
         public string DisplayedStatus
         {
             get 
@@ -133,7 +125,22 @@ namespace TaskManager.ViewModel.Pages.Admin
                     (_refreshCategoriesCommand = new AsyncRelayCommand(
                         async () =>
                         {
+                            if (_enteredUser.Role.Id == 1)
                             Categories = new ObservableCollection<Category>(await DataBaseService.GetCategories());
+
+                            else
+                            {
+                                var allScopes = await DataBaseService.GetCategories();
+                                var filteredScopes = new List<Category>();
+                                foreach (var scope in allScopes)
+                                {
+                                    foreach(var responsibility in _enteredUser.Scopes)
+                                    {
+                                        if (scope.Id == responsibility.Id) filteredScopes.Add(scope);
+                                    }
+                                }
+                                Categories = new ObservableCollection<Category>(filteredScopes);
+                            }
                         }
                         )
                     );
@@ -149,7 +156,20 @@ namespace TaskManager.ViewModel.Pages.Admin
                         async () =>
                         {
                             List<Model.Task> allTasks = await DataBaseService.GetTasks();
+                            if (_enteredUser.Role.Id == 1)
                             Tasks = new ObservableCollection<Model.Task>(allTasks.Where(obj => obj.Status.Id == StatusSwitcher));
+                            else
+                            {
+                                List<Model.Task> filteredTasks = new List<Model.Task>();
+                                foreach (Category scope in _enteredUser.Scopes)
+                                {
+                                    foreach (Model.Task task in allTasks)
+                                    {
+                                        if (task.Scope.Id == scope.Id) filteredTasks.Add(task);
+                                    }
+                                }
+                                Tasks = new ObservableCollection<Model.Task>(filteredTasks.Where(t => t.Status.Id != 2));
+                            }
                         }
                         )
                     );
@@ -366,9 +386,23 @@ namespace TaskManager.ViewModel.Pages.Admin
 
             ObservableCollection<Model.Task> allTasks = new ObservableCollection<Model.Task>(await DataBaseService.GetTasks());
             if (_selectedCategory != null)
-            Tasks = new ObservableCollection<Model.Task>(allTasks.Where(obj => obj.Scope.Id == _selectedCategory.Id && obj.Status.Id == StatusSwitcher));
-            else Tasks = new ObservableCollection<Model.Task>(allTasks.Where(obj => obj.Status.Id == StatusSwitcher));
+            {
+                if (_enteredUser.Role.Id == 1)
+                    Tasks = new ObservableCollection<Model.Task>(allTasks
+                        .Where(obj => obj.Scope.Id == _selectedCategory.Id && obj.Status.Id == StatusSwitcher));
+                else
+                {
+                    List<Model.Task> filteredTasks = new List<Model.Task>();
+                    foreach (Category scope in _enteredUser.Scopes)
+                    {
+                        foreach (Model.Task task in allTasks)
+                        {
+                            if (task.Scope.Id == scope.Id) filteredTasks.Add(task);
+                        }
+                    }
+                    Tasks = new ObservableCollection<Model.Task>(filteredTasks.Where(obj => obj.Scope.Id == _selectedCategory.Id && obj.Status.Id != 2));
+                }
+            }
         }
-
     }
 }

@@ -27,7 +27,7 @@ namespace TaskManager.Model
             set { role = value; }
         }
         private List<Category> _scopes;
-        public List<Category> Scopes
+        public List<Category> Scopes // responsibilityes
         {
             set { _scopes = value; }
             get { return _scopes; }

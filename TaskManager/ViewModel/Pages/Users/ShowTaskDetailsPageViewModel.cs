@@ -48,10 +48,6 @@ namespace TaskManager.ViewModel.Pages.Users
                 tasks, which he was finished or finished && checked.
                  */
                 
-                    //case "finishedUser":
-                //    {
-                //        break;
-                //    }
             }
 
             _source = source;

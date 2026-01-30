@@ -67,10 +67,15 @@ namespace TaskManager.ViewModel.Pages
                                 }
                                 else
                                 {
+                                    if (enteredUser.Scopes.Count == 0)
+                                    {
+                                        MessageBox.Show("У вас нет ни одной зоны ответственности!");
+                                        return;
+                                    }
                                     MainFrame.mainFrame.Navigate(new UserPage(enteredUser));
                                 }
                             }
-                            catch (Exception ex) { MessageBox.Show(ex.Message.ToString(), "viewModel error"); }
+                            catch (Exception ex) { MessageBox.Show(ex.Message.ToString(), "Ошибка"); }
                         },
                         obj => !(String.IsNullOrEmpty(_login) || String.IsNullOrEmpty(_password))
                         )
