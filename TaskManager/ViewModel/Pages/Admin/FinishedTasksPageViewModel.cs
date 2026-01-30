@@ -24,7 +24,7 @@ namespace TaskManager.ViewModel.Pages.Admin
             _deadline = DateTime.Now + TimeSpan.FromDays(1);
         }
         // Fields & Properties 
-        private User _enteredUser;
+        private readonly User _enteredUser;
 
         private Category _selectedScope;
         public Category SelectedScope
@@ -117,7 +117,6 @@ namespace TaskManager.ViewModel.Pages.Admin
                     _goBackCommand = new RelayCommand(
                         (obj) =>
                         {
-                            MessageBox.Show($"{Since.Date}\t{Deadline.Date}");
                             MainFrame.mainFrame.GoBack();
                         }
                         )
