@@ -16,7 +16,7 @@ namespace TaskManager.Infrastucture.Network
     public static class DataBaseService
     {
         //fields
-        private static readonly string _host = "5.129.192.166";
+        private static readonly string _host = "5.129.192.69";
         private static readonly Uri _uri = new Uri($"http://{_host}/rmpPhpApi/api/");
         private static HttpClient client = new HttpClient();
         //methods

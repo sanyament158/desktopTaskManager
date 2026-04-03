@@ -384,15 +384,15 @@ namespace TaskManager.ViewModel.Pages.Admin
         private async void SortCategoryList()
         {
 
+            List<Model.Task> filteredTasks = new List<Model.Task>();
             ObservableCollection<Model.Task> allTasks = new ObservableCollection<Model.Task>(await DataBaseService.GetTasks());
-            if (_selectedCategory != null)
+            if (_selectedCategory != null && _selectedCategory.Id != 0)
             {
                 if (_enteredUser.Role.Id == 1)
                     Tasks = new ObservableCollection<Model.Task>(allTasks
                         .Where(obj => obj.Scope.Id == _selectedCategory.Id && obj.Status.Id == StatusSwitcher));
                 else
                 {
-                    List<Model.Task> filteredTasks = new List<Model.Task>();
                     foreach (Category scope in _enteredUser.Scopes)
                     {
                         foreach (Model.Task task in allTasks)
@@ -401,6 +401,23 @@ namespace TaskManager.ViewModel.Pages.Admin
                         }
                     }
                     Tasks = new ObservableCollection<Model.Task>(filteredTasks.Where(obj => obj.Scope.Id == _selectedCategory.Id && obj.Status.Id != 2));
+                }
+            }
+            else
+            {
+                if (_enteredUser.Role.Id == 1)
+                    Tasks = new ObservableCollection<Model.Task>(allTasks
+                        .Where(obj => obj.Status.Id == StatusSwitcher));
+                else
+                {
+                    foreach (Category scope in _enteredUser.Scopes)
+                    {
+                        foreach (Model.Task task in allTasks)
+                        {
+                            if (task.Scope.Id == scope.Id) filteredTasks.Add(task);
+                        }
+                    }
+                    Tasks = new ObservableCollection<Model.Task>(filteredTasks.Where(obj => obj.Status.Id != 2));
                 }
             }
         }
