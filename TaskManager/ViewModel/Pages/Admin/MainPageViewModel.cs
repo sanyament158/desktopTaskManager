@@ -28,32 +28,8 @@ namespace TaskManager.ViewModel.Pages.Admin
         }
         // fields & properties
         private Model.User _enteredUser;
-        public string DisplayedStatus
-        {
-            get 
-            { 
-                switch (StatusSwitcher)
-                {
-                    case 1: return "В процессе";
-                    case 2: return "Выполнено";
-                    case 3: return "На проверке";
-                    default: return "error";
-                } 
-            }
-        }
-        private int _statusSwitcher = 0;                
-        private int StatusSwitcher // returns taskStatus.Id as in database
-        {
-            get {
-                switch (_statusSwitcher % 3) 
-                {
-                    case 0: return 1;
-                    case 1: return 2;
-                    case 2: return 3;
-                    default: return 0;
-                } 
-            }
-        }
+        
+        
         private ObservableCollection<Model.Task> _tasks;
         public ObservableCollection<Model.Task> Tasks
         {
@@ -62,6 +38,14 @@ namespace TaskManager.ViewModel.Pages.Admin
             {
                 _tasks = value;
                 OnPropertyChanged();
+            }
+        }
+        public StatusSwitcher SelectedStatus = new StatusSwitcher();
+        public string DisplayedStatus
+        {
+            get
+            {
+                return SelectedStatus.GetStatusName();
             }
         }
         private Model.Task _selectedTask;
@@ -110,7 +94,7 @@ namespace TaskManager.ViewModel.Pages.Admin
                     _switchStatusCommand = new AsyncRelayCommand(
                         async () =>
                         {
-                            _statusSwitcher++;
+                            SelectedStatus.SwitchStatus();
                             OnPropertyChanged("DisplayedStatus");
                             SortCategoryList();
                         }
@@ -157,7 +141,7 @@ namespace TaskManager.ViewModel.Pages.Admin
                         {
                             List<Model.Task> allTasks = await DataBaseService.GetTasks();
                             if (_enteredUser.Role.Id == 1)
-                            Tasks = new ObservableCollection<Model.Task>(allTasks.Where(obj => obj.Status.Id == StatusSwitcher));
+                            Tasks = new ObservableCollection<Model.Task>(allTasks.Where(obj => obj.Status.Id == SelectedStatus.GetStatusId()));
                             else
                             {
                                 List<Model.Task> filteredTasks = new List<Model.Task>();
@@ -390,7 +374,7 @@ namespace TaskManager.ViewModel.Pages.Admin
             {
                 if (_enteredUser.Role.Id == 1)
                     Tasks = new ObservableCollection<Model.Task>(allTasks
-                        .Where(obj => obj.Scope.Id == _selectedCategory.Id && obj.Status.Id == StatusSwitcher));
+                        .Where(obj => obj.Scope.Id == _selectedCategory.Id && obj.Status.Id == SelectedStatus.GetStatusId()));
                 else
                 {
                     foreach (Category scope in _enteredUser.Scopes)
@@ -407,7 +391,7 @@ namespace TaskManager.ViewModel.Pages.Admin
             {
                 if (_enteredUser.Role.Id == 1)
                     Tasks = new ObservableCollection<Model.Task>(allTasks
-                        .Where(obj => obj.Status.Id == StatusSwitcher));
+                        .Where(obj => obj.Status.Id == SelectedStatus.GetStatusId()));
                 else
                 {
                     foreach (Category scope in _enteredUser.Scopes)
@@ -417,9 +401,49 @@ namespace TaskManager.ViewModel.Pages.Admin
                             if (task.Scope.Id == scope.Id) filteredTasks.Add(task);
                         }
                     }
-                    Tasks = new ObservableCollection<Model.Task>(filteredTasks.Where(obj => obj.Status.Id != 2));
+                    Tasks = new ObservableCollection<Model.Task>(filteredTasks.Where(obj => obj.Status.Id != statusInfo["Готово"]));
                 }
             }
+        }
+        
+        // key - name, value - id (in database)
+        private Dictionary<string, int> statusInfo = new Dictionary<string, int>()
+        {
+            {"В процессе", 1 },
+            {"Готово", 2 },
+            {"На проверке", 3 },
+            {"Ожидает", 4 }
+        };
+        public class StatusSwitcher
+        {
+            private int _statusId = 1;
+            private string _statusName = "В процессе";
+            public void SwitchStatus()
+            {
+                if (_statusId == 3)
+                {
+                    _statusId = 1;
+                    return;
+                }
+                _statusId++;
+            }
+            public string GetStatusName()
+            {
+                switch (_statusId)
+                {
+                    case 1:
+                        return "В процессе";
+                    case 2:
+                        return "Готово";
+                    case 3:
+                        return "На проверке";
+                    case 4:
+                        return "Ожидает";
+                    default:
+                        throw new Exception("statusSwitcher is out of range values!");
+                }
+            }
+            public int GetStatusId() => _statusId;
         }
     }
 }
