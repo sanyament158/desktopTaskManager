@@ -57,11 +57,8 @@ namespace TaskManager.Model
         private int? _idUserTaked = 0;
         public int? IdUserTaked
         {
-            get 
-            { 
-                if (_idUserTaked != 0) return _idUserTaked;
-                else throw new Exception("Задачу еще никто не взял!"); 
-            }
+            get
+            { return _idUserTaked; } 
             set { _idUserTaked = value; }
         }
     }

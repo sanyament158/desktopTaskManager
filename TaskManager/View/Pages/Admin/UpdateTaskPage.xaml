@@ -39,6 +39,7 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -46,47 +47,56 @@
             </Grid.ColumnDefinitions>
 
             <Border x:Name="borderOwner" Grid.Column="1" Grid.Row="0"
-                Style="{StaticResource BaseStackPanel}"  Background="{StaticResource grey}" Margin="10">
+                Style="{StaticResource BaseStackPanel}"  Background="{StaticResource grey}" Margin="4">
                 <TextBox x:Name="textBoxOwner" 
                     Style="{StaticResource BaseTextBox}" Margin="20 0 0 0"
                     Text="{Binding Owner, UpdateSourceTrigger=PropertyChanged}"/>
             </Border>
             <ComboBox x:Name="comboBoxScope" Grid.Column="1" Grid.Row="1"
-                Style="{StaticResource BaseComboBox}" Margin="10" ItemsSource="{Binding Scopes}"
+                Style="{StaticResource BaseComboBox}" Margin="4" ItemsSource="{Binding Scopes}"
                 DisplayMemberPath="Name" SelectedValuePath="Id" SelectedValue="{Binding SelectedScope.Id}" >
             </ComboBox>
             <Border x:Name="borderTitle" Grid.Column="1" Grid.Row="2"
-                Style="{StaticResource BaseStackPanel}"  Background="{StaticResource grey}" Margin="10">
+                Style="{StaticResource BaseStackPanel}"  Background="{StaticResource grey}" Margin="4">
                 <TextBox x:Name="textBoxTitle"
                     Style="{StaticResource BaseTextBox}" Margin="20 0 0 0"
                     Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"/>
             </Border>
             <Border x:Name="borderBegin" Grid.Column="1" Grid.Row="3"
-                Style="{StaticResource BaseStackPanel}"  Background="{StaticResource grey}" Margin="10">
+                Style="{StaticResource BaseStackPanel}"  Background="{StaticResource grey}" Margin="4">
                 <TextBox x:Name="textBoxBegin"  
                     Style="{StaticResource BaseTextBox}" Margin="20 0 0 0"
                     Text="{Binding Since, UpdateSourceTrigger=PropertyChanged}"/>
             </Border>
             <Border x:Name="borderDeadline" Grid.Column="1" Grid.Row="4"
-                Style="{StaticResource BaseStackPanel}"  Background="{StaticResource grey}" Margin="10">
+                Style="{StaticResource BaseStackPanel}"  Background="{StaticResource grey}" Margin="4">
                 <TextBox x:Name="textBoxDeadline" 
                     Style="{StaticResource BaseTextBox}" Margin="20 0 0 0"
                     Text="{Binding Deadline, UpdateSourceTrigger=PropertyChanged}"/>
             </Border>
+            <TextBlock x:Name="textBlockUserTakedValue" Text="{Binding UserTakedText}" Grid.Row="5" Grid.Column="1"
+                    Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Center"
+                   Visibility="{Binding IsTaked}"
+                />
+            
             <TextBlock x:Name="textBlockOwner" Text="Владелец:" Grid.Row="0" Grid.Column="0"
-                Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="20"
+                Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="5"
                 />
             <TextBlock x:Name="textBlockScope" Text="Область:" Grid.Row="1" Grid.Column="0"
-                Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="20"
+                Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="5"
                 />
             <TextBlock x:Name="textBlockTitle" Text="Заголовок:" Grid.Row="2" Grid.Column="0"
-                Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="20"
+                Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="5"
                 />
             <TextBlock x:Name="textBlockBegin" Text="Начало:" Grid.Row="3" Grid.Column="0"
-                Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="20"
+                Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="5"
                 />
             <TextBlock x:Name="textBlockDeadline" Text="Дедлайн:" Grid.Row="4" Grid.Column="0"
-                Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="20"
+                Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="5"
+                />
+            <TextBlock x:Name="textBlockUserTaked" Text="Задачу взял:" Grid.Row="5" Grid.Column="0"
+                Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="5"
+               Visibility="{Binding IsTaked}"
                 />
         </Grid>
 

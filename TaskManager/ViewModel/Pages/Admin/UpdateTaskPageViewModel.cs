@@ -22,16 +22,27 @@ namespace TaskManager.ViewModel.Pages.Admin
         {
 
             _enteredUser = enteredUser;
-            this.task = task;
+            this.Task = task;
             _since = task.Since;
             _deadline = task.Deadline;
             _title = task.Title;
             _owner = task.Owner.Lname;
             _scopes = new ObservableCollection<Category>(scopes);
             _selectedScope = task.Scope;
+            if (task.IdUserTaked != null && task.IdUserTaked != 0)
+            {
+                IsTaked = Visibility.Visible;
+                _ = InitializeAsync();
+            } else IsTaked = Visibility.Collapsed;
+
         }
         //Fields & Properties
-        private Model.Task task;
+        public Visibility IsTaked
+        {
+            get; set;
+        }
+        public string UserTakedText { get; set; }
+        private Model.Task Task { get; set; }
         private User _enteredUser;
 
         private ObservableCollection<Category> _scopes;
@@ -122,9 +133,9 @@ namespace TaskManager.ViewModel.Pages.Admin
                                     User newOwner = await DataBaseService.GetUserByLname(Owner);
                                     try
                                     {
-                                        res = await DataBaseService.UpdateTaskById(task.Id, new Model.Task
+                                        res = await DataBaseService.UpdateTaskById(Task.Id, new Model.Task
                                         {
-                                            Id = task.Id,
+                                            Id = Task.Id,
                                             Owner = newOwner,
                                             Title = this.Title,
                                             Scope = this.SelectedScope,
@@ -149,7 +160,23 @@ namespace TaskManager.ViewModel.Pages.Admin
                     );
             }
         }
+        private async System.Threading.Tasks.Task InitializeAsync()
+        {
+            if (Task.IdUserTaked != null && Task.IdUserTaked != 0)
+            {
+                IsTaked = Visibility.Visible;
 
+                var users = await DataBaseService.GetUsers();
+                var user = users.FirstOrDefault(u => u.Id == Task.IdUserTaked);
+                UserTakedText = user?.Lname ?? "Неизвестный пользователь";
+            }
+            else
+            {
+                IsTaked = Visibility.Collapsed;
+                UserTakedText = "Не назначен";
+            }
+            OnPropertyChanged("UserTakedText");
+        }
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
