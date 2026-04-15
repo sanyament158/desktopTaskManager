@@ -47,6 +47,7 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
                     <Border x:Name="borderAddScope" Grid.Row="0" Margin="5"
@@ -66,6 +67,12 @@
                         <Button x:Name="buttonUpdateScope" Content="Изменить" 
                                 Style="{StaticResource BigButton}"
                                 Command="{Binding GoToUpdateScopeCommand}"/>
+                    </Border>
+                    <Border x:Name="borderViewScope" Grid.Row="3" Margin="5"
+                            Style="{StaticResource ButtonStackPanel}">
+                        <Button x:Name="buttonViewScope" Content="Отношения" 
+                                Style="{StaticResource BigButton}"
+                                Command="{Binding GoToViewScopeCommand}"/>
                     </Border>
                 </Grid>
             </Grid>
