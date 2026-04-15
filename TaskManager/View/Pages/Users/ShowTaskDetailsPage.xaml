@@ -120,7 +120,7 @@
                     Content="{StaticResource checked}"
                     Style="{StaticResource BaseButton}"
                     Visibility="{Binding IsCheckedVisibility}"
-                    Command="{Binding IsCheckedCommand}"/>
+                    Command="{Binding CheckTaskCommand}"/>
         </Border>
         
         <!--if task have a 'В ожидании' status-->

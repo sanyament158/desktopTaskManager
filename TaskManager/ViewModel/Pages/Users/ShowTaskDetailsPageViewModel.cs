@@ -42,6 +42,9 @@ namespace TaskManager.ViewModel.Pages.Users
                             case 3:
                                 IsCheckedVisibility = Visibility.Visible;
                                 break;
+                            case 4:
+                            IsCheckedVisibility = Visibility.Visible;
+                                break;
                         }
                         break;
                     }
@@ -190,8 +193,6 @@ namespace TaskManager.ViewModel.Pages.Users
             { return _takeTaskCommand ?? (_takeTaskCommand = new AsyncRelayCommand(
                 async (obj) =>
                 {
-                    // update field 'idUserTaked' to enteredUser.id; status = taked;
-                    
                     // recording in db, who taked the task
                     await DataBaseService.UpdateFieldFromTableById(
                         "task",
@@ -233,7 +234,7 @@ namespace TaskManager.ViewModel.Pages.Users
                                     else return;
                                     MainFrame.mainFrame.Navigate(new UserPage(_enteredUser));
                                 }
-                            catch (Exception ex)
+                                catch (Exception ex)
                                 {
                                     MessageBox.Show(ex.Message);
                                 }

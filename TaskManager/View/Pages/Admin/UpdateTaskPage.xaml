@@ -42,8 +42,9 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.6*"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="0.3*"/>
             </Grid.ColumnDefinitions>
 
             <Border x:Name="borderOwner" Grid.Column="1" Grid.Row="0"
@@ -98,6 +99,16 @@
                 Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="5"
                Visibility="{Binding IsTaked}"
                 />
+            <Border x:Name="borderCheck" Grid.Row="5" Grid.Column="2"
+                    Style="{StaticResource ButtonStackPanel}" Visibility="{Binding IsOwner}">
+                <Button x:Name="buttonCheck"
+                        FontSize="14"
+                        Content="{StaticResource checked}"
+                        Style="{StaticResource BigButton}"
+                        Command="{Binding CheckCommand}"
+                        Visibility="{Binding IsOwner}"
+                        />
+            </Border>
         </Grid>
 
         <Border x:Name="borderAccept" Grid.Row="2" 
