@@ -8,8 +8,9 @@
     <sys:String x:Key="finished">Выполнено</sys:String>
     <sys:String x:Key="checked">Проверено</sys:String>
     <sys:String x:Key="waiting">Ожидает</sys:String>
-    
-    
+    <sys:String x:Key="takeTask">Взять задачу</sys:String>
+
+
     <sys:String x:Key="greeting">Привет!</sys:String>
     <sys:String x:Key="login">Логин</sys:String>
     <sys:String x:Key="password">Пароль</sys:String>

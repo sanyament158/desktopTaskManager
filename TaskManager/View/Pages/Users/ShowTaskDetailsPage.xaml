@@ -40,6 +40,7 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -49,7 +50,7 @@
             <TextBlock x:Name="textBlock_ownerField" Grid.Column="1" Grid.Row="0"
                        Text="{Binding EnteredTask.Owner.Lname}" 
                        Style="{StaticResource FieldTextBlock}"/>
-            <TextBlock x:Name="textBlockScopeField" Grid.Column="1" Grid.Row="1"
+            <TextBlock x:Name="textBlockScopeField" Grid.Column="2" Grid.Row="1"
                        Text="{Binding EnteredTask.Scope.Name}"
                        Style="{StaticResource FieldTextBlock}"/>
             <TextBlock x:Name="textBlockBeginField" Grid.Column="1" Grid.Row="2"
@@ -58,18 +59,24 @@
             <TextBlock x:Name="textBlockDeadlineField" Grid.Column="1" Grid.Row="3"
                        Text="{Binding EnteredTask.Deadline, StringFormat=\{0:d\}}"
                        Style="{StaticResource FieldTextBlock}"/>
+            <TextBlock x:Name="textBlockStatusField" Grid.Column="1" Grid.Row="4"
+                       Text="{Binding EnteredTask.Status.Name}"
+                       Style="{StaticResource FieldTextBlock}"/>
             
             <TextBlock x:Name="textBlockOwner" Text="Владелец:" Grid.Row="0" Grid.Column="0"
-        Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="20"
+                Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="20"
         />
             <TextBlock x:Name="textBlockScope" Text="Область:" Grid.Row="1" Grid.Column="0"
-        Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="20"
+                Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="20"
         />
             <TextBlock x:Name="textBlockBegin" Text="Начало:" Grid.Row="2" Grid.Column="0"
-        Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="20"
+                Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="20"
         />
             <TextBlock x:Name="textBlockDeadline" Text="Дедлайн:" Grid.Row="3" Grid.Column="0"
-        Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="20"
+                Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="20"
+        />
+        <TextBlock x:Name="textBlockStatus" Text="Статус:" Grid.Row="4" Grid.Column="0"
+                Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="20"
         />
         </Grid>
 
@@ -114,7 +121,7 @@
                 Margin="10" HorizontalAlignment="Right"
                 Visibility="{Binding IsWaitingVisibility}">
             <Button x:Name="buttonWaiting"
-                    Content="{StaticResource waiting}"
+                    Content="{StaticResource takeTask}"
                     Style="{StaticResource BaseButton}"
                     Visibility="{Binding IsWaitingVisibility}"
                     Command="{Binding TakeTaskCommand}"/>

@@ -170,7 +170,8 @@ namespace TaskManager.ViewModel.Pages.Users
         private AsyncRelayCommand _takeTaskCommand;
         public AsyncRelayCommand TakeTaskCommand
         {
-            get { return _takeTaskCommand ?? (_takeTaskCommand = new AsyncRelayCommand(
+            get 
+            { return _takeTaskCommand ?? (_takeTaskCommand = new AsyncRelayCommand(
                 async (obj) =>
                 {
                     // update field 'idUserTaked' to enteredUser.id; status = taked;
@@ -192,16 +193,16 @@ namespace TaskManager.ViewModel.Pages.Users
                     MessageBox.Show("Вы успешно взяли задачу!");
                     MainFrame.mainFrame.Navigate(new UserPage(_enteredUser));
                 }
-                )); }
-        //public static async Task<bool> UpdateFieldFromTableById(string tableName, string fieldName, string fieldNewValue, int id)
+                )); 
+            }
         }
-        private AsyncRelayCommand _isCheckedCommand;
-        public AsyncRelayCommand IsCheckedCommand
+        private AsyncRelayCommand _checkTaskCommand;
+        public AsyncRelayCommand CheckTaskCommand
         {
             get
             {
-                return _isCheckedCommand ?? (
-                        _isCheckedCommand = new AsyncRelayCommand
+                return _checkTaskCommand ?? (
+                        _checkTaskCommand = new AsyncRelayCommand
                         (
                             async (obj) =>
                             {
