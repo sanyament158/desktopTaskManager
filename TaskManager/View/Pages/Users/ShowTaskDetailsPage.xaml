@@ -41,6 +41,7 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -62,21 +63,29 @@
             <TextBlock x:Name="textBlockStatusField" Grid.Column="1" Grid.Row="4"
                        Text="{Binding EnteredTask.Status.Name}"
                        Style="{StaticResource FieldTextBlock}"/>
-            
+            <TextBlock x:Name="textBlockUserTakedField" Grid.Column="1" Grid.Row="5"
+                       Text="{Binding UserTakedText}"
+                       Style="{StaticResource FieldTextBlock}"
+                       Visibility="{Binding IsTaked}"
+                       />
             <TextBlock x:Name="textBlockOwner" Text="Владелец:" Grid.Row="0" Grid.Column="0"
-                Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="20"
+                Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="10"
         />
             <TextBlock x:Name="textBlockScope" Text="Область:" Grid.Row="1" Grid.Column="0"
-                Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="20"
+                Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="10"
         />
             <TextBlock x:Name="textBlockBegin" Text="Начало:" Grid.Row="2" Grid.Column="0"
-                Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="20"
+                Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="10"
         />
             <TextBlock x:Name="textBlockDeadline" Text="Дедлайн:" Grid.Row="3" Grid.Column="0"
-                Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="20"
+                Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="10"
         />
         <TextBlock x:Name="textBlockStatus" Text="Статус:" Grid.Row="4" Grid.Column="0"
-                Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="20"
+                Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="10"
+        />
+        <TextBlock x:Name="textBlockUserTaked" Text="Задачу взял:" Grid.Row="5" Grid.Column="0"
+                Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="10"
+                   Visibility="{Binding IsTaked}"
         />
         </Grid>
 

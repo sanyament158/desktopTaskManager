@@ -67,10 +67,22 @@ namespace TaskManager.ViewModel.Pages.Users
             _source = source;
             _enteredTask = enteredTask;
             _enteredUser = enteredUser;
+            if (EnteredTask.IdUserTaked != null && EnteredTask.IdUserTaked != 0)
+            {
+                IsTaked = Visibility.Visible;
+                _ = InitializeAsync();
+            } else IsTaked = Visibility.Collapsed;
+
         }
 
         //Fields & Properties
         private readonly string _source;
+        public Visibility IsTaked
+        {
+            get; set;
+        }
+        public string UserTakedText { get; set; }
+
         private User _enteredUser;
         public User EnteredUser
         {
@@ -229,6 +241,23 @@ namespace TaskManager.ViewModel.Pages.Users
                         )
                     );
             }
+        }
+        private async System.Threading.Tasks.Task InitializeAsync()
+        {
+            if (EnteredTask.IdUserTaked != null && EnteredTask.IdUserTaked != 0)
+            {
+                IsTaked = Visibility.Visible;
+
+                var users = await DataBaseService.GetUsers();
+                var user = users.FirstOrDefault(u => u.Id == EnteredTask.IdUserTaked);
+                UserTakedText = user?.Lname ?? "Неизвестный пользователь";
+            }
+            else
+            {
+                IsTaked = Visibility.Collapsed;
+                UserTakedText = "Не назначен";
+            }
+            OnPropertyChanged("UserTakedText");
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
