@@ -53,6 +53,7 @@ namespace TaskManager.ViewModel.Pages.Users
                         switch (enteredTask.Status.Id)
                         {
                             case 1:
+                                if (enteredTask.IdUserTaked == enteredUser.Id)
                                 MarkAsFinishVisibility = Visibility.Visible;
                                 break;
                             case 4:
