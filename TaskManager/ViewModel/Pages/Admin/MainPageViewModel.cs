@@ -298,6 +298,15 @@ namespace TaskManager.ViewModel.Pages.Admin
                         )
                     ); }
         }
+        private RelayCommand _goToTakedTasksCommand;
+        public RelayCommand GoToTakedTasksCommand
+        {
+            get { return _goToTakedTasksCommand ?? (_goToTakedTasksCommand = new RelayCommand((obj) =>
+            {
+                MainFrame.mainFrame.Navigate(new TakedTasksPage(_enteredUser));
+            } )); 
+            }
+        }
         private RelayCommand _goToShowDetailsCommand;
         public RelayCommand GoToShowDetailsCommand
         {
