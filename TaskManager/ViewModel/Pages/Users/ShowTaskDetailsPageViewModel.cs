@@ -58,6 +58,10 @@ namespace TaskManager.ViewModel.Pages.Users
                         }
                         break;
                     }
+                case "takedUser": // this case only when opened from TakedTasksPage
+                    {
+                        return;
+                    }
             } 
 
             _source = source;

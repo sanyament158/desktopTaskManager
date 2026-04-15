@@ -352,7 +352,16 @@ namespace TaskManager.Infrastucture.Network
                     };
                     task.Since = DateTime.ParseExact(item["Since"].GetValue<string>(), "yyyy-MM-dd", CultureInfo.InvariantCulture);
                     task.Deadline = DateTime.ParseExact(item["Deadline"].GetValue<string>(), "yyyy-MM-dd", CultureInfo.InvariantCulture);
-
+                    
+                    if (item["idUserTaked"] == null)
+                    {
+                        task.IdUserTaked = 0;
+                    }
+                    else
+                    {
+                        task.IdUserTaked = item["idUserTaked"].GetValue<int?>();
+                    }
+                    
                     responseTasks.Add(task);
                 }
                 return responseTasks ?? throw new Exception("response was null");

@@ -54,6 +54,16 @@ namespace TaskManager.Model
             get { return _deadline.Date; }
             set { _deadline = value.Date; }
         }
+        private int? _idUserTaked = 0;
+        public int? IdUserTaked
+        {
+            get 
+            { 
+                if (_idUserTaked != 0) return _idUserTaked;
+                else throw new Exception("Задачу еще никто не взял!"); 
+            }
+            set { _idUserTaked = value; }
+        }
     }
     public class Status
     {
