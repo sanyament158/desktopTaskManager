@@ -145,7 +145,7 @@ namespace TaskManager.ViewModel.Pages.Admin
                             else
                             {
                                 List<Model.Task> filteredTasks = new List<Model.Task>();
-                                foreach (Category scope in _enteredUser.Scopes)
+                                foreach (Category scope in _enteredUser.Scopes) 
                                 {
                                     foreach (Model.Task task in allTasks)
                                     {
@@ -420,7 +420,7 @@ namespace TaskManager.ViewModel.Pages.Admin
             private string _statusName = "В процессе";
             public void SwitchStatus()
             {
-                if (_statusId == 3)
+                if (_statusId == 4)
                 {
                     _statusId = 1;
                     return;

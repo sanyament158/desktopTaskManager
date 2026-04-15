@@ -18,6 +18,18 @@ namespace TaskManager.ViewModel.Pages.Users
         {
             MessageBox.Show(source);
 
+
+            /*
+            finishedUser entity very importance. with her, user can looking 
+            tasks, which he was finished or finished && checked.
+             */
+            /*
+            may be: 
+                user, 
+                taked,
+                finished,
+                owner
+             */
             switch (source)
             {
                 case "owner":
@@ -40,15 +52,13 @@ namespace TaskManager.ViewModel.Pages.Users
                             case 1:
                                 MarkAsFinishVisibility = Visibility.Visible;
                                 break;
+                            case 4:
+                                IsWaitingVisibility = Visibility.Visible;
+                                break;
                         }
                         break;
                     }
-                /*
-                finishedUser entity very importance. with her, user can looking 
-                tasks, which he was finished or finished && checked.
-                 */
-                
-            }
+            } 
 
             _source = source;
             _enteredTask = enteredTask;
@@ -75,6 +85,17 @@ namespace TaskManager.ViewModel.Pages.Users
         }
 
             //buttons visibility
+        private Visibility _isWaitingVisibility = Visibility.Collapsed;
+        public Visibility IsWaitingVisibility
+        {
+            get { return  _isWaitingVisibility; }
+            set {
+                _isWaitingVisibility = value;
+                OnPropertyChanged();
+            }
+        }
+        
+        
         private Visibility _isCheckedVisibility = Visibility.Collapsed;
         public Visibility IsCheckedVisibility
         {
@@ -145,6 +166,34 @@ namespace TaskManager.ViewModel.Pages.Users
                         )
                     );
             }
+        }
+        private AsyncRelayCommand _takeTaskCommand;
+        public AsyncRelayCommand TakeTaskCommand
+        {
+            get { return _takeTaskCommand ?? (_takeTaskCommand = new AsyncRelayCommand(
+                async (obj) =>
+                {
+                    // update field 'idUserTaked' to enteredUser.id; status = taked;
+                    
+                    // recording in db, who taked the task
+                    await DataBaseService.UpdateFieldFromTableById(
+                        "task",
+                        "idUserTaked",
+                        EnteredUser.Id.ToString(),
+                        EnteredTask.Id
+                        );
+                    // set status 'В процессе'
+                    await DataBaseService.UpdateFieldFromTableById(
+                        "task",
+                        "idStatus",
+                        "1",
+                        EnteredTask.Id
+                        );
+                    MessageBox.Show("Вы успешно взяли задачу!");
+                    MainFrame.mainFrame.Navigate(new UserPage(_enteredUser));
+                }
+                )); }
+        //public static async Task<bool> UpdateFieldFromTableById(string tableName, string fieldName, string fieldNewValue, int id)
         }
         private AsyncRelayCommand _isCheckedCommand;
         public AsyncRelayCommand IsCheckedCommand

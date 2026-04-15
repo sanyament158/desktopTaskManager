@@ -166,7 +166,7 @@ namespace TaskManager.ViewModel.Pages.Admin
                                     Model.Task newTask = new Model.Task
                                     {
                                         Owner = new User { Id = (int)owner.Id },
-                                        Status = new Status { Id = 1 },
+                                        Status = new Status { Id = 4 },
                                         Title = this.Title,
                                         Scope = new Category { Id = this.IdScope },
                                         Since = this._since,
