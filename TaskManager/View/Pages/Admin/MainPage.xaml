@@ -30,58 +30,62 @@
 
         <Grid x:Name="gridFunctions" Grid.Column="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="0.5*"/>
-                <RowDefinition Height="0.7*"/>
-                <RowDefinition Height="0.7*"/>
-                <RowDefinition Height="1.2*"/>
-                <RowDefinition Height="0.7*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            
-            <Border x:Name="borderToCategories" Grid.Row="1"
-                    Style="{StaticResource ButtonStackPanel}" Margin="20 5 20 5">
-                <Button x:Name="buttonCategories"
+
+            <!-- ScrollViewer для прокрутки всех кнопок -->
+            <ScrollViewer Grid.Row="1" 
+                  VerticalScrollBarVisibility="Auto"
+                  HorizontalScrollBarVisibility="Disabled">
+                <StackPanel>
+                    <Border x:Name="borderToCategories"
+                    Style="{StaticResource ButtonStackPanel}" 
+                    Margin="20 5 20 5" Height="60">
+                        <Button x:Name="buttonCategories"
                         Style="{StaticResource BigButton}"
                         Content="{StaticResource toCategories}"
                         Command="{Binding GoToEditScopesCommand}"/>
-            </Border>
-            <Border x:Name="borderToEmployees" Grid.Row="2"
-                    Style="{StaticResource ButtonStackPanel}" Margin="20 5 20 5">
-                <Button x:Name="buttonEmployees"
-                    Style="{StaticResource BigButton}"
-                    Content="{StaticResource toEmployees}"
-                    Command="{Binding GoToEditEmployeesCommand}"/>
-            </Border>
-            
-            <Grid x:Name="gridBottomPart" Grid.Row="3">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
+                    </Border>
 
-                <Border x:Name="borderToReports" Grid.Row="0"
-                            Style="{StaticResource ButtonStackPanel}" Margin="20 5 20 8">
-                    <Button x:Name="buttonAddTask" Content="Добавить задачу"
-                            Style="{StaticResource BigButton}"
-                            Command="{Binding GoToAddTaskCommand}"/>
-                </Border>
-                <Border x:Name="borderDeleteTask" Grid.Row="1"
-                        Style="{StaticResource ButtonStackPanel}" Margin="20 5 20 8">
-                    <Button x:Name="buttonDeleteTask" Content="Удалить задачу"
-                            Style="{StaticResource BigButton}"
-                            Command="{Binding DeleteTaskCommand}"/>
-                </Border>
-            </Grid>
+                    <Border x:Name="borderToEmployees"
+                    Style="{StaticResource ButtonStackPanel}" 
+                    Margin="20 5 20 5" Height="60">
+                        <Button x:Name="buttonEmployees"
+                        Style="{StaticResource BigButton}"
+                        Content="{StaticResource toEmployees}"
+                        Command="{Binding GoToEditEmployeesCommand}"/>
+                    </Border>
 
-            <Border x:Name="borderExit" Grid.Row="4"
-                Style="{StaticResource ButtonStackPanel}" Margin="20">
-                <Button x:Name="buttonExit"
-                    Style="{StaticResource BigButton}"
-                    Content="Выйти"
-                    Command="{Binding ExitCommand}"/>
-            </Border>
+                    <Border x:Name="borderToReports"
+                    Style="{StaticResource ButtonStackPanel}" 
+                    Margin="20 5 20 8" Height="60">
+                        <Button x:Name="buttonAddTask" 
+                        Content="Добавить задачу"
+                        Style="{StaticResource BigButton}"
+                        Command="{Binding GoToAddTaskCommand}"/>
+                    </Border>
+
+                    <Border x:Name="borderDeleteTask"
+                    Style="{StaticResource ButtonStackPanel}" 
+                    Margin="20 5 20 8" Height="60">
+                        <Button x:Name="buttonDeleteTask" 
+                        Content="Удалить задачу"
+                        Style="{StaticResource BigButton}"
+                        Command="{Binding DeleteTaskCommand}"/>
+                    </Border>
+
+                    <!-- Здесь можно добавлять новые кнопки -->
+                    <Border x:Name="borderExit"
+                    Style="{StaticResource ButtonStackPanel}" 
+                    Margin="20" Height="60">
+                        <Button x:Name="buttonExit"
+                        Style="{StaticResource BigButton}"
+                        Content="Выйти"
+                        Command="{Binding ExitCommand}"/>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
         </Grid>
         <Grid x:Name="gridTasksTable" Grid.Column="1">
             <Grid.RowDefinitions>
