@@ -97,8 +97,7 @@
                       >
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}"/>
-                        <GridViewColumn Header="Имя" DisplayMemberBinding="{Binding Name}"/>
+                        <GridViewColumn Header="Имя" DisplayMemberBinding="{Binding Name}" Width="200"/>
                     </GridView>
                 </ListView.View>
             </ListView>

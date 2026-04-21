@@ -47,7 +47,7 @@
             >
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Фамилия" DisplayMemberBinding="{Binding Lname}"/>
+                    <GridViewColumn Header="Фамилия" DisplayMemberBinding="{Binding Lname}" Width="200"/>
                 </GridView>
             </ListView.View>
         </ListView>
@@ -58,7 +58,7 @@
             >
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Имя" DisplayMemberBinding="{Binding Name}"/>
+                    <GridViewColumn Header="Имя" DisplayMemberBinding="{Binding Name}" Width="200"/>
                 </GridView>
             </ListView.View>
         </ListView>

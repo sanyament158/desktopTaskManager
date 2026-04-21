@@ -54,7 +54,20 @@ namespace TaskManager.ViewModel.Pages.Admin
                     (_refreshUsersCommand = new AsyncRelayCommand(
                         async (obj) =>
                         {
-                            Users = new ObservableCollection<User>(await DataBaseService.GetUsers());
+                            ObservableCollection<User> users = new ObservableCollection<User>(await DataBaseService.GetUsers());
+                            foreach(User u in users)
+                            {
+                                switch (u.Role.Name)
+                                {
+                                    case "user":
+                                        u.Role.Name = "Сотрудник";
+                                        break;
+                                    case "admin":
+                                        u.Role.Name = "Администратор";
+                                        break;
+                                }
+                            }
+                            Users = users;
                         }
                         ));
             }

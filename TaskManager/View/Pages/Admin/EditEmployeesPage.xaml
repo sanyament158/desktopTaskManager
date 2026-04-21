@@ -26,7 +26,7 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="1.5*"/>
         </Grid.ColumnDefinitions>
 
         <Grid x:Name="gridFunctions" Grid.Row="0" Grid.Column="0">
@@ -88,10 +88,9 @@
               >
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}"/>
-                        <GridViewColumn Header="Логин" DisplayMemberBinding="{Binding Username}"/>
-                        <GridViewColumn Header="Фамилия" DisplayMemberBinding="{Binding Lname}"/>
-                        <GridViewColumn Header="Роль" DisplayMemberBinding="{Binding IdRole}"/>
+                        <GridViewColumn Header="Фамилия" DisplayMemberBinding="{Binding Lname}" Width="180"/>
+                        <GridViewColumn Header="Роль" DisplayMemberBinding="{Binding Role.Name}" Width="120"/>
+                        <GridViewColumn Header="Зоны ответственности" DisplayMemberBinding="{Binding Scopes.Count}" Width="140"/>
                     </GridView>
                 </ListView.View>
             </ListView>

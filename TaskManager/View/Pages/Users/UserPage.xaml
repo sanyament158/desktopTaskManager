@@ -52,15 +52,6 @@
                         Height="60"/>
                     </Border>
 
-                    <Border x:Name="borderTakedTasks"
-                    Style="{StaticResource ButtonStackPanel}" 
-                    Margin="10" Height="60">
-                        <Button x:Name="buttonTakedTasks"
-                        Style="{StaticResource BigButton}"
-                        Content="Мои задачи"
-                        Command="{Binding GoToTakedTasksCommand}"
-                        />
-                    </Border>
 
                     <Border x:Name="borderFinishedTasks"
                     Style="{StaticResource ButtonStackPanel}" 
@@ -69,6 +60,16 @@
                         Style="{StaticResource BigButton}"
                         Content="Выполненные задачи"
                         Command="{Binding GoToFinishedTasksCommand}"/>
+                    </Border>
+                    
+                    <Border x:Name="borderTakedTasks"
+                    Style="{StaticResource ButtonStackPanel}" 
+                    Margin="10" Height="60">
+                        <Button x:Name="buttonTakedTasks"
+                        Style="{StaticResource BigButton}"
+                        Content="Взятые задачи"
+                        Command="{Binding GoToTakedTasksCommand}"
+                        />
                     </Border>
                     
                     <Border x:Name="borderMyTasks"

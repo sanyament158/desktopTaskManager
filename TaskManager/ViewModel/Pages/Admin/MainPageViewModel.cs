@@ -261,8 +261,21 @@ namespace TaskManager.ViewModel.Pages.Admin
                         )
                     ); }
         }
-        private AsyncRelayCommand _markAsFinishCommand;
+        private RelayCommand _goToMyTasks;
+        public RelayCommand GoToMyTasksCommand
+        {
+            get { return _goToMyTasks ??
+                    (
+                    _goToMyTasks = new RelayCommand(
+                        (obj) =>
+                        {
+                            MainFrame.mainFrame.Navigate(new MyTasksPage(_enteredUser));
+                        }
+                        )
+                    ); }
+        }
         //employees commands
+        private AsyncRelayCommand _markAsFinishCommand;
         public AsyncRelayCommand MarkAsFinishCommand
         {
             get { return _markAsFinishCommand ?? (
