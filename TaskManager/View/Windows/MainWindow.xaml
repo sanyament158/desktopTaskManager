@@ -6,7 +6,9 @@
         xmlns:local="clr-namespace:TaskManager.View"
         mc:Ignorable="d"
         Title="Авторизация" Height="485" Width="800"
-        x:Name="window" WindowStartupLocation="CenterScreen">
+        x:Name="window" WindowStartupLocation="CenterScreen" 
+        MaxHeight="550" MaxWidth="900"
+        MinHeight="480" MinWidth="700">
     <Grid>
         <Frame x:Name="mainFrame" NavigationUIVisibility="Hidden"
                Margin="0"
