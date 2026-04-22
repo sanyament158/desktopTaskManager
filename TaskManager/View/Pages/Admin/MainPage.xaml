@@ -74,7 +74,14 @@
                         Style="{StaticResource BigButton}"
                         Command="{Binding DeleteTaskCommand}"/>
                     </Border>
-
+                    <Border x:Name="borderGoToReports"
+                    Style="{StaticResource ButtonStackPanel}" 
+                    Margin="20 5 20 8" Height="60">
+                        <Button x:Name="buttonGoToReports" 
+                        Content="Отчеты"
+                        Style="{StaticResource BigButton}"
+                        Command="{Binding GoToReportsCommand}"/>
+                    </Border>
                     <!-- Здесь можно добавлять новые кнопки -->
                     <Border x:Name="borderExit"
                     Style="{StaticResource ButtonStackPanel}" 

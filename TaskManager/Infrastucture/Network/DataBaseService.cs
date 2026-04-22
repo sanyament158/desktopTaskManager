@@ -421,5 +421,20 @@ namespace TaskManager.Infrastucture.Network
 
             return responseJson["success"].GetValue<bool>();
         }
+    // status
+        public static async Task<List<Status>> GetStatuses()
+        {
+            try
+            {
+                HttpResponseMessage httpResponseMessage = await client.GetAsync(_uri + "getTable/getStatuses.php");
+
+                JsonNode responseRootJson = JsonNode.Parse(await httpResponseMessage.Content.ReadAsStringAsync());
+                JsonArray responseStatusesJson = responseRootJson["data"].AsArray();
+
+                List<Status> statuses = responseStatusesJson.Deserialize<List<Status>>();
+                return statuses ?? throw new Exception("response was null");
+            }
+            catch (Exception ex) { throw new Exception(ex.Message); }
+        }
     }
 }

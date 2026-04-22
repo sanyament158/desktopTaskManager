@@ -320,6 +320,15 @@ namespace TaskManager.ViewModel.Pages.Admin
             } )); 
             }
         }
+        private RelayCommand _goToReportsCommand;
+        public RelayCommand GoToReportsCommand
+        {
+            get { return _goToReportsCommand ?? (_goToTakedTasksCommand = new RelayCommand((obj) =>
+            {
+                MainFrame.mainFrame.Navigate(new ReportsPage(_enteredUser));
+            } )); 
+            }
+        }
         private RelayCommand _goToShowDetailsCommand;
         public RelayCommand GoToShowDetailsCommand
         {

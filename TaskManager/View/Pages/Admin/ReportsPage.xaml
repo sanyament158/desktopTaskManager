@@ -30,7 +30,7 @@
                 <Border x:Name="borderExcelReport" Height="50"
                         Style="{StaticResource ButtonStackPanel}"
                         Margin="10">
-                    <Button x:Name="buttonExcelReport" Content="Экспорт в Excel"
+                    <Button x:Name="buttonExcelReport" Content="Экспорт в Excel" 
                             Style="{StaticResource BigButton}"
                             Command="{Binding ExcelReportCommand}"/>
                 </Border>
@@ -71,6 +71,8 @@
                          Style="{StaticResource BaseComboBox}"
                          ItemsSource="{Binding Statuses}"
                          SelectedItem="{Binding SelectedStatus}"
+                         DisplayMemberPath="Name"
+                         SelectedValuePath="Id"
                          />
             </StackPanel>
             <StackPanel Orientation="Vertical" VerticalAlignment="Bottom" Grid.ColumnSpan="2" Grid.Row="1">
@@ -81,6 +83,8 @@
                          Style="{StaticResource BaseComboBox}"
                          ItemsSource="{Binding Scopes}"
                          SelectedItem="{Binding SelectedScope}"
+                         DisplayMemberPath="Name"
+                         SelectedValuePath="Id"
                          />
             </StackPanel>
             <DatePicker x:Name="dateSince" Grid.Row="2" Margin="15"
