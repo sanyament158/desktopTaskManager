@@ -11,6 +11,7 @@ using TaskManager.Infrastucture.OfficeDocument;
 using TaskManager.Infrastucture.Navigation;
 using TaskManager.View.Pages.Admin;
 using TaskManager.View.UserControls;
+using System.IO;
 
 namespace TaskManager.ViewModel.Pages.Admin
 {
@@ -180,12 +181,21 @@ namespace TaskManager.ViewModel.Pages.Admin
             {
                 var tasks = await getTaskCollection();
                 MessageBox.Show(tasks.Count().ToString());
+                using (var documentStream = wordService.CreateWordDocumentFromTasks(tasks))
+                {
+                    // Можно сохранить в файл
+                    using (var fileStream = File.Create("C:\\Users\\sanya\\projects\\report.docx"))
+                    {
+                        documentStream.CopyTo(fileStream);
+                    }
+                }
+                MessageBox.Show("success word report!");
             })); }
         }
         private AsyncRelayCommand _excelReportCommand;
         public AsyncRelayCommand ExcelReportCommand
         {
-            get { return _excelReportCommand ?? (_wordReportCommand = new AsyncRelayCommand( async (obj)=>
+            get { return _excelReportCommand ?? (_excelReportCommand = new AsyncRelayCommand( async (obj)=>
             {
                 if (TasksControlVisibility == Visibility.Visible)
                 {

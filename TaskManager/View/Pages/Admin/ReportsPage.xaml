@@ -30,6 +30,7 @@
             <StackPanel Orientation="Vertical" VerticalAlignment="Top" Margin="0 50 0 0">
                 <Border x:Name="borderControlSwitcher" Height="50"
                         Style="{StaticResource ButtonStackPanel}"
+                        Background="{StaticResource lightBrown}"
                         Margin="10">
                     <Button x:Name="buttonControlSwitcher" Content="{Binding SwitcherButtonContent}" 
                             Style="{StaticResource BigButton}"
