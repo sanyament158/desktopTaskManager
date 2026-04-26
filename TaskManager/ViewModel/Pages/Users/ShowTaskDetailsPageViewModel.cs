@@ -18,15 +18,10 @@ namespace TaskManager.ViewModel.Pages.Users
         {
             MessageBox.Show(source);
 
-
-            /*
-            finishedUser entity very importance. with her, user can looking 
-            tasks, which he was finished or finished && checked.
-             */
             /*
             may be: 
                 user, 
-                taked,
+                takedUser,
                 finished,
                 owner
              */
@@ -61,10 +56,6 @@ namespace TaskManager.ViewModel.Pages.Users
                                 break;
                         }
                         break;
-                    }
-                case "takedUser": // this case only when opened from TakedTasksPage
-                    {
-                        return;
                     }
             } 
 
@@ -159,16 +150,29 @@ namespace TaskManager.ViewModel.Pages.Users
                         {
                             try
                             {
+                                /*
+                                This is outdated code. block if (_source == "owner"){...}.
+                                This point was can runned only from "Пометить как выполнено" on UserPage. Now this button was delete. 
+                                 */
                                 if (_source == "owner")
                                 {
-                                    var answer = MessageBox.Show("Подтвердите проверку...", "Подтверждение", MessageBoxButton.OKCancel, MessageBoxImage.Information);
-                                    if (answer == MessageBoxResult.OK)
+                                    var answer = MessageBox.Show("Задача корректно выполнена?", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                                    if (answer == MessageBoxResult.Yes)
                                     {
                                         bool res = await DataBaseService.UpdateFieldFromTableById("task", "idStatus", "2", _enteredTask.Id);
                                         if (res) MessageBox.Show("Задача выполнена и автоматически проверена");
                                         await DataBaseService.PutFinishedTask(_enteredTask, _enteredUser.Id);
                                         MainFrame.mainFrame.Navigate(new UserPage(_enteredUser));
                                     }
+                                    else if (answer == MessageBoxResult.No)
+                                    {
+                                        bool res = await DataBaseService.UpdateFieldFromTableById("task", "idStatus", "4", _enteredTask.Id);
+                                        if (res)
+                                            MessageBox.Show("Задаче присвоен статус \"В ожидании\"", "Внимание!", MessageBoxButton.OK, MessageBoxImage.Warning);
+                                        else MessageBox.Show("res == false");
+                                        MainFrame.mainFrame.Navigate(new UserPage(_enteredUser));
+                                    }
+                                    else return;
                                 }
                                 else 
                                 {
@@ -226,11 +230,19 @@ namespace TaskManager.ViewModel.Pages.Users
                             {
                                 try
                                 {
-                                    var answer = MessageBox.Show("Подтвердите проверку...", "Подтверждение", MessageBoxButton.OKCancel, MessageBoxImage.Information);
-                                    if (answer == MessageBoxResult.OK)
+                                    var answer = MessageBox.Show("Задача корректно выполнена?", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                                    if (answer == MessageBoxResult.Yes)
                                     {
                                         bool res = await DataBaseService.UpdateFieldFromTableById("task", "idStatus", "2", _enteredTask.Id);
                                         if (res) MessageBox.Show("Успешно!");
+                                    }
+                                    else if (answer == MessageBoxResult.No)
+                                    {
+                                        bool res = await DataBaseService.UpdateFieldFromTableById("task", "idStatus", "4", _enteredTask.Id);
+                                        if (res)
+                                            MessageBox.Show("Задаче присвоен статус \"В ожидании\"", "Внимание!", MessageBoxButton.OK, MessageBoxImage.Warning);
+                                        else MessageBox.Show("res == false");
+                                        MainFrame.mainFrame.Navigate(new UserPage(_enteredUser));
                                     }
                                     else return;
                                     MainFrame.mainFrame.Navigate(new UserPage(_enteredUser));
