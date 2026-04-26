@@ -10,6 +10,8 @@ namespace TaskManager.Infrastucture.OfficeDocument
 {
     public class WordDocumentReport
     {
+        // ======================== РАБОТА С ЗАДАЧАМИ ========================
+
         public MemoryStream CreateWordDocumentFromTasks(List<Model.Task> tasks)
         {
             var stream = new MemoryStream();
@@ -52,9 +54,6 @@ namespace TaskManager.Infrastucture.OfficeDocument
             return stream;
         }
 
-        /// <summary>
-        /// Сохраняет документ Word в файл
-        /// </summary>
         public void SaveWordDocument(string filePath, List<Model.Task> tasks)
         {
             using (var stream = CreateWordDocumentFromTasks(tasks))
@@ -66,29 +65,80 @@ namespace TaskManager.Infrastucture.OfficeDocument
             }
         }
 
-        /// <summary>
-        /// Добавляет настройки страницы (альбомная ориентация и поля)
-        /// </summary>
+        // ======================== РАБОТА С ПОЛЬЗОВАТЕЛЯМИ ========================
+
+        public MemoryStream CreateWordDocumentFromUsers(List<Model.User> users)
+        {
+            var stream = new MemoryStream();
+
+            using (WordprocessingDocument wordDocument = WordprocessingDocument.Create(stream, WordprocessingDocumentType.Document))
+            {
+                // Добавляем основную часть документа
+                MainDocumentPart mainPart = wordDocument.AddMainDocumentPart();
+                mainPart.Document = new Document();
+
+                // Создаем тело документа
+                Body body = mainPart.Document.AppendChild(new Body());
+
+                // Добавляем настройки страницы (альбомная ориентация)
+                AddPageSettings(mainPart);
+
+                // Добавляем стили документа
+                AddDocumentStyles(mainPart);
+
+                // Добавляем заголовок документа
+                AddHeading(body, "Отчет по пользователям", 1);
+                AddEmptyParagraph(body);
+
+                // Добавляем информацию о количестве пользователей
+                AddParagraph(body, $"Всего пользователей: {users.Count}", false);
+                AddEmptyParagraph(body);
+
+                // Создаем таблицу
+                Table table = CreateUsersTable(users);
+                body.AppendChild(table);
+
+                // Добавляем информацию о дате генерации
+                AddEmptyParagraph(body);
+                AddParagraph(body, $"Документ создан: {DateTime.Now:dd.MM.yyyy HH:mm:ss}", false);
+
+                mainPart.Document.Save();
+            }
+
+            stream.Position = 0;
+            return stream;
+        }
+
+        public void SaveUserDocument(string filePath, List<Model.User> users)
+        {
+            using (var stream = CreateWordDocumentFromUsers(users))
+            {
+                using (var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+                {
+                    stream.CopyTo(fileStream);
+                }
+            }
+        }
+
+        // ======================== ПРИВАТНЫЕ МЕТОДЫ ДЛЯ ЗАДАЧ ========================
+
         private void AddPageSettings(MainDocumentPart mainPart)
         {
-            // Настройки страницы
             SectionProperties sectionProps = new SectionProperties();
 
-            // Размер страницы A4 в альбомной ориентации
             PageSize pageSize = new PageSize()
             {
-                Width = 16838,  // 297mm
-                Height = 11906,  // 210mm
+                Width = 16838,
+                Height = 11906,
                 Orient = PageOrientationValues.Landscape
             };
 
-            // Уменьшенные поля страницы
             PageMargin pageMargin = new PageMargin()
             {
-                Top = 567,       // 0.75 см
-                Bottom = 567,    // 0.75 см
-                Left = 567,      // 0.75 см
-                Right = 567,     // 0.75 см
+                Top = 567,
+                Bottom = 567,
+                Left = 567,
+                Right = 567,
                 Header = 708,
                 Footer = 708,
                 Gutter = 0
@@ -97,14 +147,10 @@ namespace TaskManager.Infrastucture.OfficeDocument
             sectionProps.Append(pageSize);
             sectionProps.Append(pageMargin);
 
-            // Добавляем секцию в документ
             mainPart.Document.Body ??= mainPart.Document.AppendChild(new Body());
             mainPart.Document.Body.AppendChild(sectionProps);
         }
 
-        /// <summary>
-        /// Добавляет стили документа (шрифты, цвета)
-        /// </summary>
         private void AddDocumentStyles(MainDocumentPart mainPart)
         {
             StyleDefinitionsPart stylePart = mainPart.AddNewPart<StyleDefinitionsPart>();
@@ -121,10 +167,9 @@ namespace TaskManager.Infrastucture.OfficeDocument
             normalStyle.Append(normalName);
 
             StyleRunProperties normalRunProps = new StyleRunProperties();
-            normalRunProps.Append(new FontSize() { Val = "20" }); // 10pt (уменьшен)
+            normalRunProps.Append(new FontSize() { Val = "20" });
             normalRunProps.Append(new RunFonts() { Ascii = "Segoe UI", HighAnsi = "Segoe UI" });
             normalStyle.Append(normalRunProps);
-
             styles.Append(normalStyle);
 
             // Стиль для заголовка 1
@@ -140,11 +185,10 @@ namespace TaskManager.Infrastucture.OfficeDocument
 
             StyleRunProperties heading1RunProps = new StyleRunProperties();
             heading1RunProps.Append(new Bold());
-            heading1RunProps.Append(new FontSize() { Val = "32" }); // 16pt (уменьшен)
+            heading1RunProps.Append(new FontSize() { Val = "32" });
             heading1RunProps.Append(new RunFonts() { Ascii = "Segoe UI", HighAnsi = "Segoe UI" });
             heading1RunProps.Append(new Color() { Val = "2E75B6" });
             heading1Style.Append(heading1RunProps);
-
             styles.Append(heading1Style);
 
             // Стиль для заголовка таблицы
@@ -155,30 +199,22 @@ namespace TaskManager.Infrastucture.OfficeDocument
             };
             StyleRunProperties tableHeaderRunProps = new StyleRunProperties();
             tableHeaderRunProps.Append(new Bold());
-            tableHeaderRunProps.Append(new FontSize() { Val = "20" }); // 10pt
+            tableHeaderRunProps.Append(new FontSize() { Val = "20" });
             tableHeaderRunProps.Append(new RunFonts() { Ascii = "Segoe UI", HighAnsi = "Segoe UI" });
             tableHeaderRunProps.Append(new Color() { Val = "FFFFFF" });
             tableHeaderStyle.Append(tableHeaderRunProps);
-
             styles.Append(tableHeaderStyle);
 
             stylePart.Styles = styles;
         }
 
-        /// <summary>
-        /// Создает таблицу со списком задач
-        /// </summary>
         private Table CreateTasksTable(List<Model.Task> tasks)
         {
             Table table = new Table();
-
-            // Настройка свойств таблицы
             TableProperties tblProp = new TableProperties();
 
-            // Ширина таблицы - 100% от ширины страницы
             TableWidth tableWidth = new TableWidth() { Width = "100", Type = TableWidthUnitValues.Pct };
 
-            // Границы таблицы
             TableBorders borders = new TableBorders(
                 new TopBorder() { Val = BorderValues.Single, Size = 4, Color = "2E75B6" },
                 new BottomBorder() { Val = BorderValues.Single, Size = 4, Color = "2E75B6" },
@@ -188,7 +224,6 @@ namespace TaskManager.Infrastucture.OfficeDocument
                 new InsideVerticalBorder() { Val = BorderValues.Single, Size = 2, Color = "AAAAAA" }
             );
 
-            // Уменьшенные отступы в ячейках
             TableCellMarginDefault cellMargin = new TableCellMarginDefault();
             cellMargin.Append(new TopMargin() { Width = "50", Type = TableWidthUnitValues.Dxa });
             cellMargin.Append(new BottomMargin() { Width = "50", Type = TableWidthUnitValues.Dxa });
@@ -200,9 +235,8 @@ namespace TaskManager.Infrastucture.OfficeDocument
             tblProp.Append(cellMargin);
             table.AppendChild(tblProp);
 
-            // Увеличенная ширина колонок для альбомной ориентации
             TableGrid tableGrid = new TableGrid();
-            int[] columnWidths = { 3500, 1600, 2400, 2400, 1800, 1800 }; // Увеличенные ширины в Dxa
+            int[] columnWidths = { 3500, 1600, 2400, 2400, 1800, 1800 };
 
             foreach (int width in columnWidths)
             {
@@ -210,28 +244,161 @@ namespace TaskManager.Infrastucture.OfficeDocument
             }
             table.Append(tableGrid);
 
-            // Создаем заголовок таблицы с фоном
+            // Заголовок таблицы
+            TableRow headerRow = CreateTableHeaderRow(new[] { "Название", "Статус", "Владелец", "Категория", "Дата начала", "Дедлайн" });
+            table.Append(headerRow);
+
+            // Данные
+            int rowNumber = 0;
+            foreach (Model.Task task in tasks)
+            {
+                TableRow dataRow = new TableRow();
+
+                if (rowNumber % 2 == 1)
+                {
+                    TableRowProperties rowProps = new TableRowProperties();
+                    TableRowHeight rowHeight = new TableRowHeight() { Val = 350 };
+                    rowProps.Append(rowHeight);
+                    dataRow.Append(rowProps);
+                }
+
+                dataRow.Append(CreateCell(task.Title ?? "", rowNumber % 2 == 1, JustificationValues.Left));
+                dataRow.Append(CreateCell(task.Status?.Name ?? "Не указан", rowNumber % 2 == 1, JustificationValues.Center));
+
+                string ownerName = task.Owner != null ? $"{task.Owner.Lname}" : "Не назначен";
+                dataRow.Append(CreateCell(ownerName, rowNumber % 2 == 1, JustificationValues.Left));
+
+                dataRow.Append(CreateCell(task.Scope?.Name ?? "Не указана", rowNumber % 2 == 1, JustificationValues.Center));
+                dataRow.Append(CreateCell(task.Since.ToString("dd.MM.yyyy"), rowNumber % 2 == 1, JustificationValues.Center));
+                dataRow.Append(CreateCell(task.Deadline.ToString("dd.MM.yyyy"), rowNumber % 2 == 1, JustificationValues.Center));
+
+                table.Append(dataRow);
+                rowNumber++;
+            }
+
+            return table;
+        }
+
+        // ======================== ПРИВАТНЫЕ МЕТОДЫ ДЛЯ ПОЛЬЗОВАТЕЛЕЙ ========================
+
+        // ======================== ПРИВАТНЫЕ МЕТОДЫ ДЛЯ ПОЛЬЗОВАТЕЛЕЙ ========================
+
+        private Table CreateUsersTable(List<Model.User> users)
+        {
+            Table table = new Table();
+            TableProperties tblProp = new TableProperties();
+
+            TableWidth tableWidth = new TableWidth() { Width = "100", Type = TableWidthUnitValues.Pct };
+
+            TableBorders borders = new TableBorders(
+                new TopBorder() { Val = BorderValues.Single, Size = 4, Color = "2E75B6" },
+                new BottomBorder() { Val = BorderValues.Single, Size = 4, Color = "2E75B6" },
+                new LeftBorder() { Val = BorderValues.Single, Size = 2, Color = "2E75B6" },
+                new RightBorder() { Val = BorderValues.Single, Size = 2, Color = "2E75B6" },
+                new InsideHorizontalBorder() { Val = BorderValues.Single, Size = 2, Color = "AAAAAA" },
+                new InsideVerticalBorder() { Val = BorderValues.Single, Size = 2, Color = "AAAAAA" }
+            );
+
+            TableCellMarginDefault cellMargin = new TableCellMarginDefault();
+            cellMargin.Append(new TopMargin() { Width = "50", Type = TableWidthUnitValues.Dxa });
+            cellMargin.Append(new BottomMargin() { Width = "50", Type = TableWidthUnitValues.Dxa });
+            cellMargin.Append(new LeftMargin() { Width = "80", Type = TableWidthUnitValues.Dxa });
+            cellMargin.Append(new RightMargin() { Width = "80", Type = TableWidthUnitValues.Dxa });
+
+            tblProp.Append(tableWidth);
+            tblProp.Append(borders);
+            tblProp.Append(cellMargin);
+            table.AppendChild(tblProp);
+
+            // Настройка ширины колонок для отчета по пользователям
+            TableGrid tableGrid = new TableGrid();
+            int[] columnWidths = { 3000, 3000, 2500 }; // Lname, Role, Scopes
+
+            foreach (int width in columnWidths)
+            {
+                tableGrid.Append(new GridColumn() { Width = width.ToString() });
+            }
+            table.Append(tableGrid);
+
+            // Заголовок таблицы
+            TableRow headerRow = CreateTableHeaderRow(new[] { "Фамилия", "Роль", "Области ответственности" });
+            table.Append(headerRow);
+
+            // Данные пользователей
+            int rowNumber = 0;
+            foreach (Model.User user in users)
+            {
+                TableRow dataRow = new TableRow();
+
+                if (rowNumber % 2 == 1)
+                {
+                    TableRowProperties rowProps = new TableRowProperties();
+                    TableRowHeight rowHeight = new TableRowHeight() { Val = 350 };
+                    rowProps.Append(rowHeight);
+                    dataRow.Append(rowProps);
+                }
+
+                // Фамилия (Lname)
+                string lastName = user.Lname ?? "Не указана";
+                dataRow.Append(CreateCell(lastName, rowNumber % 2 == 1, JustificationValues.Left));
+
+                // Роль с преобразованием
+                string roleName = TranslateRole(user.Role?.Name);
+                dataRow.Append(CreateCell(roleName, rowNumber % 2 == 1, JustificationValues.Left));
+
+                // Области ответственности (Scopes)
+                string scopesText = FormatScopes(user.Scopes);
+                dataRow.Append(CreateCell(scopesText, rowNumber % 2 == 1, JustificationValues.Left));
+
+                table.Append(dataRow);
+                rowNumber++;
+            }
+
+            return table;
+        }
+
+        /// <summary>
+        /// Преобразует английское название роли в русское
+        /// </summary>
+        private string TranslateRole(string? roleName)
+        {
+            if (string.IsNullOrEmpty(roleName))
+                return "Не указана";
+
+            return roleName.ToLower() switch
+            {
+                "admin" => "Администратор",
+                "user" => "Сотрудник",
+                _ => roleName // Если роль не распознана, возвращаем как есть
+            };
+        }
+
+        private string FormatScopes(List<Model.Category> scopes)
+        {
+            if (scopes == null || scopes.Count == 0)
+                return "Не указаны";
+
+            return string.Join(", ", scopes.Select(s => s?.Name ?? "Без названия"));
+        }
+        // ======================== ОБЩИЕ ВСПОМОГАТЕЛЬНЫЕ МЕТОДЫ ========================
+
+        private TableRow CreateTableHeaderRow(string[] headers)
+        {
             TableRow headerRow = new TableRow();
 
-            // Свойства строки заголовка
             TableRowProperties headerRowProps = new TableRowProperties();
             TableRowHeight headerHeight = new TableRowHeight() { Val = 400 };
             headerRowProps.Append(headerHeight);
             headerRow.Append(headerRowProps);
 
-            // Заголовки
-            string[] headers = { "Название", "Статус", "Владелец", "Категория", "Дата начала", "Дедлайн" };
-
             foreach (string header in headers)
             {
                 TableCell cell = new TableCell();
 
-                // Фон заголовка
                 TableCellProperties cellProps = new TableCellProperties();
                 Shading shading = new Shading() { Val = ShadingPatternValues.Clear, Color = "Auto", Fill = "2E75B6" };
                 cellProps.Append(shading);
 
-                // Выравнивание по центру
                 Paragraph paragraph = new Paragraph();
                 ParagraphProperties paraProps = new ParagraphProperties();
                 Justification justification = new Justification() { Val = JustificationValues.Center };
@@ -241,7 +408,7 @@ namespace TaskManager.Infrastucture.OfficeDocument
                 Run run = new Run();
                 RunProperties runProps = new RunProperties();
                 runProps.Append(new Bold());
-                runProps.Append(new FontSize() { Val = "20" }); // Уменьшен шрифт
+                runProps.Append(new FontSize() { Val = "20" });
                 runProps.Append(new RunFonts() { Ascii = "Segoe UI", HighAnsi = "Segoe UI" });
                 runProps.Append(new Color() { Val = "FFFFFF" });
                 run.Append(runProps);
@@ -253,63 +420,16 @@ namespace TaskManager.Infrastucture.OfficeDocument
                 headerRow.Append(cell);
             }
 
-            table.Append(headerRow);
-
-            // Заполняем таблицу данными
-            int rowNumber = 0;
-            foreach (Model.Task task in tasks)
-            {
-                TableRow dataRow = new TableRow();
-
-                // Чередование цветов строк
-                if (rowNumber % 2 == 1)
-                {
-                    TableRowProperties rowProps = new TableRowProperties();
-                    TableRowHeight rowHeight = new TableRowHeight() { Val = 350 };
-                    rowProps.Append(rowHeight);
-                    dataRow.Append(rowProps);
-                }
-
-                // Название
-                dataRow.Append(CreateCell(task.Title ?? "", rowNumber % 2 == 1, JustificationValues.Left));
-
-                // Статус
-                dataRow.Append(CreateCell(task.Status?.Name ?? "Не указан", rowNumber % 2 == 1, JustificationValues.Center));
-
-                // Владелец
-                string ownerName = task.Owner != null ? $"{task.Owner.Lname}" : "Не назначен";
-                dataRow.Append(CreateCell(ownerName, rowNumber % 2 == 1, JustificationValues.Left));
-
-                // Категория
-                dataRow.Append(CreateCell(task.Scope?.Name ?? "Не указана", rowNumber % 2 == 1, JustificationValues.Center));
-
-                // Дата начала
-                dataRow.Append(CreateCell(task.Since.ToString("dd.MM.yyyy"), rowNumber % 2 == 1, JustificationValues.Center));
-
-                // Дедлайн
-                dataRow.Append(CreateCell(task.Deadline.ToString("dd.MM.yyyy"), rowNumber % 2 == 1, JustificationValues.Center));
-
-                table.Append(dataRow);
-                rowNumber++;
-            }
-
-            return table;
+            return headerRow;
         }
 
-        /// <summary>
-        /// Создает ячейку таблицы с текстом
-        /// </summary>
         private TableCell CreateCell(string text, bool isAlternateRow, JustificationValues alignment)
         {
             TableCell cell = new TableCell();
 
-            // Свойства ячейки
             TableCellProperties cellProps = new TableCellProperties();
-
-            // Вертикальное выравнивание по центру
             cellProps.Append(new TableCellVerticalAlignment() { Val = TableVerticalAlignmentValues.Center });
 
-            // Фон для четных строк
             if (isAlternateRow)
             {
                 cellProps.Append(new Shading() { Val = ShadingPatternValues.Clear, Color = "Auto", Fill = "F2F2F2" });
@@ -317,14 +437,12 @@ namespace TaskManager.Infrastucture.OfficeDocument
 
             cell.Append(cellProps);
 
-            // Параграф с выравниванием
             Paragraph para = new Paragraph();
             para.Append(new ParagraphProperties(new Justification() { Val = alignment }));
 
-            // Текст с уменьшенным шрифтом
             Run run = new Run();
             RunProperties runProps = new RunProperties();
-            runProps.Append(new FontSize() { Val = "18" }); // 9pt (еще меньше)
+            runProps.Append(new FontSize() { Val = "18" });
             runProps.Append(new RunFonts() { Ascii = "Segoe UI", HighAnsi = "Segoe UI" });
 
             run.Append(runProps);
@@ -335,15 +453,10 @@ namespace TaskManager.Infrastucture.OfficeDocument
             return cell;
         }
 
-        /// <summary>
-        /// Добавляет заголовок в документ
-        /// </summary>
         private void AddHeading(Body body, string text, int level)
         {
             Paragraph para = new Paragraph();
             ParagraphProperties paraProps = new ParagraphProperties();
-
-            // Отступ после заголовка
             SpacingBetweenLines spacing = new SpacingBetweenLines() { After = "200" };
             paraProps.Append(spacing);
             para.Append(paraProps);
@@ -354,12 +467,12 @@ namespace TaskManager.Infrastucture.OfficeDocument
 
             if (level == 1)
             {
-                runProps.Append(new FontSize() { Val = "32" }); // 16pt
+                runProps.Append(new FontSize() { Val = "32" });
                 runProps.Append(new Color() { Val = "2E75B6" });
             }
             else
             {
-                runProps.Append(new FontSize() { Val = "24" }); // 12pt
+                runProps.Append(new FontSize() { Val = "24" });
                 runProps.Append(new Color() { Val = "404040" });
             }
 
@@ -370,9 +483,6 @@ namespace TaskManager.Infrastucture.OfficeDocument
             body.Append(para);
         }
 
-        /// <summary>
-        /// Добавляет обычный параграф
-        /// </summary>
         private void AddParagraph(Body body, string text, bool isBold)
         {
             Paragraph para = new Paragraph();
@@ -383,7 +493,7 @@ namespace TaskManager.Infrastucture.OfficeDocument
 
             Run run = new Run();
             RunProperties runProps = new RunProperties();
-            runProps.Append(new FontSize() { Val = "20" }); // 10pt
+            runProps.Append(new FontSize() { Val = "20" });
             runProps.Append(new RunFonts() { Ascii = "Segoe UI", HighAnsi = "Segoe UI" });
 
             if (isBold)
@@ -397,9 +507,6 @@ namespace TaskManager.Infrastucture.OfficeDocument
             body.Append(para);
         }
 
-        /// <summary>
-        /// Добавляет пустой параграф
-        /// </summary>
         private void AddEmptyParagraph(Body body)
         {
             Paragraph para = new Paragraph();

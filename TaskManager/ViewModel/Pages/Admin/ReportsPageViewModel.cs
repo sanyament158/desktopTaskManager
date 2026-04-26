@@ -179,18 +179,36 @@ namespace TaskManager.ViewModel.Pages.Admin
         {
             get { return _wordReportCommand ?? (_wordReportCommand = new AsyncRelayCommand( async (obj)=>
             {
-                var tasks = await getTaskCollection();
-                MessageBox.Show(tasks.Count().ToString());
-                using (var documentStream = wordService.CreateWordDocumentFromTasks(tasks))
+                if (TasksControlVisibility == Visibility.Visible)
                 {
-                    // Можно сохранить в файл
-                    using (var fileStream = File.Create("C:\\Users\\sanya\\projects\\report.docx"))
+                    var tasks = await getTaskCollection();
+                    MessageBox.Show(tasks.Count().ToString());
+                    using (var documentStream = wordService.CreateWordDocumentFromTasks(tasks))
                     {
-                        documentStream.CopyTo(fileStream);
+                        // Можно сохранить в файл
+                        using (var fileStream = File.Create("C:\\Users\\sanya\\projects\\report.docx"))
+                        {
+                            documentStream.CopyTo(fileStream);
+                        }
                     }
+                    MessageBox.Show("success word report!");
                 }
-                MessageBox.Show("success word report!");
+                else
+                {
+                    var users = await getUserCollection();
+                    MessageBox.Show(users.Count().ToString());
+                    using (var documentStream = wordService.CreateWordDocumentFromUsers(users))
+                    {
+                        // Можно сохранить в файл
+                        using (var fileStream = File.Create("C:\\Users\\sanya\\projects\\reportUsers.docx"))
+                        {
+                            documentStream.CopyTo(fileStream);
+                        }
+                    }
+                    MessageBox.Show("success word report!");
+                }
             })); }
+    
         }
         private AsyncRelayCommand _excelReportCommand;
         public AsyncRelayCommand ExcelReportCommand
