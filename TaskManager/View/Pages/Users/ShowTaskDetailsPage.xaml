@@ -44,7 +44,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="0.5*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
@@ -68,6 +68,28 @@
                        Style="{StaticResource FieldTextBlock}"
                        Visibility="{Binding IsTaked}"
                        />
+            <!-- for task's owner only-->
+            <Grid x:Name="takeToUser" Grid.Row="5" Grid.Column="1"
+                  Visibility="{Binding TakeToUserVisibility}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <ComboBox 
+                    Margin="10 4 10 4"
+                    Style="{StaticResource BaseComboBox}"
+                    ItemsSource="{Binding Users}"
+                    SelectedItem="{Binding SelectedUser}"
+                    DisplayMemberPath="Lname"/>
+                <Border Grid.Column="1"
+                        Margin="10 4 10 4"
+                        Style="{StaticResource ButtonStackPanel}">
+                    <Button
+                        Content="Назначить сотруднику"
+                        Command="{Binding TakeToUserCommand}"
+                        Style="{StaticResource BaseButton}"/> 
+                </Border>
+            </Grid>
             <TextBlock x:Name="textBlockOwner" Text="Владелец:" Grid.Row="0" Grid.Column="0"
                 Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="10"
         />

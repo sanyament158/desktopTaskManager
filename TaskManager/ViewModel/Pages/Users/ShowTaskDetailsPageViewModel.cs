@@ -38,7 +38,7 @@ namespace TaskManager.ViewModel.Pages.Users
                                 IsCheckedVisibility = Visibility.Visible;
                                 break;
                             case 4:
-                            IsCheckedVisibility = Visibility.Visible;
+                                IsCheckedVisibility = Visibility.Visible;
                                 break;
                         }
                         break;
@@ -65,8 +65,8 @@ namespace TaskManager.ViewModel.Pages.Users
             if (EnteredTask.IdUserTaked != null && EnteredTask.IdUserTaked != 0)
             {
                 IsTaked = Visibility.Visible;
-                _ = InitializeAsync();
             } else IsTaked = Visibility.Collapsed;
+            _ = InitializeAsync();
 
         }
 
@@ -94,8 +94,30 @@ namespace TaskManager.ViewModel.Pages.Users
                 OnPropertyChanged();
             }
         }
+        private List<User> _users;
+        public List<User> Users
+        {
+            set { _users = value;
+                OnPropertyChanged();
+            }
+            get { return _users; }
+        }
+        private User? _selectedUser;
+        public User? SelectedUser
+        {
+            set
+            {
+                _selectedUser = value;
+                OnPropertyChanged();
+            }
+            get
+            {
+                return _selectedUser;
+            }
+        }
 
             //buttons visibility
+        public Visibility TakeToUserVisibility { get; set; }    
         private Visibility _isWaitingVisibility = Visibility.Collapsed;
         public Visibility IsWaitingVisibility
         {
@@ -127,6 +149,23 @@ namespace TaskManager.ViewModel.Pages.Users
             }
         }
         //Commands
+        private AsyncRelayCommand _takeToUserCommand;
+        public AsyncRelayCommand TakeToUserCommand 
+        {
+            get { return _takeToUserCommand ?? (
+                    _takeToUserCommand = new AsyncRelayCommand(
+                        async () =>
+                        {
+                            string? fname = SelectedUser?.Fname;
+                            bool res = await DataBaseService.UpdateFieldFromTableById("task", "idUserTaked", $"{SelectedUser?.Id}", _enteredTask.Id);
+                            await DataBaseService.UpdateFieldFromTableById("task", "idStatus", "1", _enteredTask.Id);
+                            if (res)
+                            MessageBox.Show($"Задача успешно взята сотрудником {fname}");
+                            MainFrame.mainFrame.Navigate(new UserPage(_enteredUser));
+                        }
+                        )
+                    ); }
+        }
         private RelayCommand _goBackCommand;
         public RelayCommand GoBackCommand
         {
@@ -261,6 +300,7 @@ namespace TaskManager.ViewModel.Pages.Users
             if (EnteredTask.IdUserTaked != null && EnteredTask.IdUserTaked != 0)
             {
                 IsTaked = Visibility.Visible;
+                TakeToUserVisibility = Visibility.Collapsed;
 
                 var users = await DataBaseService.GetUsers();
                 var user = users.FirstOrDefault(u => u.Id == EnteredTask.IdUserTaked);
@@ -269,7 +309,17 @@ namespace TaskManager.ViewModel.Pages.Users
             else
             {
                 IsTaked = Visibility.Collapsed;
-                UserTakedText = "Не назначен";
+                TakeToUserVisibility = Visibility.Visible;
+                List<User> allUsers = await DataBaseService.GetUsers();
+                List<User> filteredUsers = new List<User>();
+                foreach (var user in allUsers)
+                {
+                    foreach (var scope in user.Scopes)
+                    {
+                        if (scope.Id == EnteredTask.Scope.Id) filteredUsers.Add(user);
+                    }
+                }
+                Users = filteredUsers;
             }
             OnPropertyChanged("UserTakedText");
         }
