@@ -68,12 +68,6 @@
                                 Style="{StaticResource BigButton}"
                                 Command="{Binding GoToUpdateScopeCommand}"/>
                     </Border>
-                    <Border x:Name="borderViewScope" Grid.Row="3" Margin="5"
-                            Style="{StaticResource ButtonStackPanel}">
-                        <Button x:Name="buttonViewScope" Content="Отношения" 
-                                Style="{StaticResource BigButton}"
-                                Command="{Binding GoToViewScopeCommand}"/>
-                    </Border>
                 </Grid>
             </Grid>
         </Grid>

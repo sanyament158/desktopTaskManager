@@ -86,21 +86,6 @@ namespace TaskManager.ViewModel.Pages.Admin
                     );
             }
         }
-        private RelayCommand _goToViewScopeCommand;
-        public RelayCommand GoToViewScopeCommand
-        {
-            get
-            {
-                return _goToViewScopeCommand ?? (
-                    _goToViewScopeCommand = new RelayCommand(
-                        (obj) =>
-                        {
-                            MainFrame.mainFrame.Navigate(new ViewResponsibilities(_enteredUser));
-                        }
-                        )
-                    );
-            }
-        }
         private RelayCommand _goBackCommand;
         public RelayCommand GoBackCommand
         {

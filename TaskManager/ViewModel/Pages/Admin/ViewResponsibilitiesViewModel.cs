@@ -14,32 +14,27 @@ namespace TaskManager.ViewModel.Pages.Admin
         public ViewResponsibilitiesViewModel(User _enteredUser) 
         {
             this._enteredUser = _enteredUser;
-            System.Threading.Tasks.Task.Run(async () =>
-            {
-                List<Category> scopes = await DataBaseService.GetCategories();
-                Scopes = scopes;
-            }
-            );
+            _ = InitializeAsync();
         }
         private User _enteredUser;
 
-        private List<Category> _scopes;
-        public List<Category> Scopes
+        private List<Model.Task> _tasks;
+        public List<Model.Task> Tasks 
         {
-            get { return _scopes; }
-            set { _scopes = value;
+            get { return _tasks; }
+            set { _tasks = value;
                 OnPropertyChanged();
             }
         }
-        private Category _selectedCategory;
-        public Category SelectedCategory
+        private User _selectedUser;
+        public User SelectedUser
         {
-            get { return _selectedCategory; }
+            get { return _selectedUser; }
             set
             {
-                _selectedCategory = value;
+                _selectedUser = value;
                 OnPropertyChanged();
-                onCategoryChanged();
+                onUserChanged();
             }
         }
         private string _ratio;
@@ -49,7 +44,7 @@ namespace TaskManager.ViewModel.Pages.Admin
             set { _ratio = value;
             OnPropertyChanged();}
         }
-        private List<User> _users = new List<User>();
+        private List<User> _users;
         public List<User> Users
         {
             get { return _users; }
@@ -71,24 +66,28 @@ namespace TaskManager.ViewModel.Pages.Admin
                 );
             }
         }
-        private async void onCategoryChanged()
+        private async void onUserChanged()
         {
-            List<User> allUsers = await DataBaseService.GetUsers();
-            List<User> sortedUsers = new List<User>();
-            foreach ( User user in allUsers )
+            List<Model.Task> allTasks = await DataBaseService.GetTasks();
+            allTasks = allTasks.Where(t => t.Status.Id == 1 || t.Status.Id == 3).ToList();
+
+            List<Model.Task> sortedTasks = new List<Model.Task>();
+            foreach ( Model.Task t in allTasks )
             {
-                foreach (Category scope in user.Scopes)
+                if (t.IdUserTaked == SelectedUser.Id)
                 {
-                    if (scope.Id == SelectedCategory.Id)
-                    {
-                        sortedUsers.Add(user);
-                    }
+                    sortedTasks.Add(t);
                 }
             }
-            Users = sortedUsers;
-            Ratio = $"{sortedUsers.Count()} сотрудник(-а) на одну область";
+            Tasks = sortedTasks;
+            Ratio = $"{sortedTasks.Count()} задач(-и) на одного сотрудника";
         }
-        
+        private async System.Threading.Tasks.Task InitializeAsync()
+        {
+            List<Model.Task> tasks = await DataBaseService.GetTasks();
+            List<User> allUsers = await DataBaseService.GetUsers();
+            Users = allUsers.Where(u => u.Role.Id == 2).ToList();
+        }
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName]string prop="")
         {
