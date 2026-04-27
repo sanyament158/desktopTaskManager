@@ -173,7 +173,7 @@ namespace TaskManager.ViewModel.Pages.Users
                     _goBackCommand = new RelayCommand(
                         (obj) =>
                         {
-                            MainFrame.mainFrame.Navigate(new UserPage(_enteredUser));
+                            MainFrame.mainFrame.GoBack();
                         }
                         )
                     ); }
