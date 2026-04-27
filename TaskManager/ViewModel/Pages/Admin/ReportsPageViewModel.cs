@@ -12,6 +12,7 @@ using TaskManager.Infrastucture.Navigation;
 using TaskManager.View.Pages.Admin;
 using TaskManager.View.UserControls;
 using System.IO;
+using Microsoft.Win32;
 
 namespace TaskManager.ViewModel.Pages.Admin
 {
@@ -179,33 +180,40 @@ namespace TaskManager.ViewModel.Pages.Admin
         {
             get { return _wordReportCommand ?? (_wordReportCommand = new AsyncRelayCommand( async (obj)=>
             {
-                if (TasksControlVisibility == Visibility.Visible)
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.Filter = "Word файлы (*.docx)|*.docx|Все файлы (*.*)|*.*";
+                saveFileDialog.DefaultExt = ".docx";
+                saveFileDialog.FileName = "отчёт_по_задачам";
+                if (saveFileDialog.ShowDialog() == true)
                 {
-                    var tasks = await getTaskCollection();
-                    MessageBox.Show(tasks.Count().ToString());
-                    using (var documentStream = wordService.CreateWordDocumentFromTasks(tasks))
+                    if (TasksControlVisibility == Visibility.Visible)
                     {
-                        // Можно сохранить в файл
-                        using (var fileStream = File.Create("C:\\Users\\sanya\\projects\\report.docx"))
+                        var tasks = await getTaskCollection();
+                        MessageBox.Show(tasks.Count().ToString());
+                        using (var documentStream = wordService.CreateWordDocumentFromTasks(tasks))
                         {
-                            documentStream.CopyTo(fileStream);
+                            // Можно сохранить в файл
+                            using (var fileStream = File.Create(saveFileDialog.FileName))
+                            {
+                                documentStream.CopyTo(fileStream);
+                            }
                         }
+                        MessageBox.Show("success word report!");
                     }
-                    MessageBox.Show("success word report!");
-                }
-                else
-                {
-                    var users = await getUserCollection();
-                    MessageBox.Show(users.Count().ToString());
-                    using (var documentStream = wordService.CreateWordDocumentFromUsers(users))
+                    else
                     {
-                        // Можно сохранить в файл
-                        using (var fileStream = File.Create("C:\\Users\\sanya\\projects\\reportUsers.docx"))
+                        var users = await getUserCollection();
+                        MessageBox.Show(users.Count().ToString());
+                        using (var documentStream = wordService.CreateWordDocumentFromUsers(users))
                         {
-                            documentStream.CopyTo(fileStream);
+                            // Можно сохранить в файл
+                            using (var fileStream = File.Create(saveFileDialog.FileName))
+                            {
+                                documentStream.CopyTo(fileStream);
+                            }
                         }
+                        MessageBox.Show("success word report!");
                     }
-                    MessageBox.Show("success word report!");
                 }
             })); }
     
@@ -215,23 +223,32 @@ namespace TaskManager.ViewModel.Pages.Admin
         {
             get { return _excelReportCommand ?? (_excelReportCommand = new AsyncRelayCommand( async (obj)=>
             {
-                if (TasksControlVisibility == Visibility.Visible)
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.Filter = "Excel файлы (*.xlsx)|*.xlsx|Все файлы (*.*)|*.*";
+                saveFileDialog.DefaultExt = ".xlsx";
+                saveFileDialog.FileName = "отчёт_по_задачам";
+                if (saveFileDialog.ShowDialog() == true)
                 {
-                    var tasks = await getTaskCollection();
-                    excelService.TasksDict = await DataBaseService.GetTasks();
-                    excelService.UsersDict = await DataBaseService.GetUsers();
-                    var report = excelService.ExportTasks(tasks);
+                    if (TasksControlVisibility == Visibility.Visible)
+                    {
+                        var tasks = await getTaskCollection();
+                        excelService.TasksDict = await DataBaseService.GetTasks();
+                        excelService.UsersDict = await DataBaseService.GetUsers();
+                        var report = excelService.ExportTasks(tasks);
 
-                    report.SaveAs("C:\\Users\\sanya\\projects\\report.xlsx");
-                    MessageBox.Show("Успешно!");
+                        report.SaveAs(saveFileDialog.FileName);
+                        MessageBox.Show("Успешно!");
+                    }
+                    else
+                    {
+                        var users = await getUserCollection();
+                        var report = excelService.ExportUsersByScope(SelectedScope.Name, users);
+                        report.SaveAs(saveFileDialog.FileName);
+                        MessageBox.Show("Успешно!");
+                    }
+
                 }
-                else
-                {
-                    var users = await getUserCollection();
-                    var report = excelService.ExportUsersByScope(SelectedScope.Name, users);
-                    report.SaveAs("C:\\Users\\sanya\\projects\\reportUsers.xlsx");
-                    MessageBox.Show("Успешно!");
-                }
+
             })); }
         }
         private RelayCommand _goBackCommand;

@@ -11,6 +11,7 @@ using TaskManager.Infrastucture.Network;
 using TaskManager.Model;
 using TaskManager.View.Pages.Users;
 using TaskManager.Infrastucture.OfficeDocument;
+using Microsoft.Win32;
 
 namespace TaskManager.ViewModel.Pages.Users
 {
@@ -56,12 +57,21 @@ namespace TaskManager.ViewModel.Pages.Users
             get { return _reportCommand ?? (_reportCommand = new AsyncRelayCommand(
                 async () =>
                 {
-                    ExcelDocumentReport excelService = new ExcelDocumentReport();
-                    var users = await DataBaseService.GetUsers();
-                    excelService.UsersDict = users;
-                    var report = excelService.ExportTasks(Tasks);
-                    report.SaveAs("C:\\Users\\sanya\\projects\\Userreport.xlsx");
-                    MessageBox.Show("success");
+                    SaveFileDialog saveFileDialog = new SaveFileDialog();
+                    saveFileDialog.Filter = "Excel файлы (*.xlsx)|*.xlsx|Все файлы (*.*)|*.*";
+                    saveFileDialog.DefaultExt = ".xlsx";
+                    saveFileDialog.FileName = "отчёт_по_задачам";
+
+                    if (saveFileDialog.ShowDialog() == true)
+                    {
+                        ExcelDocumentReport excelService = new ExcelDocumentReport();
+                        var users = await DataBaseService.GetUsers();
+                        excelService.UsersDict = users;
+                        var report = excelService.ExportTasks(Tasks);
+                        
+                        report.SaveAs(saveFileDialog.FileName);
+                        MessageBox.Show("success");
+                    }
                 }
                 )); }
         }
