@@ -25,15 +25,25 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="0.3*"/>
             <RowDefinition Height="2*"/>
-            <RowDefinition Height="0.8*"/>
+            <RowDefinition Height="0.6*"/>
         </Grid.RowDefinitions>
-        <Border Style="{StaticResource HeaderStackPanel}" Margin="20">
+        <Border Style="{StaticResource HeaderStackPanel}" Margin="20 20 20 15">
             <TextBlock x:Name="headerTextBlock" Text="Взятые задачи" Style="{StaticResource HeaderTextBlock}"/>
         </Border>
-
-        <ListView x:Name="listViewTasks" Grid.Row="1" ItemsSource="{Binding Tasks}" SelectedItem="{Binding SelectedTask}"
-              BorderThickness="0" Margin="30">
+        <Border
+            Width="140" HorizontalAlignment="Right"
+            Margin="2 2 40 2"
+            Grid.Row="1"
+            Style="{StaticResource ButtonStackPanel}">
+            <Button x:Name="buttonReport" Content="Отчет в Excel"
+                    Style="{StaticResource BaseButton}"
+                    Command="{Binding ReportCommand}"
+                    />
+        </Border>
+        <ListView x:Name="listViewTasks" Grid.Row="2" ItemsSource="{Binding Tasks}" SelectedItem="{Binding SelectedTask}"
+              BorderThickness="0" Margin="30 10 30 10">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick">
                     <i:InvokeCommandAction Command="{Binding GoToShowDetailsCommand}" CommandParameter="{Binding SelectedTask}"/>
@@ -50,7 +60,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Border Style="{StaticResource ButtonStackPanel}" Margin="250 20 250 20" Grid.Row="2" >
+        <Border Style="{StaticResource ButtonStackPanel}" Margin="250 10 250 10" Grid.Row="3" >
             <Button x:Name="buttonBack" 
                     Style="{StaticResource BigButton}"
                     Content="{StaticResource back}" 

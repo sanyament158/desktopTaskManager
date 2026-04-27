@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.Input;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -9,6 +10,7 @@ using TaskManager.Infrastucture.Navigation;
 using TaskManager.Infrastucture.Network;
 using TaskManager.Model;
 using TaskManager.View.Pages.Users;
+using TaskManager.Infrastucture.OfficeDocument;
 
 namespace TaskManager.ViewModel.Pages.Users
 {
@@ -47,6 +49,21 @@ namespace TaskManager.ViewModel.Pages.Users
                 MainFrame.mainFrame.Navigate(new UserPage(_enteredUser));
 
             } ) ); }
+        }
+        private AsyncRelayCommand _reportCommand;
+        public AsyncRelayCommand ReportCommand
+        {
+            get { return _reportCommand ?? (_reportCommand = new AsyncRelayCommand(
+                async () =>
+                {
+                    ExcelDocumentReport excelService = new ExcelDocumentReport();
+                    var users = await DataBaseService.GetUsers();
+                    excelService.UsersDict = users;
+                    var report = excelService.ExportTasks(Tasks);
+                    report.SaveAs("C:\\Users\\sanya\\projects\\Userreport.xlsx");
+                    MessageBox.Show("success");
+                }
+                )); }
         }
         private RelayCommand _goToShowDetailsCommand;
         public RelayCommand GoToShowDetailsCommand
