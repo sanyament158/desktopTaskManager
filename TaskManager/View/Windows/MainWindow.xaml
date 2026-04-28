@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TaskManager.View"
         mc:Ignorable="d"
-        Title="Авторизация" Height="485" Width="800"
+        Title="Управление задачами цех Печенька" Height="485" Width="800"
         x:Name="window" WindowStartupLocation="CenterScreen" 
         MaxHeight="550" MaxWidth="900"
         MinHeight="480" MinWidth="700">

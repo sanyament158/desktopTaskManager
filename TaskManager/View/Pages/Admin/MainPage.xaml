@@ -134,12 +134,11 @@
                     </i:Interaction.Triggers>
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="Владелец" DisplayMemberBinding="{Binding Owner.Lname}"/>
+                            <GridViewColumn Header="Владелец" DisplayMemberBinding="{Binding Owner.Lname}" Width="120"/>
                             <GridViewColumn Header="Статус" DisplayMemberBinding="{Binding Status.Name}"/>
                             <GridViewColumn Header="Заголовок" DisplayMemberBinding="{Binding Title}"/>
-                            <GridViewColumn Header="Начало" DisplayMemberBinding="{Binding Since, StringFormat=\{0:d\}}"/>
                             <GridViewColumn Header="Дедлайн" DisplayMemberBinding="{Binding Deadline, StringFormat=\{0:d\}}"/>
-                            <GridViewColumn Header="Зона ответственности" DisplayMemberBinding="{Binding Scope.Name}"/>
+                            <GridViewColumn Header="Зона" DisplayMemberBinding="{Binding Scope.Name}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>

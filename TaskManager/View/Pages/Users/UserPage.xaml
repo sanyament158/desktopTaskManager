@@ -22,7 +22,7 @@
     </Page.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="0.55*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
@@ -127,10 +127,9 @@
                     </i:Interaction.Triggers>
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="Владелец" DisplayMemberBinding="{Binding Owner.Lname}"/>
-                            <GridViewColumn Header="Статус" DisplayMemberBinding="{Binding Status.Name}"/>
+                            <GridViewColumn Header="Владелец" DisplayMemberBinding="{Binding Owner.Lname}" Width="100"/>
+                            <GridViewColumn Header="Статус" DisplayMemberBinding="{Binding Status.Name}" Width="100"/>
                             <GridViewColumn Header="Заголовок" DisplayMemberBinding="{Binding Title}"/>
-                            <GridViewColumn Header="Начало" DisplayMemberBinding="{Binding Since, StringFormat=\{0:d\}}"/>
                             <GridViewColumn Header="Дедлайн" DisplayMemberBinding="{Binding Deadline, StringFormat=\{0:d\}}"/>
                             <GridViewColumn Header="Зона ответственности" DisplayMemberBinding="{Binding Scope.Name}"/>
                         </GridView>

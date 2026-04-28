@@ -183,7 +183,7 @@ namespace TaskManager.ViewModel.Pages.Admin
                 SaveFileDialog saveFileDialog = new SaveFileDialog();
                 saveFileDialog.Filter = "Word файлы (*.docx)|*.docx|Все файлы (*.*)|*.*";
                 saveFileDialog.DefaultExt = ".docx";
-                saveFileDialog.FileName = "отчёт_по_задачам";
+                saveFileDialog.FileName = "отчёт";
                 if (saveFileDialog.ShowDialog() == true)
                 {
                     if (TasksControlVisibility == Visibility.Visible)
@@ -203,7 +203,6 @@ namespace TaskManager.ViewModel.Pages.Admin
                     else
                     {
                         var users = await getUserCollection();
-                        MessageBox.Show(users.Count().ToString());
                         using (var documentStream = wordService.CreateWordDocumentFromUsers(users))
                         {
                             // Можно сохранить в файл
@@ -212,7 +211,7 @@ namespace TaskManager.ViewModel.Pages.Admin
                                 documentStream.CopyTo(fileStream);
                             }
                         }
-                        MessageBox.Show("success word report!");
+                        MessageBox.Show("Успешно!");
                     }
                 }
             })); }
@@ -226,7 +225,7 @@ namespace TaskManager.ViewModel.Pages.Admin
                 SaveFileDialog saveFileDialog = new SaveFileDialog();
                 saveFileDialog.Filter = "Excel файлы (*.xlsx)|*.xlsx|Все файлы (*.*)|*.*";
                 saveFileDialog.DefaultExt = ".xlsx";
-                saveFileDialog.FileName = "отчёт_по_задачам";
+                saveFileDialog.FileName = "отчёт";
                 if (saveFileDialog.ShowDialog() == true)
                 {
                     if (TasksControlVisibility == Visibility.Visible)

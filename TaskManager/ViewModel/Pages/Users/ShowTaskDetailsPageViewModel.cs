@@ -297,6 +297,7 @@ namespace TaskManager.ViewModel.Pages.Users
         }
         private async System.Threading.Tasks.Task InitializeAsync()
         {
+            TakeToUserVisibility = Visibility.Collapsed;
             if (EnteredTask.IdUserTaked != null && EnteredTask.IdUserTaked != 0)
             {
                 IsTaked = Visibility.Visible;
@@ -309,7 +310,10 @@ namespace TaskManager.ViewModel.Pages.Users
             else
             {
                 IsTaked = Visibility.Collapsed;
-                TakeToUserVisibility = Visibility.Visible;
+                if (_enteredUser.Id == EnteredTask.Owner.Id)
+                {
+                    TakeToUserVisibility = Visibility.Visible;
+                }
                 List<User> allUsers = await DataBaseService.GetUsers();
                 List<User> filteredUsers = new List<User>();
                 foreach (var user in allUsers)
