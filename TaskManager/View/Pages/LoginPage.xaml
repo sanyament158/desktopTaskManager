@@ -4,9 +4,9 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:TaskManager.View.Pages"
-      mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="Авторизация" Height="450" Width="800">
+      mc:Ignorable="d"
+      Title="Авторизация">
+
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -18,67 +18,114 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="3*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Border x:Name="headerStackPanel" Style="{StaticResource HeaderStackPanel}" CornerRadius="0 0 15 15">
-            <StackPanel VerticalAlignment="Center">
-                <TextBlock Text="Авторизация"
-                   Style="{StaticResource HeaderTextBlock}"
-                   FontWeight="Regular"/>
-            </StackPanel>
+        <!-- HEADER -->
+        <Border Style="{StaticResource HeaderStackPanel}"
+                CornerRadius="0 0 15 15"
+                Padding="0 30">
+            <TextBlock Text="Авторизация"
+                       Style="{StaticResource HeaderTextBlock}"
+                       FontSize="26"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
         </Border>
 
-        <Border Grid.Row="1" Margin="50 20 50 20"
-        Style="{StaticResource BaseStackPanel}" 
-        Background="{StaticResource grey}">
+        <!-- CONTENT -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="550"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
-            <StackPanel x:Name="loginStackPanel" Orientation="Vertical">
+            <Border Grid.Column="1"
+                    Style="{StaticResource BaseStackPanel}"
+                    Background="{StaticResource grey}"
+                    Padding="35"
+                    VerticalAlignment="Center">
 
-                <StackPanel x:Name="inputLoginStackPanel" Orientation="Vertical" Margin="10">
-                    <TextBlock Text="{StaticResource login}" Style="{StaticResource InfoTextBlock}"
-                       HorizontalAlignment="Center" Margin="4 4 200 4"/>
-                    <Border Style="{StaticResource BaseStackPanel}">
-                        <TextBox x:Name="textBoxLogin"
-                         Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}"
-                         Style="{StaticResource BaseTextBox}"  Margin="100 12 12 12"/>
-                    </Border>
-                </StackPanel>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
 
-                <StackPanel x:Name="inputPasswordStackPanel" Orientation="Vertical" Margin="10">
-                    <TextBlock Text="{StaticResource password}" Style="{StaticResource InfoTextBlock}"
-                       HorizontalAlignment="Center" Margin="4 4 200 4"/>
-                    <Border Style="{StaticResource BaseStackPanel}">
-                        <TextBox x:Name="textBoxPassword"
-                         Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}"
-                         Style="{StaticResource BaseTextBox}" 
-         Margin="100 12 12 12"/>
-                    </Border>
-                </StackPanel>
+                    <!-- LOGIN -->
+                    <Grid Grid.Row="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
 
-            </StackPanel>
-        </Border>
+                        <TextBlock Text="{StaticResource login}"
+                                   Style="{StaticResource InfoTextBlock}"
+                                   FontSize="20"
+                                   Margin="0 0 0 8"/>
 
-        <Grid x:Name="gridButtons" Grid.Row="2" HorizontalAlignment="Stretch">
-            <Border x:Name="borderSignup" Style="{StaticResource ButtonStackPanel}" Margin="20"  HorizontalAlignment="Left">
-                <Button x:Name="buttonSignup" 
-                        Style="{StaticResource BaseButton}"
-                        Command="{Binding SignUpCommand}">
-                    <TextBlock Text="{StaticResource signup}" Style="{StaticResource ButtonTextBlock}" FontSize="14"/>
-                </Button>
-            </Border>
+                        <Border Grid.Row="1" Style="{StaticResource BaseStackPanel}">
+                            <TextBox x:Name="textBoxLogin"
+                                     Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}"
+                                     Style="{StaticResource BaseTextBox}"
+                                     FontSize="16"
+                                     Padding="8"/>
+                        </Border>
+                    </Grid>
 
-            <Border x:Name="borderSignin" Style="{StaticResource ButtonStackPanel}" Margin="20" HorizontalAlignment="Center">
-                <Button x:Name="buttonSignin" Content="{StaticResource signin}" 
-                Command="{Binding LoginCommand}"
-                Style="{StaticResource BaseButton}"
-                Width="{Binding ActualWidth, ElementName=buttonSignup}">
-                </Button>
+                    <!-- PASSWORD -->
+                    <Grid Grid.Row="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="{StaticResource password}"
+                                   Style="{StaticResource InfoTextBlock}"
+                                   FontSize="20"
+                                   Margin="0 0 0 8"/>
+
+                        <Border Grid.Row="1" Style="{StaticResource BaseStackPanel}">
+                            <TextBox x:Name="textBoxPassword"
+                                     Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}"
+                                     Style="{StaticResource BaseTextBox}"
+                                     FontSize="16"
+                                     Padding="8"/>
+                        </Border>
+                    </Grid>
+
+                </Grid>
             </Border>
         </Grid>
+
+        <!-- BUTTONS -->
+        <Grid Grid.Row="2" Margin="0 25">
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center">
+
+                <Border Style="{StaticResource ButtonStackPanel}" Padding="10" Margin="10">
+                    <Button Style="{StaticResource BigButton}"
+                            Command="{Binding SignUpCommand}"
+                            Margin="10 0"
+                            Padding="30 12"
+                            Content="{StaticResource signup}"/>
+                </Border>
+
+                <Border Style="{StaticResource ButtonStackPanel}" Padding="10" Margin="10">
+                    <Button Style="{StaticResource BigButton}"
+                            Command="{Binding LoginCommand}"
+                            Margin="10 0"
+                            Padding="30 12"
+                            Content="{StaticResource signin}"/>
+                </Border>
+            </StackPanel>
+        </Grid>
+
     </Grid>
 </Page>

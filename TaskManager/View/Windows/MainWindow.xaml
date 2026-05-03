@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TaskManager.View"
         mc:Ignorable="d"
-        Title="Управление задачами цех Печенька" Height="485" Width="800"
-        x:Name="window" WindowStartupLocation="CenterScreen" 
-        MaxHeight="550" MaxWidth="900"
-        MinHeight="480" MinWidth="700">
+        Title="Управление задачами цех Печенька"
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized">
     <Grid>
-        <Frame x:Name="mainFrame" NavigationUIVisibility="Hidden"
-               Margin="0"
-               Padding="0"
-               BorderThickness="0"/>
+        <Frame x:Name="mainFrame" 
+           NavigationUIVisibility="Hidden"
+           Margin="0"
+           Padding="0"
+           BorderThickness="0"/>
     </Grid>
 </Window>
