@@ -41,18 +41,23 @@ namespace TaskManager.ViewModel.Pages.Admin
                     _acceptCommand = new AsyncRelayCommand<Button>(
                         async (sender) =>
                         {
-                            if (sender.Name == "buttonAccept")
-                            {
-                                
                                 bool result =  await DataBaseService.PutScope(EnteredName);
                                 if (!result) MessageBox.Show("Ошибка!");
                                 else MessageBox.Show("Успешно!");
-                                
-                            }
-                            MainFrame.mainFrame.Navigate(new EditScopesPage(_enteredUser));
+                                MainFrame.mainFrame.Navigate(new EditScopesPage(_enteredUser));
                         }
                         )
                     ); }
+        }
+        private RelayCommand _goBackCommand;
+        public RelayCommand GoBackCommand
+        {
+            get { return _goBackCommand ?? (_goBackCommand = new RelayCommand( 
+                (obj) =>
+                {
+                    MainFrame.mainFrame.GoBack();
+                }
+                )); }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -1,18 +1,19 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows;
-using TaskManager.Infrastucture.Network;
-using TaskManager.Model;
-using TaskManager.Infrastucture.OfficeDocument;
+using TaskManager.Infrastructure.OfficeDocument;
 using TaskManager.Infrastucture.Navigation;
+using TaskManager.Infrastucture.Network;
+using TaskManager.Infrastucture.OfficeDocument;
+using TaskManager.Model;
 using TaskManager.View.Pages.Admin;
 using TaskManager.View.UserControls;
-using System.IO;
-using Microsoft.Win32;
 
 namespace TaskManager.ViewModel.Pages.Admin
 {
@@ -40,6 +41,7 @@ namespace TaskManager.ViewModel.Pages.Admin
             _deadline = DateTime.Now + TimeSpan.FromDays(1);
         }
 
+        private List<User> users = new List<User>();
         public string SwitcherButtonContent 
         {
             get
@@ -85,7 +87,6 @@ namespace TaskManager.ViewModel.Pages.Admin
         }
 
         private WordDocumentReport wordService = new WordDocumentReport();
-        private ExcelDocumentReport excelService = new ExcelDocumentReport();
         private User _enteredUser;
         private List<Category> _scopes;
         public List<Category> Scopes
@@ -189,7 +190,6 @@ namespace TaskManager.ViewModel.Pages.Admin
                     if (TasksControlVisibility == Visibility.Visible)
                     {
                         var tasks = await getTaskCollection();
-                        MessageBox.Show(tasks.Count().ToString());
                         using (var documentStream = wordService.CreateWordDocumentFromTasks(tasks))
                         {
                             // Можно сохранить в файл
@@ -198,7 +198,7 @@ namespace TaskManager.ViewModel.Pages.Admin
                                 documentStream.CopyTo(fileStream);
                             }
                         }
-                        MessageBox.Show("success word report!");
+                        MessageBox.Show("Успешно!");
                     }
                     else
                     {
@@ -220,35 +220,40 @@ namespace TaskManager.ViewModel.Pages.Admin
         private AsyncRelayCommand _excelReportCommand;
         public AsyncRelayCommand ExcelReportCommand
         {
-            get { return _excelReportCommand ?? (_excelReportCommand = new AsyncRelayCommand( async (obj)=>
+            get
             {
-                SaveFileDialog saveFileDialog = new SaveFileDialog();
-                saveFileDialog.Filter = "Excel файлы (*.xlsx)|*.xlsx|Все файлы (*.*)|*.*";
-                saveFileDialog.DefaultExt = ".xlsx";
-                saveFileDialog.FileName = "отчёт";
-                if (saveFileDialog.ShowDialog() == true)
+                return _excelReportCommand ??= new AsyncRelayCommand(async (obj) =>
                 {
+                    var saveFileDialog = new SaveFileDialog
+                    {
+                        Filter = "Excel файлы (*.xlsx)|*.xlsx",
+                        DefaultExt = ".xlsx",
+                        FileName = "отчёт"
+                    };
+
+                    if (saveFileDialog.ShowDialog() != true)
+                        return;
+
+                    var excelService = new ExcelDocumentReport();
+
                     if (TasksControlVisibility == Visibility.Visible)
                     {
                         var tasks = await getTaskCollection();
-                        excelService.TasksDict = await DataBaseService.GetTasks();
-                        excelService.UsersDict = await DataBaseService.GetUsers();
-                        var report = excelService.ExportTasks(tasks);
 
-                        report.SaveAs(saveFileDialog.FileName);
-                        MessageBox.Show("Успешно!");
+                        var doc = excelService.BuildTasksReport(tasks);
+
+                        doc.SaveAs(saveFileDialog.FileName);
                     }
                     else
                     {
-                        var users = await getUserCollection();
-                        var report = excelService.ExportUsersByScope(SelectedScope.Name, users);
-                        report.SaveAs(saveFileDialog.FileName);
-                        MessageBox.Show("Успешно!");
+                        var userList = await getUserCollection();
+                        var doc = excelService.BuildUsersReport(userList);
+                        doc.SaveAs(saveFileDialog.FileName);
                     }
 
-                }
-
-            })); }
+                    MessageBox.Show("Excel отчёт успешно создан!");
+                });
+            }
         }
         private RelayCommand _goBackCommand;
         public RelayCommand GoBackCommand
@@ -300,6 +305,7 @@ namespace TaskManager.ViewModel.Pages.Admin
         {
             Scopes = await DataBaseService.GetCategories();
             Statuses = await DataBaseService.GetStatuses();
+            users = await DataBaseService.GetUsers();
         }
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName]string prop = "")

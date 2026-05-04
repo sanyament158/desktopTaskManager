@@ -1,224 +1,166 @@
-﻿using System;
+﻿using ClosedXML.Excel;
+using System;
 using System.Collections.Generic;
-using System.Text;
-using ClosedXML.Excel;
-using TaskManager.Infrastucture.Network;
+using System.Linq;
+using TaskManager.Model;
 
-namespace TaskManager.Infrastucture.OfficeDocument
+namespace TaskManager.Infrastructure.OfficeDocument
 {
     public class ExcelDocumentReport
     {
-        public List<Model.User> UsersDict {  get; set; }
-        public List<Model.Task> TasksDict {  get; set; }
-
-        // make document object methods
-        public XLWorkbook ExportTasks(List<Model.Task> tasks)
+        public XLWorkbook BuildTasksReport(List<Model.Task> tasks)
         {
-            // Создаём новую книгу
-            var workbook = new XLWorkbook();
+            var wb = new XLWorkbook();
+            var ws = wb.Worksheets.Add("Задачи");
 
-            // Добавляем лист с названием "Задачи"
-            var worksheet = workbook.Worksheets.Add("Задачи");
+            string[] headers =
+            {
+                "Название",
+                "Статус",
+                "Категория",
+                "Начало",
+                "Срок",
+                "Создал"
+            };
 
-            // Заголовки столбцов (человекочитаемые)
-            string[] headers = { "Название", "Исполнитель", "Статус", "Категория", "Начало", "Срок сдачи", "Задачу создал"};
-
-            // Записываем заголовки в первую строку
+            // ===== HEADER =====
             for (int i = 0; i < headers.Length; i++)
+                ws.Cell(1, i + 1).Value = headers[i];
+
+            var headerRow = ws.Row(1);
+            headerRow.Style.Font.Bold = true;
+            headerRow.Style.Fill.BackgroundColor = XLColor.FromHtml("#2F5597");
+            headerRow.Style.Font.FontColor = XLColor.White;
+            headerRow.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+
+            int row = 2;
+
+            // ===== DATA =====
+            foreach (var t in tasks)
             {
-                worksheet.Cell(1, i + 1).Value = headers[i];
+                ws.Cell(row, 1).Value = t.Title;
+                ws.Cell(row, 2).Value = t.Status?.Name;
+                ws.Cell(row, 3).Value = t.Scope?.Name;
+                ws.Cell(row, 4).Value = t.Since.ToString("dd.MM.yyyy");
+                ws.Cell(row, 5).Value = t.Deadline.ToString("dd.MM.yyyy");
+                ws.Cell(row, 6).Value = t.Owner?.Lname;
+
+                ApplyRowStyle(ws, row, t);
+
+                row++;
             }
 
-            // Стилизуем заголовки
-            var headerRow = worksheet.Row(1);
-            headerRow.Style.Font.SetBold();
-            headerRow.Style.Font.SetFontColor(XLColor.White);
-            headerRow.Style.Fill.SetBackgroundColor(XLColor.FromHtml("#2F5597"));
-            headerRow.Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
-            headerRow.Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
-
-            // Заполняем данными
-            int currentRow = 2;
-            foreach (var task in tasks)
+            // ===== USED RANGE BORDER (ВАЖНО) =====
+            var usedRange = ws.RangeUsed();
+            if (usedRange != null)
             {
-                worksheet.Cell(currentRow, 1).Value = task.Title ?? "";
-                worksheet.Cell(currentRow, 2).Value = GetTakedUserLname(task) ?? "Не назначен"; 
-                worksheet.Cell(currentRow, 3).Value = task.Status?.Name ?? "Неизвестно";
-                worksheet.Cell(currentRow, 4).Value = task.Scope?.Name ?? "Без категории";
-                worksheet.Cell(currentRow, 5).Value = task.Since.ToString("dd.MM.yyyy");
-                worksheet.Cell(currentRow, 6).Value = task.Deadline.ToString("dd.MM.yyyy");
-                worksheet.Cell(currentRow, 7).Value = task.Owner.Lname;
-
-                // Раскрашиваем строки в зависимости от статуса или просрочки
-                ApplyRowStyling(worksheet, currentRow, task);
-
-                currentRow++;
+                usedRange.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                usedRange.Style.Border.InsideBorder = XLBorderStyleValues.Thin;
             }
 
-            // Применяем автофильтр к заголовкам
-            worksheet.RangeUsed().SetAutoFilter();
+            ws.Columns().AdjustToContents();
 
-            // Автоматически подгоняем ширину столбцов
-            worksheet.Columns().AdjustToContents();
+            // ===== FOOTER =====
+            AddFooter(ws, row + 2);
 
-            // Дополнительное форматирование для столбца с описанием (делаем его чуть шире)
-            worksheet.Column(2).Width = 40;
-
-            // Добавляем итоговую строку с подсчётом задач
-            AddSummaryRow(worksheet, currentRow, tasks.Count);
-
-            return workbook;
+            return wb;
         }
 
-        /// <summary>
-        /// Применяет стили к строке в зависимости от статуса и просрочки
-        /// </summary>
-        private string GetTakedUserLname(Model.Task task)
+        private void ApplyRowStyle(IXLWorksheet ws, int row, Model.Task t)
         {
-            string takedUserLname = UsersDict.Where(u => u.Id == task.IdUserTaked).First().Lname ?? "Не назначен";
-            return takedUserLname;
+            var r = ws.Row(row);
 
-        }
-        private void ApplyRowStyling(IXLWorksheet worksheet, int rowNum, Model.Task task)
-        {
-            var row = worksheet.Row(rowNum);
+            bool overdue = t.Deadline < DateTime.Now &&
+                           t.Status?.Name?.ToLower() != "завершено";
 
-            // Проверяем просрочку
-            bool isOverdue = task.Deadline < DateTime.Now.Date &&
-                            (task.Status?.Name?.ToLower() != "завершено" && task.Status?.Name?.ToLower() != "closed");
-
-            if (isOverdue)
-            {
-                // Просроченные задачи - красный фон
-                row.Style.Fill.SetBackgroundColor(XLColor.FromHtml("#FFCCCC"));
-                row.Style.Font.SetFontColor(XLColor.FromHtml("#9C0000"));
-            }
-            else if (task.Status?.Name?.ToLower() == "завершено" || task.Status?.Name?.ToLower() == "closed")
-            {
-                // Завершённые задачи - зелёный фон
-                row.Style.Fill.SetBackgroundColor(XLColor.FromHtml("#C6EFCE"));
-                row.Style.Font.SetFontColor(XLColor.FromHtml("#006100"));
-            }
-            else if (task.IdUserTaked != null && task.IdUserTaked > 0)
-            {
-                // Задачи в работе - голубоватый фон
-                row.Style.Fill.SetBackgroundColor(XLColor.FromHtml("#DDEBF7"));
-            }
-
-            // Добавляем границы для всех ячеек в строке
-            row.Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
-            row.Style.Border.SetInsideBorder(XLBorderStyleValues.Thin);
+            if (overdue)
+                r.Style.Fill.BackgroundColor = XLColor.OrangeRed;
+            else if (t.Status?.Name?.ToLower() == "завершено")
+                r.Style.Fill.BackgroundColor = XLColor.LightGreen;
+            else if (t.IdUserTaked > 0)
+                r.Style.Fill.BackgroundColor = XLColor.LightBlue;
         }
 
-        /// <summary>
-        /// Добавляет итоговую строку с подсчётами
-        /// </summary>
-        private void AddSummaryRow(IXLWorksheet worksheet, int lastRow, int totalCount)
+        private void AddFooter(IXLWorksheet ws, int startRow)
         {
-            int summaryRow = lastRow + 1;
+            ws.Cell(startRow, 1).Value = $"Документ создан: {DateTime.Now:dd.MM.yyyy HH:mm}";
+            ws.Range(startRow, 1, startRow, 3).Merge();
+            ws.Cell(startRow, 1).Style.Font.Italic = true;
 
-            worksheet.Cell(summaryRow, 1).Value = "ИТОГО:";
-            worksheet.Cell(summaryRow, 1).Style.Font.SetBold();
-            worksheet.Cell(summaryRow, 1).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Right);
+            // подпись линия
+            ws.Cell(startRow + 2, 1).Value = "Подпись:";
+            ws.Cell(startRow + 2, 2).Value = "__________________________";
 
-            worksheet.Cell(summaryRow, 2).Value = $"Всего задач: {totalCount}";
-            worksheet.Cell(summaryRow, 2).Style.Font.SetBold();
+            // ФИО линия
+            ws.Cell(startRow + 3, 1).Value = "Фамилия И.О.:";
+            ws.Cell(startRow + 3, 2).Value = "__________________________";
 
-            // Объединяем ячейки для красоты (необязательно)
-            worksheet.Range(summaryRow, 3, summaryRow, 8).Merge();
-            worksheet.Cell(summaryRow, 3).Value = "Данные актуальны на " + DateTime.Now.ToString("dd.MM.yyyy HH:mm");
-            worksheet.Cell(summaryRow, 3).Style.Font.SetItalic();
-            worksheet.Cell(summaryRow, 3).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Right);
-
-            // Фон для итоговой строки
-            worksheet.Row(summaryRow).Style.Fill.SetBackgroundColor(XLColor.FromHtml("#F2F2F2"));
+            ws.Range(startRow + 2, 1, startRow + 3, 2)
+                .Style.Font.FontSize = 11;
         }
 
-        /// <summary>
-        /// Альтернативный метод: экспорт и сразу сохранение в файл
-        /// </summary>
-        public XLWorkbook ExportUsersByScope(string scope, List<Model.User> users)
+        // ===== USERS REPORT =====
+        public XLWorkbook BuildUsersReport(List<User> users)
         {
-            // Создаём книгу
-            var workbook = new XLWorkbook();
+            var wb = new XLWorkbook();
+            var ws = wb.Worksheets.Add("Сотрудники");
 
-            // Название листа (обрезаем, если слишком длинное)
-            string sheetName = $"Сотрудники, ответственные за {scope}";
-            if (sheetName.Length > 31) sheetName = sheetName.Substring(0, 31);
-            var worksheet = workbook.Worksheets.Add(sheetName);
+            string[] headers =
+            {
+        "Фамилия",
+        "Зоны ответственности"
+    };
 
-            // ========== ЗАГОЛОВОК НАД ТАБЛИЦЕЙ (строка 1) ==========
-            string title = $"Сотрудники, ответственные за {scope}";
-            worksheet.Range("A1:B1").Merge();  // A1 до B1 (2 столбца)
-            worksheet.Cell("A1").Value = title;
-            worksheet.Cell("A1").Style.Font.SetBold();
-            worksheet.Cell("A1").Style.Font.SetFontSize(14);
-            worksheet.Cell("A1").Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
-
-            // ========== ЗАГОЛОВКИ СТОЛБЦОВ (строка 2) ==========
-            string[] headers = { "Фамилия", "Категории" };
+            // ===== HEADER =====
             for (int i = 0; i < headers.Length; i++)
+                ws.Cell(1, i + 1).Value = headers[i];
+
+            var header = ws.Row(1);
+            header.Style.Font.Bold = true;
+            header.Style.Fill.BackgroundColor = XLColor.FromHtml("#2F5597");
+            header.Style.Font.FontColor = XLColor.White;
+            header.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+
+            int row = 2;
+
+            // ===== DATA =====
+            foreach (var u in users)
             {
-                worksheet.Cell(2, i + 1).Value = headers[i];
+                ws.Cell(row, 1).Value = u.Lname ?? "—";
+
+                var scopes = u.Scopes != null && u.Scopes.Any()
+                    ? string.Join(", ", u.Scopes.Select(s => s.Name))
+                    : "Нет зон";
+
+                ws.Cell(row, 2).Value = scopes;
+
+                ApplyUserRowStyle(ws, row);
+
+                row++;
             }
 
-            // Стилизация заголовков столбцов (строка 2)
-            var headerRow = worksheet.Row(2);
-            headerRow.Style.Font.SetBold();
-            headerRow.Style.Font.SetFontColor(XLColor.White);
-            headerRow.Style.Fill.SetBackgroundColor(XLColor.FromHtml("#2F5597"));
-            headerRow.Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
-            headerRow.Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
-
-            // ========== ЗАПОЛНЕНИЕ ДАННЫМИ (начиная с 3 строки) ==========
-            int currentRow = 3;
-            foreach (var user in users)
+            // ===== BORDER ONLY USED RANGE =====
+            var usedRange = ws.RangeUsed();
+            if (usedRange != null)
             {
-                // Формируем строку со всеми категориями пользователя
-                string allScopes = user.Scopes != null
-                    ? string.Join(", ", user.Scopes.Select(s => s.Name))
-                    : "Нет категорий";
-
-                worksheet.Cell(currentRow, 1).Value = user.Lname ?? "—";
-                worksheet.Cell(currentRow, 2).Value = allScopes;
-
-                currentRow++;
+                usedRange.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                usedRange.Style.Border.InsideBorder = XLBorderStyleValues.Thin;
             }
 
-            // Если пользователей не найдено — выводим сообщение
-            if (users.Count == 0)
-            {
-                worksheet.Cell(3, 1).Value = $"Сотрудники, ответственные за '{scope}', не найдены";
-                worksheet.Range(3, 1, 3, 2).Merge();
-                worksheet.Cell(3, 1).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
-                worksheet.Cell(3, 1).Style.Font.SetItalic();
-                worksheet.Cell(3, 1).Style.Font.SetFontColor(XLColor.Gray);
-            }
+            ws.Columns().AdjustToContents();
+            ws.Column(2).Width = 40;
 
-            // ========== НАСТРОЙКА ВНЕШНЕГО ВИДА ==========
-            worksheet.RangeUsed()?.SetAutoFilter();
-            worksheet.Columns().AdjustToContents();
-            worksheet.Column(2).Width = 40; // Столбец с категориями пошире
+            AddFooter(ws, row + 2);
 
-            // Итоговая строка
-            AddSummaryRow(worksheet, currentRow, users.Count, scope);
-
-            return workbook;
+            return wb;
         }
 
-        private void AddSummaryRow(IXLWorksheet worksheet, int lastRow, int totalCount, string scope)
+        private void ApplyUserRowStyle(IXLWorksheet ws, int row)
         {
-            int summaryRow = lastRow + 1;
+            var r = ws.Row(row);
 
-            worksheet.Cell(summaryRow, 1).Value = "ИТОГО:";
-            worksheet.Cell(summaryRow, 1).Style.Font.SetBold();
-            worksheet.Cell(summaryRow, 1).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Right);
-
-            worksheet.Cell(summaryRow, 2).Value = $"Всего сотрудников: {totalCount} | Категория: {scope} | Отчёт сформирован: {DateTime.Now:dd.MM.yyyy HH:mm}";
-            worksheet.Cell(summaryRow, 2).Style.Font.SetBold();
-            worksheet.Cell(summaryRow, 2).Style.Font.SetItalic();
-
-            worksheet.Row(summaryRow).Style.Fill.SetBackgroundColor(XLColor.FromHtml("#F2F2F2"));
+            r.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+            r.Style.Border.InsideBorder = XLBorderStyleValues.Thin;
         }
     }
 }

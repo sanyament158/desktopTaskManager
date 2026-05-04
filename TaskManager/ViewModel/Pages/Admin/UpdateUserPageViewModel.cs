@@ -103,8 +103,6 @@ namespace TaskManager.ViewModel.Pages.Admin
                     _acceptCommand = new AsyncRelayCommand<Button>(
                         async (sender) =>
                         {
-                            if (sender.Name == "buttonAccept")
-                            {
                                 bool result = await DataBaseService.UpdateUserById(
                                     new User
                                     {
@@ -116,11 +114,23 @@ namespace TaskManager.ViewModel.Pages.Admin
                                     );
                                 if (!result) MessageBox.Show("Ошибка!");
                                 else MessageBox.Show("Успешно!");
-                            }
                             MainFrame.mainFrame.Navigate(new EditEmployeesPage(_enteredUser));
                         }
                         )
                     );
+            }
+        }
+        private RelayCommand _goBackCommand;
+        public RelayCommand GoBackCommand
+        {
+            get
+            {
+                return _goBackCommand ?? (_goBackCommand = new RelayCommand(
+                (obj) =>
+                {
+                    MainFrame.mainFrame.Navigate( new EditEmployeesPage(_enteredUser));
+                })
+                );
             }
         }
 

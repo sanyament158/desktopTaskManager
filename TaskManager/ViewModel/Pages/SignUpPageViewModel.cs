@@ -10,6 +10,7 @@ using TaskManager.Infrastucture.Navigation;
 using TaskManager.Infrastucture.Network;
 using TaskManager.Model;
 using TaskManager.View.Pages;
+using TaskManager.View.Pages.Admin;
 
 namespace TaskManager.ViewModel.Pages
 {
@@ -48,6 +49,21 @@ namespace TaskManager.ViewModel.Pages
             }
         }
 
+        private RelayCommand _goBackCommand;
+        public RelayCommand GoBackCommand
+        {
+            get
+            {
+                return _goBackCommand ?? (
+                    _goBackCommand = new RelayCommand(
+                        (obj) =>
+                        {
+                            MainFrame.mainFrame.GoBack();
+                        }
+                        )
+                    );
+            }
+        }
         private AsyncRelayCommand<Button> _acceptCommand;
         public AsyncRelayCommand<Button> AcceptCommand
         {
@@ -57,8 +73,6 @@ namespace TaskManager.ViewModel.Pages
                     _acceptCommand = new AsyncRelayCommand<Button>(
                         async (sender) =>
                         {
-                            if (sender.Name == "buttonAccept")
-                            {
                                 bool result = await DataBaseService.PutUser(
                                     new User
                                     {
@@ -69,8 +83,6 @@ namespace TaskManager.ViewModel.Pages
                                     );
                                 if (!result) MessageBox.Show("Ошибка!");
                                 else MessageBox.Show("Успешно!");
-
-                            }
                             MainFrame.mainFrame.Navigate(new LoginPage());
                         }
                         )

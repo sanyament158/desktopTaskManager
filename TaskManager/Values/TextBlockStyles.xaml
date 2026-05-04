@@ -6,7 +6,7 @@
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="BaseTextBlock" TargetType="TextBlock">
-        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="FontSize" Value="25"/>
         <Setter Property="FontFamily" Value="Candara"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
@@ -15,7 +15,7 @@
     </Style>
 
     <Style x:Key="HeaderTextBlock" TargetType="TextBlock" BasedOn="{StaticResource BaseTextBlock}">
-        <Setter Property="FontSize" Value="24"/>
+        <Setter Property="FontSize" Value="30"/>
         <Setter Property="FontWeight" Value="Black"/>
     </Style>
 

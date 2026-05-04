@@ -4,15 +4,14 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:TaskManager.View.Pages.Admin"
-      mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="EditUserResponsibilityPage" Background="White">
+      mc:Ignorable="d"
+      Title="EditUserResponsibilityPage"
+      Background="White">
 
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Values/TextBlockStyles.xaml"/>
-                <ResourceDictionary Source="/Values/TextBoxStyles.xaml"/>
                 <ResourceDictionary Source="/Values/BorderStyles.xaml"/>
                 <ResourceDictionary Source="/Values/ButtonStyles.xaml"/>
                 <ResourceDictionary Source="/Values/Strings.xaml"/>
@@ -21,77 +20,123 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid>
+    <Grid Margin="20">
+
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.8*"/>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="0.6*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="0.2*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
 
-        <TextBlock x:Name="header" Text="Зоны ответственности сотрудника" Grid.ColumnSpan="3" 
-                   Style="{StaticResource HeaderTextBlock}" Foreground="{StaticResource brown}"/>
-        <Grid x:Name="responsibleScopes" Grid.Row="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="0.1*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <TextBlock Style="{StaticResource InfoTextBlock}">
-                <Run Text="{Binding SelectedUser.Lname}"/>
-                <Run Text=" ответственнен за"/>
-            </TextBlock>
-            <ListView x:Name="userResponsibilites" Grid.Row="1" Grid.Column="0"
-                      Style="{StaticResource BaseListView}" Margin="10"
-                      ItemsSource="{Binding UserScopes}" 
-                      SelectedItem="{Binding UserSelectedScope}"
-                      DisplayMemberPath="Name">
-            </ListView>
-        </Grid>
-        <Grid x:Name="availScopes" Grid.Row="1" Grid.Column="2">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="0.1*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <TextBlock Text="Доступные зоны ответственности" Style="{StaticResource InfoTextBlock}"/>
-            <ListView Grid.Row="1" Grid.Column="0"
-                      Style="{StaticResource BaseListView}" Margin="10"
-                      ItemsSource="{Binding AvailScopes}" 
-                      SelectedItem="{Binding AvailSelectedScope}"
-                      DisplayMemberPath="Name">
-            </ListView>
-        </Grid>
-
-        <Grid x:Name="moveButtons" Grid.Column="1" Grid.Row="1">
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <Border x:Name="moveToAvailable" Grid.Row="0"
-                Margin="2 90 2 4"
-                Style="{StaticResource ButtonStackPanel}">
-            <Button Content="->" 
-                    Style="{StaticResource BaseButton}"
-                    Command="{Binding MoveToAvailCommand}"/>
+        <!-- HEADER -->
+        <Border Style="{StaticResource HeaderStackPanel}">
+            <TextBlock Text="Зоны ответственности сотрудника"
+                       Grid.Row="0"
+                       Style="{StaticResource HeaderTextBlock}"
+                       HorizontalAlignment="Center"
+                       Margin="0 20"/>
         </Border>
-            <Border x:Name="moveToUser" Grid.Row="1"
-                Margin="2 4 2 90" 
-                Style="{StaticResource ButtonStackPanel}">
-                <Button Content="&lt;-" 
-                    Style="{StaticResource BaseButton}"
-                    Command="{Binding MoveToUserCommand}"/>
+
+        <!-- MAIN -->
+        <Grid Grid.Row="1">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- USER SCOPES -->
+            <Border Grid.Column="0"
+                    Background="{StaticResource grey}"
+                    CornerRadius="10"
+                    Margin="10"
+                    Padding="10">
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Style="{StaticResource InfoTextBlock}">
+                        <Run Text="{Binding SelectedUser.Lname}"/>
+                        <Run Text=" ответственен за"/>
+                    </TextBlock>
+
+                    <ListView Grid.Row="1"
+                              ItemsSource="{Binding UserScopes}"
+                              SelectedItem="{Binding UserSelectedScope}"
+                              Background="Transparent"
+                              DisplayMemberPath="Name"
+                              Margin="5"
+                              BorderThickness="0"
+                              FontSize="16"/>
+                </Grid>
             </Border>
+
+            <!-- MOVE BUTTONS -->
+            <StackPanel Grid.Column="1"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center">
+
+                <Border Style="{StaticResource ButtonStackPanel}"
+                        Margin="5">
+                    <Button Content="→"
+                            FontSize="30"
+                            Style="{StaticResource BaseButton}"
+                            Command="{Binding MoveToAvailCommand}"/>
+                </Border>
+
+                <Border Style="{StaticResource ButtonStackPanel}"
+                        Margin="5">
+                    <Button Content="←"
+                            FontSize="30"
+                            Style="{StaticResource BaseButton}"
+                            Command="{Binding MoveToUserCommand}"/>
+                </Border>
+
+            </StackPanel>
+
+            <!-- AVAILABLE SCOPES -->
+            <Border Grid.Column="2"
+                    Background="{StaticResource grey}"
+                    CornerRadius="10"
+                    Margin="10"
+                    Padding="10">
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="Доступные зоны ответственности"
+                               Style="{StaticResource InfoTextBlock}"/>
+
+                    <ListView Grid.Row="1"
+                              Background="Transparent"
+                              ItemsSource="{Binding AvailScopes}"
+                              SelectedItem="{Binding AvailSelectedScope}"
+                              DisplayMemberPath="Name"
+                              Margin="5"
+                              BorderThickness="0"
+                              FontSize="16"/>
+                </Grid>
+            </Border>
+
         </Grid>
-        
-        <Border x:Name="goBack" Grid.Row="2" Grid.ColumnSpan="3"
-                Style="{StaticResource ButtonStackPanel}" Margin="280 10 280 10">
+
+        <!-- BACK -->
+        <Border Grid.Row="2"
+                HorizontalAlignment="Left"
+                Style="{StaticResource ButtonStackPanel}"
+                Margin="10 15">
+
             <Button Content="{StaticResource back}"
                     Style="{StaticResource BaseButton}"
                     Command="{Binding GoBackCommand}"/>
         </Border>
-        
+
     </Grid>
 </Page>

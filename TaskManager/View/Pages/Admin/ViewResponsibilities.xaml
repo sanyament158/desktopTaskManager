@@ -4,10 +4,9 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:TaskManager.View.Pages.Admin"
-      mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="ViewResponsibilities"
-      Background="White">
+      mc:Ignorable="d"
+      Background="White"
+      Title="ViewResponsibilities">
 
     <Page.Resources>
         <ResourceDictionary>
@@ -19,59 +18,110 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+
+    <Grid Margin="20">
+
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="0.4*"/>
-            <RowDefinition Height="3*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Border Style="{StaticResource HeaderStackPanel}" Grid.ColumnSpan="2" 
-                Padding="20" Margin="10" VerticalAlignment="Top">
-            <TextBlock Text="Оценка загруженности сотрудников" 
-                       Style="{StaticResource HeaderTextBlock}"/>
+        <!-- HEADER -->
+        <Border Style="{StaticResource HeaderStackPanel}"
+                >
+            <TextBlock Text="Оценка загруженности сотрудников"
+                       Style="{StaticResource HeaderTextBlock}"
+                       HorizontalAlignment="Center" Margin="0 30"/>
         </Border>
 
-        <TextBlock x:Name="textBlockRatio" Grid.Row="1" Grid.ColumnSpan="2"
+        <!-- RATIO -->
+        <TextBlock Grid.Row="1"
                    Text="{Binding Ratio}"
                    Style="{StaticResource InfoTextBlock}"
-                   />
+                   HorizontalAlignment="Center"
+                   Margin="0 10"/>
 
-        <ListView x:Name="listViewEmployees" Grid.Row="2" Margin="10"
-                  ItemsSource="{Binding Users}" BorderThickness="0"
-                  SelectedItem="{Binding SelectedUser}"
-            >
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Фамилия" DisplayMemberBinding="{Binding Lname}" Width="200"/>
-                </GridView>
-            </ListView.View>
-        </ListView>
-        
-        <ListView x:Name="listViewTasks" Grid.Row="2" Grid.Column="1" Margin="10"
-          ItemsSource="{Binding Tasks}" BorderThickness="0"
-            >
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Заголовок" DisplayMemberBinding="{Binding Title}" Width="200"/>
-                    <GridViewColumn Header="Зона ответственности" DisplayMemberBinding="{Binding Scope.Name}" Width="200"/>
-                </GridView>
-            </ListView.View>
-        </ListView>
+        <!-- CONTENT -->
+        <Grid Grid.Row="2">
 
-        <Border x:Name="borderBack" Grid.Row="3" Grid.ColumnSpan="2"
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- EMPLOYEES -->
+            <Border Grid.Column="0"
+                    Background="{StaticResource grey}"
+                    CornerRadius="10"
+                    Margin="10"
+                    Padding="10">
+                <ListView
+                              ItemsSource="{Binding Users}"
+                              SelectedItem="{Binding SelectedUser}"
+                              Background="Transparent"
+                              DisplayMemberPath="Lname"
+                              Margin="5"
+                              BorderThickness="0"
+                              FontSize="16"/>
+
+
+            </Border>
+
+            <!-- TASKS -->
+            <Border Grid.Column="1"
+                    Background="{StaticResource grey}"
+                    CornerRadius="10"
+                    Margin="10"
+                    Padding="10">
+
+                <ListView ItemsSource="{Binding Tasks}"
+          Background="Transparent"
+          BorderThickness="0"
+          FontSize="16">
+
+                    <ListView.Resources>
+
+                        <Style TargetType="{x:Type GridViewColumnHeader}">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <Setter Property="BorderBrush" Value="Transparent"/>
+                            <Setter Property="Padding" Value="6"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                            <Setter Property="VerticalContentAlignment" Value="Center"/>
+                            <Setter Property="FontWeight" Value="SemiBold"/>
+                        </Style>
+
+                    </ListView.Resources>
+
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Заголовок"
+                            DisplayMemberBinding="{Binding Title}"
+                            Width="220"/>
+                            <GridViewColumn Header="Зона"
+                            DisplayMemberBinding="{Binding Scope.Name}"
+                            Width="220"/>
+                        </GridView>
+                    </ListView.View>
+
+                </ListView>
+            </Border>
+
+        </Grid>
+
+        <!-- BACK BUTTON -->
+        <Border Grid.Row="3"
                 Style="{StaticResource ButtonStackPanel}"
-                Margin="190 16 190 16">
-            <Button x:Name="buttonBack" 
+                HorizontalAlignment="Center"
+                Margin="0 20">
+
+            <Button Content="{StaticResource back}"
                     Command="{Binding GoBackCommand}"
-                    Content="{StaticResource back}"
                     Style="{StaticResource BigButton}"
-                    />
+                    Width="200"/>
         </Border>
+
     </Grid>
 </Page>

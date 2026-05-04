@@ -7,7 +7,7 @@
     <Style x:Key="BaseComboBox" TargetType="ComboBox">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="FontFamily" Value="Arial"/>
-        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="FontSize" Value="25"/>
         <Setter Property="Foreground" Value="{StaticResource brown}"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Padding" Value="6,4"/>

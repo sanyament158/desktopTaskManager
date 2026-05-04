@@ -102,9 +102,23 @@ namespace TaskManager.ViewModel.Pages.Admin
             }
         }
 
-        
-        
+
+
         //Commands
+        private RelayCommand _goBackCommand;
+        public RelayCommand GoBackCommand
+        {
+            get
+            {
+                return _goBackCommand ??
+                    (_goBackCommand = new RelayCommand(
+                        (obj) =>
+                        {
+                            MainFrame.mainFrame.GoBack();
+                        }
+                        ));
+            }
+        }
         private AsyncRelayCommand _refreshScopesCommand;
         public AsyncRelayCommand RefreshScopesCommand
         {
@@ -145,8 +159,6 @@ namespace TaskManager.ViewModel.Pages.Admin
                     _acceptCommand = new AsyncRelayCommand<Button>(
                         async (sender) =>
                         {
-                            if (sender.Name == "buttonAccept")
-                            {
                                 User owner = null;
                                 try
                                 {
@@ -179,12 +191,6 @@ namespace TaskManager.ViewModel.Pages.Admin
                                     else MainFrame.mainFrame.Navigate(new UserPage(_enteredUser));
                                 }
                                 else MessageBox.Show("Введенные поля неверны!");
-                            }
-                            else
-                            {
-                                if (_enteredUser.Role.Id != 1) MainFrame.mainFrame.Navigate(new UserPage(_enteredUser));
-                                else MainFrame.mainFrame.Navigate(new MainPage(_enteredUser));
-                            }
                         }
                         )
                     );

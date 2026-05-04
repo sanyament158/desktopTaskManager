@@ -109,11 +109,10 @@
             <StackPanel Orientation="Horizontal"
                         HorizontalAlignment="Center">
 
-                <Border Style="{StaticResource ButtonStackPanel}" Padding="10" Margin="10">
+                <Border Style="{StaticResource ButtonStackPanel}" Margin="10">
                     <Button Style="{StaticResource BigButton}"
                             Command="{Binding SignUpCommand}"
                             Margin="10 0"
-                            Padding="30 12"
                             Content="{StaticResource signup}"/>
                 </Border>
 
@@ -121,7 +120,6 @@
                     <Button Style="{StaticResource BigButton}"
                             Command="{Binding LoginCommand}"
                             Margin="10 0"
-                            Padding="30 12"
                             Content="{StaticResource signin}"/>
                 </Border>
             </StackPanel>

@@ -4,9 +4,9 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:TaskManager.View.Pages.Admin"
-      mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="UpdateUserPage" Background="White">
+      mc:Ignorable="d"
+      Title="UpdateUserPage"
+      Background="White">
 
     <Page.Resources>
         <ResourceDictionary>
@@ -21,109 +21,165 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid>
+    <Grid Margin="20">
+
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="4*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock x:Name="textBlockHeader" Grid.Row="0"
-            Text="Редактировать сотрудника:"
-            Style="{StaticResource HeaderTextBlock}" Foreground="Black"/>
+        <!-- HEADER -->
+        <Border Style="{StaticResource HeaderStackPanel}">
+            <TextBlock Text="Редактировать сотрудника"
+                       Style="{StaticResource HeaderTextBlock}"
+                       HorizontalAlignment="Center"
+                       Margin="0 20"/>
+        </Border>
 
-        <Grid x:Name="gridFields" Grid.Row="1" Margin="50 20 50 20">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+        <!-- MAIN CONTENT -->
+        <Grid Grid.Row="1">
+
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.7*"/>
-                <ColumnDefinition Width="1.2*"/>
-                <ColumnDefinition Width="1.6*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="520"/>
+                <ColumnDefinition Width="320"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Border x:Name="borderUsername" Grid.Column="1" Grid.Row="0"
-            Style="{StaticResource BaseStackPanel}"  Background="{StaticResource grey}" Margin="10">
-                <TextBox x:Name="textBoxUsername" 
-                 Style="{StaticResource BaseTextBox}" Margin="20 0 0 0"
-                 Text="{Binding InputedLogin, UpdateSourceTrigger=PropertyChanged}"/>
-            </Border>
-            <Border x:Name="borderLname" Grid.Column="1" Grid.Row="1"
-                    Style="{StaticResource BaseStackPanel}"  Background="{StaticResource grey}" Margin="10">
-                <TextBox x:Name="textBoxLname" 
-                         Style="{StaticResource BaseTextBox}" Margin="20 0 0 0"
-                         Text="{Binding InputedLname, UpdateSourceTrigger=PropertyChanged}"/>
-            </Border>
-            <ComboBox x:Name="comboBoxRole" Grid.Column="1" Grid.Row="2"
-                        Style="{StaticResource BaseComboBox}" Margin="10"
-                        SelectedValue="{Binding InputedIdRole}"
-                        SelectedValuePath="Tag">
-                <ComboBoxItem Content="Администратор" Tag="1"/>
-                <ComboBoxItem Content="Сотрудник" Tag="2"/>
-            </ComboBox>
-            <Border x:Name="borderPassword" Grid.Column="1" Grid.Row="3"
-                    Style="{StaticResource BaseStackPanel}"  Background="{StaticResource grey}" Margin="10">
-                <TextBox x:Name="textBoxPassword" 
-                         Style="{StaticResource BaseTextBox}" Margin="20 0 0 0"
-                         Text="{Binding InputedPassword, UpdateSourceTrigger=PropertyChanged}"/>
-            </Border>
-            <TextBlock x:Name="textBlockUsername" Text="Логин:" Grid.Row="0" Grid.Column="0"
-                        Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="20"
-                        />
-            <TextBlock x:Name="textBlockLname" Text="Фамилия:" Grid.Row="1" Grid.Column="0"
-                        Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="20"
-                        />
-            <TextBlock x:Name="textBlockIdRole" Text="Роль:" Grid.Row="2" Grid.Column="0"
-                        Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="20"
-                        />
-            <TextBlock x:Name="textBlockPassword" Text="Пароль:" Grid.Row="3" Grid.Column="0"
-                        Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="20"
-                        />
+            <!-- FORM -->
+            <Border Grid.Column="1"
+                    Background="{StaticResource grey}"
+                    CornerRadius="10"
+                    Margin="10"
+                    Padding="20">
 
-            <Border x:Name="scopes" Grid.Column="3" Grid.RowSpan="4"
-                    Style="{StaticResource BaseStackPanel}" Background="{StaticResource grey}">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="4*"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                
-                    <ListView
-                        ItemsSource="{Binding SelectedUser.Scopes}" 
-                        DisplayMemberPath="Name" SelectedValuePath="Id"
-                        BorderThickness="0" Background="Transparent" Margin="10">
-                        
-                    </ListView>
-                    <Border x:Name="editScopes" Grid.Row="1"
-                            Style="{StaticResource ButtonStackPanel}" Margin="100 6 100 6">
-                        <Button Content="Изменить" 
-                                Style="{StaticResource BaseButton}"
-                                Command="{Binding GoToEditScopesCommand}"/> 
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="140"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Логин:"
+                               Grid.Row="0" Grid.Column="0"
+                               Style="{StaticResource InfoTextBlock}"
+                               HorizontalAlignment="Right"
+                               Margin="10"/>
+
+                    <Border Grid.Row="0" Grid.Column="1"
+                            Style="{StaticResource BaseStackPanel}"
+                            Margin="10">
+                        <TextBox Text="{Binding InputedLogin, UpdateSourceTrigger=PropertyChanged}"
+                                 Style="{StaticResource BaseTextBox}"/>
                     </Border>
+
+                    <TextBlock Text="Фамилия:"
+                               Grid.Row="1" Grid.Column="0"
+                               Style="{StaticResource InfoTextBlock}"
+                               HorizontalAlignment="Right"
+                               Margin="10"/>
+
+                    <Border Grid.Row="1" Grid.Column="1"
+                            Style="{StaticResource BaseStackPanel}"
+                            Margin="10">
+                        <TextBox Text="{Binding InputedLname, UpdateSourceTrigger=PropertyChanged}"
+                                 Style="{StaticResource BaseTextBox}"/>
+                    </Border>
+
+                    <TextBlock Text="Роль:"
+                               Grid.Row="2" Grid.Column="0"
+                               Style="{StaticResource InfoTextBlock}"
+                               HorizontalAlignment="Right"
+                               Margin="10"/>
+
+                    <ComboBox Grid.Row="2" Grid.Column="1"
+                              Style="{StaticResource BaseComboBox}"
+                              Margin="10"
+                              SelectedValue="{Binding InputedIdRole}"
+                              SelectedValuePath="Tag">
+
+                        <ComboBoxItem Content="Администратор" Tag="1"/>
+                        <ComboBoxItem Content="Сотрудник" Tag="2"/>
+                    </ComboBox>
+
+                    <TextBlock Text="Пароль:"
+                               Grid.Row="3" Grid.Column="0"
+                               Style="{StaticResource InfoTextBlock}"
+                               HorizontalAlignment="Right"
+                               Margin="10"/>
+
+                    <Border Grid.Row="3" Grid.Column="1"
+                            Style="{StaticResource BaseStackPanel}"
+                            Margin="10">
+                        <TextBox Text="{Binding InputedPassword, UpdateSourceTrigger=PropertyChanged}"
+                                 Style="{StaticResource BaseTextBox}"/>
+                    </Border>
+
                 </Grid>
             </Border>
+
+            <!-- SCOPES -->
+            <Border Grid.Column="2"
+                    Background="{StaticResource grey}"
+                    CornerRadius="10"
+                    Margin="10"
+                    Padding="10">
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <ListView ItemsSource="{Binding SelectedUser.Scopes}"
+                              DisplayMemberPath="Name"
+                              BorderThickness="0"
+                              Background="Transparent"
+                              Margin="5"
+                              FontSize="16"/>
+
+                    <Border Grid.Row="1"
+                            Style="{StaticResource ButtonStackPanel}"
+                            Margin="10">
+
+                        <Button Content="Изменить"
+                                Style="{StaticResource BaseButton}"
+                                Command="{Binding GoToEditScopesCommand}"/>
+                    </Border>
+
+                </Grid>
+            </Border>
+
         </Grid>
 
-        <Border x:Name="borderAccept" Grid.Row="2" 
-                Style="{StaticResource ButtonStackPanel}"
-                Margin="300 10 300 10">
-            <Button x:Name="buttonAccept"
-                    Content="Редактировать" 
-                    Style="{StaticResource BaseButton}"
-                    Command="{Binding AcceptCommand}" CommandParameter="{Binding ElementName=buttonAccept}"/>
-        </Border>
-        <Border x:Name="borderBack" Grid.Row="3"
-                Style="{StaticResource ButtonStackPanel}"
-                HorizontalAlignment="Left" Width="{Binding ActualWidth, ElementName=borderAccept}"
-                Margin="10">
-            <Button x:Name="buttonBack" 
-                    Content="{StaticResource back}" 
-                    Style="{StaticResource BaseButton}"
-                    Command="{Binding AcceptCommand}" CommandParameter="{Binding ElementName=buttonBack}"/>
-        </Border>
-        
+        <!-- ACTIONS -->
+        <Grid Grid.Row="2" Margin="0 20">
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center">
+
+                <Border Style="{StaticResource ButtonStackPanel}"
+                        Margin="10">
+                    <Button Content="Редактировать"
+                            Style="{StaticResource BaseButton}"
+                            Command="{Binding AcceptCommand}"/>
+                </Border>
+
+                <Border Style="{StaticResource ButtonStackPanel}"
+                        Margin="10">
+                    <Button Content="{StaticResource back}"
+                            Style="{StaticResource BaseButton}"
+                            Command="{Binding GoBackCommand}"/>
+                </Border>
+
+            </StackPanel>
+        </Grid>
+
     </Grid>
 </Page>

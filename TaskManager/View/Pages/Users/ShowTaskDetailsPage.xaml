@@ -23,139 +23,156 @@
 
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="4*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock x:Name="textBlockHeader" Grid.Row="0"
-        Style="{StaticResource HeaderTextBlock}" Foreground="Black">
-            <Run Text="Детали задачи " FontWeight="Regular"/>
+        <!-- HEADER -->
+        <TextBlock Grid.Row="0"
+                   Style="{StaticResource HeaderTextBlock}"
+                   Foreground="Black"
+                   HorizontalAlignment="Center">
+            <Run Text="Детали задачи "/>
             <Run Text="{Binding EnteredTask.Title}"/>
         </TextBlock>
 
-        <Grid x:Name="gridFields" Grid.Row="1" Margin="50 10 50 10">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+        <!-- BODY -->
+        <Grid Grid.Row="1" Margin="50 20">
+
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="200"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <TextBlock x:Name="textBlock_ownerField" Grid.Column="1" Grid.Row="0"
-                       Text="{Binding EnteredTask.Owner.Lname}" 
-                       Style="{StaticResource FieldTextBlock}"/>
-            <TextBlock x:Name="textBlockScopeField" Grid.Column="2" Grid.Row="1"
-                       Text="{Binding EnteredTask.Scope.Name}"
-                       Style="{StaticResource FieldTextBlock}"/>
-            <TextBlock x:Name="textBlockBeginField" Grid.Column="1" Grid.Row="2"
-                       Text="{Binding EnteredTask.Since, StringFormat=\{0:d\}}"
-                       Style="{StaticResource FieldTextBlock}"/>
-            <TextBlock x:Name="textBlockDeadlineField" Grid.Column="1" Grid.Row="3"
-                       Text="{Binding EnteredTask.Deadline, StringFormat=\{0:d\}}"
-                       Style="{StaticResource FieldTextBlock}"/>
-            <TextBlock x:Name="textBlockStatusField" Grid.Column="1" Grid.Row="4"
-                       Text="{Binding EnteredTask.Status.Name}"
-                       Style="{StaticResource FieldTextBlock}"/>
-            <TextBlock x:Name="textBlockUserTakedField" Grid.Column="1" Grid.Row="5"
-                       Text="{Binding UserTakedText}"
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- labels -->
+            <TextBlock Text="Владелец:" Grid.Row="0" Grid.Column="0"
+                       Style="{StaticResource InfoTextBlock}"
+                       HorizontalAlignment="Right" Margin="10"/>
+
+            <TextBlock Text="Область:" Grid.Row="1" Grid.Column="0"
+                       Style="{StaticResource InfoTextBlock}"
+                       HorizontalAlignment="Right" Margin="10"/>
+
+            <TextBlock Text="Начало:" Grid.Row="2" Grid.Column="0"
+                       Style="{StaticResource InfoTextBlock}"
+                       HorizontalAlignment="Right" Margin="10"/>
+
+            <TextBlock Text="Дедлайн:" Grid.Row="3" Grid.Column="0"
+                       Style="{StaticResource InfoTextBlock}"
+                       HorizontalAlignment="Right" Margin="10"/>
+
+            <TextBlock Text="Статус:" Grid.Row="4" Grid.Column="0"
+                       Style="{StaticResource InfoTextBlock}"
+                       HorizontalAlignment="Right" Margin="10"/>
+
+            <TextBlock Text="Задачу взял:" Grid.Row="5" Grid.Column="0"
+                       Style="{StaticResource InfoTextBlock}"
+                       HorizontalAlignment="Right" Margin="10"
+                       Visibility="{Binding IsTaked}"/>
+
+            <!-- values -->
+            <TextBlock Text="{Binding EnteredTask.Owner.Lname}"
+                       Grid.Row="0" Grid.Column="1"
                        Style="{StaticResource FieldTextBlock}"
-                       Visibility="{Binding IsTaked}"
-                       />
-            <!-- for task's owner only-->
-            <Grid x:Name="takeToUser" Grid.Row="5" Grid.Column="1"
+                       Margin="10"/>
+
+            <TextBlock Text="{Binding EnteredTask.Scope.Name}"
+                       Grid.Row="1" Grid.Column="1"
+                       Style="{StaticResource FieldTextBlock}"
+                       Margin="10"/>
+
+            <TextBlock Text="{Binding EnteredTask.Since, StringFormat=\{0:d\}}"
+                       Grid.Row="2" Grid.Column="1"
+                       Style="{StaticResource FieldTextBlock}"
+                       Margin="10"/>
+
+            <TextBlock Text="{Binding EnteredTask.Deadline, StringFormat=\{0:d\}}"
+                       Grid.Row="3" Grid.Column="1"
+                       Style="{StaticResource FieldTextBlock}"
+                       Margin="10"/>
+
+            <TextBlock Text="{Binding EnteredTask.Status.Name}"
+                       Grid.Row="4" Grid.Column="1"
+                       Style="{StaticResource FieldTextBlock}"
+                       Margin="10"/>
+
+            <TextBlock Text="{Binding UserTakedText}"
+                       Grid.Row="5" Grid.Column="1"
+                       Style="{StaticResource FieldTextBlock}"
+                       Margin="10"
+                       Visibility="{Binding IsTaked}"/>
+
+            <!-- TAKE TO USER BLOCK -->
+            <Grid Grid.Row="5" Grid.Column="1"
                   Visibility="{Binding TakeToUserVisibility}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <ComboBox 
-                    Margin="10 4 10 4"
-                    Style="{StaticResource BaseComboBox}"
-                    ItemsSource="{Binding Users}"
-                    SelectedItem="{Binding SelectedUser}"
-                    DisplayMemberPath="Lname"/>
+
+                <ComboBox Margin="10"
+                          Style="{StaticResource BaseComboBox}"
+                          ItemsSource="{Binding Users}"
+                          SelectedItem="{Binding SelectedUser}"
+                          DisplayMemberPath="Lname"/>
+
                 <Border Grid.Column="1"
-                        Margin="10 4 10 4"
+                        Margin="10"
                         Style="{StaticResource ButtonStackPanel}">
-                    <Button
-                        Content="Назначить сотруднику"
-                        Command="{Binding TakeToUserCommand}"
-                        Style="{StaticResource BaseButton}"/> 
+                    <Button Content="Назначить"
+                            Command="{Binding TakeToUserCommand}"
+                            Style="{StaticResource BaseButton}"/>
                 </Border>
             </Grid>
-            <TextBlock x:Name="textBlockOwner" Text="Владелец:" Grid.Row="0" Grid.Column="0"
-                Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="10"
-        />
-            <TextBlock x:Name="textBlockScope" Text="Область:" Grid.Row="1" Grid.Column="0"
-                Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="10"
-        />
-            <TextBlock x:Name="textBlockBegin" Text="Начало:" Grid.Row="2" Grid.Column="0"
-                Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="10"
-        />
-            <TextBlock x:Name="textBlockDeadline" Text="Дедлайн:" Grid.Row="3" Grid.Column="0"
-                Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="10"
-        />
-        <TextBlock x:Name="textBlockStatus" Text="Статус:" Grid.Row="4" Grid.Column="0"
-                Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="10"
-        />
-        <TextBlock x:Name="textBlockUserTaked" Text="Задачу взял:" Grid.Row="5" Grid.Column="0"
-                Style="{StaticResource InfoTextBlock}" HorizontalAlignment="Right" Margin="10"
-                   Visibility="{Binding IsTaked}"
-        />
+
         </Grid>
 
-        <!--for ANY user-->
-        <Border x:Name="borderBack" Grid.Row="3"              
-            Style="{StaticResource ButtonStackPanel}"
-            Margin="10" Width="160" HorizontalAlignment="Left">
-            <Button x:Name="buttonBack"
-                Content="{StaticResource back}" 
-                Style="{StaticResource BaseButton}"
-                Command="{Binding GoBackCommand}"/>
-        </Border>
-        <!--for owner and responsibility user and status == 'В процессе'-->
-        <Border x:Name="borderMarkAsFinished" Grid.Row="3"
-                Width="160"
-                Style="{StaticResource ButtonStackPanel}"
-                Margin="10" HorizontalAlignment="Right"
-                Visibility="{Binding MarkAsFinishVisibility}">
-            <Button x:Name="buttonMarkAsFinished"
-                    Content="{StaticResource finished}" 
-                    Style="{StaticResource BaseButton}"
-                    Visibility="{Binding MarkAsFinishVisibility}"
-                    Command="{Binding MarkAsFinishCommand}"/>
-        </Border>
-        <!--if task have a 'На проверке' status-->
-        <Border x:Name="borderIsChecked" Grid.Row="3"
-                Width="160" 
-                Style="{StaticResource ButtonStackPanel}"
-                Margin="10" HorizontalAlignment="Right"
-                Visibility="{Binding IsCheckedVisibility}">
-            <Button x:Name="buttonIsChecked"
-                    Content="{StaticResource checked}"
-                    Style="{StaticResource BaseButton}"
-                    Visibility="{Binding IsCheckedVisibility}"
-                    Command="{Binding CheckTaskCommand}"/>
-        </Border>
-        
-        <!--if task have a 'В ожидании' status-->
-        <Border x:Name="borderWaiting" Grid.Row="3"
-                Width="160" 
-                Style="{StaticResource ButtonStackPanel}"
-                Margin="10" HorizontalAlignment="Right"
-                Visibility="{Binding IsWaitingVisibility}">
-            <Button x:Name="buttonWaiting"
-                    Content="{StaticResource takeTask}"
-                    Style="{StaticResource BaseButton}"
-                    Visibility="{Binding IsWaitingVisibility}"
-                    Command="{Binding TakeTaskCommand}"/>
-        </Border>
+        <!-- BACK / ACTIONS -->
+        <Grid Grid.Row="2" Margin="10">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+
+                <Border Style="{StaticResource ButtonStackPanel}" Margin="10">
+                    <Button Content="{StaticResource back}"
+                            Style="{StaticResource BaseButton}"
+                            Command="{Binding GoBackCommand}"/>
+                </Border>
+
+                <Border Style="{StaticResource ButtonStackPanel}"
+                        Margin="10"
+                        Visibility="{Binding MarkAsFinishVisibility}">
+                    <Button Content="{StaticResource finished}"
+                            Style="{StaticResource BaseButton}"
+                            Command="{Binding MarkAsFinishCommand}"/>
+                </Border>
+
+                <Border Style="{StaticResource ButtonStackPanel}"
+                        Margin="10"
+                        Visibility="{Binding IsCheckedVisibility}">
+                    <Button Content="{StaticResource checked}"
+                            Style="{StaticResource BaseButton}"
+                            Command="{Binding CheckTaskCommand}"/>
+                </Border>
+
+                <Border Style="{StaticResource ButtonStackPanel}"
+                        Margin="10"
+                        Visibility="{Binding IsWaitingVisibility}">
+                    <Button Content="{StaticResource takeTask}"
+                            Style="{StaticResource BaseButton}"
+                            Command="{Binding TakeTaskCommand}"/>
+                </Border>
+
+            </StackPanel>
+        </Grid>
+
     </Grid>
 </Page>

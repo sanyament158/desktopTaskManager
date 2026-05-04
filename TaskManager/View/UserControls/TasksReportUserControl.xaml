@@ -55,8 +55,8 @@
                      />
         </StackPanel>
         <DatePicker x:Name="dateSince" Grid.Row="2" Margin="15"
-                    BorderThickness="0" SelectedDate="{Binding Since}"/>
-        <DatePicker x:Name="dateDeadline" Grid.Row="2" Grid.Column="1" Margin="15"
+                    BorderThickness="0" SelectedDate="{Binding Since}" FontSize="16"/>
+        <DatePicker x:Name="dateDeadline" Grid.Row="2" Grid.Column="1" Margin="15" FontSize="16"
                     BorderThickness="0" SelectedDate="{Binding Deadline}"/>
     </Grid>
 </UserControl>

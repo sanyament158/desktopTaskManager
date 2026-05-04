@@ -17,6 +17,7 @@
     <Style x:Key="ButtonStackPanel" TargetType="Border" BasedOn="{StaticResource BaseStackPanel}">
         <Setter Property="Background" Value="{StaticResource brown}"/>
         <Setter Property="CornerRadius" Value="10"/>
+        <Setter Property="Padding" Value="20 10 20 10"/>
     </Style>
 
     <Style x:Key="ComboBoxHeaderStackPanel" TargetType="Border" BasedOn="{StaticResource BaseStackPanel}">

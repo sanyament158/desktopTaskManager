@@ -5,9 +5,9 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:TaskManager.View.Pages.Users"
       xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-      mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="MyTasksPage" Background="White">
+      mc:Ignorable="d"
+      Background="White"
+      Title="MyTasksPage">
 
     <Page.Resources>
         <ResourceDictionary>
@@ -21,39 +21,82 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid>
+    <Grid Margin="10">
+
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="0.8*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Border Style="{StaticResource HeaderStackPanel}" Margin="20">
-            <TextBlock x:Name="headerTextBlock" Text="Мои задачи" Style="{StaticResource HeaderTextBlock}"/>
+
+        <!-- HEADER -->
+        <Border Style="{StaticResource HeaderStackPanel}"
+                >
+
+            <TextBlock Text="Мои задачи"
+                       Style="{StaticResource HeaderTextBlock}"
+                       HorizontalAlignment="Center" Margin="0 20"/>
         </Border>
 
-        <ListView x:Name="listViewTasks" Grid.Row="1" ItemsSource="{Binding Tasks}" SelectedItem="{Binding SelectedTask}"
-              BorderThickness="0" Margin="30">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="MouseDoubleClick">
-                    <i:InvokeCommandAction Command="{Binding GoToShowDetailsCommand}" CommandParameter="{Binding SelectedTask}"/>
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Владелец" DisplayMemberBinding="{Binding Owner.Lname}"/>
-                    <GridViewColumn Header="Статус" DisplayMemberBinding="{Binding Status.Name}"/>
-                    <GridViewColumn Header="Заголовок" DisplayMemberBinding="{Binding Title}"/>
-                    <GridViewColumn Header="Начало" DisplayMemberBinding="{Binding Since, StringFormat=\{0:d\}}"/>
-                    <GridViewColumn Header="Дедлайн" DisplayMemberBinding="{Binding Deadline, StringFormat=\{0:d\}}"/>
-                    <GridViewColumn Header="Зона ответственности" DisplayMemberBinding="{Binding Scope.Name}"/>
-                </GridView>
-            </ListView.View>
-        </ListView>
-        <Border Style="{StaticResource ButtonStackPanel}" Margin="250 20 250 20" Grid.Row="2" >
-            <Button x:Name="buttonBack" 
+        <!-- LIST -->
+        <Border Grid.Row="1"
+                Margin="10"
+                Background="Transparent">
+
+            <ListView ItemsSource="{Binding Tasks}"
+                      SelectedItem="{Binding SelectedTask}"
+                      BorderThickness="0"
+                      Background="Transparent"
+                      FontSize="16">
+
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseDoubleClick">
+                        <i:InvokeCommandAction Command="{Binding GoToShowDetailsCommand}"
+                                               CommandParameter="{Binding SelectedTask}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+
+                <ListView.View>
+                    <GridView>
+
+                        <GridViewColumn Header="Владелец"
+                                        DisplayMemberBinding="{Binding Owner.Lname}"
+                                        Width="140"/>
+
+                        <GridViewColumn Header="Статус"
+                                        DisplayMemberBinding="{Binding Status.Name}"
+                                        Width="120"/>
+
+                        <GridViewColumn Header="Заголовок"
+                                        DisplayMemberBinding="{Binding Title}"
+                                        Width="220"/>
+
+                        <GridViewColumn Header="Начало"
+                                        DisplayMemberBinding="{Binding Since, StringFormat=\{0:d\}}"
+                                        Width="120"/>
+
+                        <GridViewColumn Header="Дедлайн"
+                                        DisplayMemberBinding="{Binding Deadline, StringFormat=\{0:d\}}"
+                                        Width="120"/>
+
+                        <GridViewColumn Header="Зона"
+                                        DisplayMemberBinding="{Binding Scope.Name}"
+                                        Width="160"/>
+
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Border>
+
+        <!-- BACK -->
+        <Border Grid.Row="2"
+                Style="{StaticResource ButtonStackPanel}"
+                Margin="250 10">
+
+            <Button Content="{StaticResource back}"
                     Style="{StaticResource BigButton}"
-                    Content="{StaticResource back}" 
                     Command="{Binding GoBackCommand}"/>
         </Border>
+
     </Grid>
 </Page>

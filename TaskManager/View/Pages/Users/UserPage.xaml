@@ -5,9 +5,9 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:TaskManager.View.Pages.Users"
       xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-      mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="UserPage" Background="White">
+      mc:Ignorable="d"
+      Background="White"
+      Title="UserPage">
 
     <Page.Resources>
         <ResourceDictionary>
@@ -20,127 +20,146 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
-    <Grid>
+
+    <Grid Margin="15">
+
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.55*"/>
+            <ColumnDefinition Width="400"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Grid x:Name="gridFunctions" Grid.Column="0">
+        <!-- LEFT MENU -->
+        <Border Background="{StaticResource grey}"
+                CornerRadius="12"
+                Padding="10"
+                Margin="5">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Доступные действия"
+                           Style="{StaticResource InfoTextBlock}"
+                           HorizontalAlignment="Center"
+                           Margin="10"/>
+
+                <ScrollViewer Grid.Row="1"
+                              VerticalScrollBarVisibility="Auto"
+                              HorizontalScrollBarVisibility="Disabled">
+
+                    <StackPanel>
+
+                        <Border Style="{StaticResource ButtonStackPanel}" Margin="8">
+                            <Button Content="Создать задачу"
+                                    Style="{StaticResource BigButton}"
+                                    Command="{Binding GoToAddTaskCommand}"
+                                    Height="60"/>
+                        </Border>
+
+                        <Border Style="{StaticResource ButtonStackPanel}" Margin="8">
+                            <Button Content="Выполненные задачи"
+                                    Style="{StaticResource BigButton}"
+                                    Command="{Binding GoToFinishedTasksCommand}"
+                                    Height="60"/>
+                        </Border>
+
+                        <Border Style="{StaticResource ButtonStackPanel}" Margin="8">
+                            <Button Content="Взятые задачи"
+                                    Style="{StaticResource BigButton}"
+                                    Command="{Binding GoToTakedTasksCommand}"
+                                    Height="60"/>
+                        </Border>
+
+                        <Border Style="{StaticResource ButtonStackPanel}" Margin="8">
+                            <Button Content="Мои задачи"
+                                    Style="{StaticResource BigButton}"
+                                    Command="{Binding GoToMyTasksCommand}"
+                                    Height="60"/>
+                        </Border>
+
+                        <Border Style="{StaticResource ButtonStackPanel}" Margin="8">
+                            <Button Content="Выйти"
+                                    Style="{StaticResource BigButton}"
+                                    Command="{Binding ExitCommand}"
+                                    Height="60"/>
+                        </Border>
+
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+        </Border>
+
+        <!-- MAIN AREA -->
+        <Grid Grid.Column="1" Margin="10">
+
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <TextBlock x:Name="textBlockHeader" 
-               Text="Доступные действия:" 
-               Grid.Row="0"
-               Style="{StaticResource InfoTextBlock}"
-               Margin="10 10 10 5"/>
+            <!-- HEADER -->
+            <Border Style="{StaticResource HeaderStackPanel}">
+                <TextBlock Text="Ваши задачи"
+                           Style="{StaticResource HeaderTextBlock}"
+                           HorizontalAlignment="Center"
+                           Margin="0 10"/>
+            </Border>
 
-            <ScrollViewer Grid.Row="1" 
-                  VerticalScrollBarVisibility="Auto"
-                  HorizontalScrollBarVisibility="Disabled">
-                <StackPanel>
-                    <Border x:Name="borderAddNewTask"
-                    Style="{StaticResource ButtonStackPanel}" 
+            <!-- FILTER -->
+            <Border Grid.Row="1"
+                    Style="{StaticResource ComboBoxHeaderStackPanel}"
                     Margin="10">
-                        <Button x:Name="buttonAddNewTask"
-                        Style="{StaticResource BigButton}"
-                        Content="Создать задачу"
-                        Command="{Binding GoToAddTaskCommand}"
-                        Height="60"/>
-                    </Border>
 
-
-                    <Border x:Name="borderFinishedTasks"
-                    Style="{StaticResource ButtonStackPanel}" 
-                    Margin="10" Height="60">
-                        <Button x:Name="buttonFinishedTasks"
-                        Style="{StaticResource BigButton}"
-                        Content="Выполненные задачи"
-                        Command="{Binding GoToFinishedTasksCommand}"/>
-                    </Border>
-                    
-                    <Border x:Name="borderTakedTasks"
-                    Style="{StaticResource ButtonStackPanel}" 
-                    Margin="10" Height="60">
-                        <Button x:Name="buttonTakedTasks"
-                        Style="{StaticResource BigButton}"
-                        Content="Взятые задачи"
-                        Command="{Binding GoToTakedTasksCommand}"
-                        />
-                    </Border>
-                    
-                    <Border x:Name="borderMyTasks"
-                    Style="{StaticResource ButtonStackPanel}" 
-                    Margin="10" Height="60">
-                        <Button x:Name="buttonMyTasks"
-                        Style="{StaticResource BigButton}"
-                        Content="Мои задачи"
-                        Command="{Binding GoToMyTasksCommand}"/>
-                    </Border>
-                    <!-- Добавьте сколько угодно новых кнопок -->
-                    <Border x:Name="borderBack"
-                    Style="{StaticResource ButtonStackPanel}" 
-                    Margin="10" Height="60">
-                        <Button x:Name="buttonBack"
-                        Style="{StaticResource BigButton}"
-                        Content="Выйти"
-                        Command="{Binding ExitCommand}"/>
-                    </Border>
-                </StackPanel>
-            </ScrollViewer>
-        </Grid>
-        <Grid x:Name="gridTasksTable" Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="0.2*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-
-            <Grid x:Name="gridHeaderWithChooseCategory" Grid.Row="0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="0.8*"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <TextBlock x:Name="textBlockAllTasks" Grid.Row="0" 
-                       Text="{StaticResource allTasks}" Style="{StaticResource InfoTextBlock}"/>
-                <Border x:Name="borderCategories" Grid.Row="1"
-                    Style="{StaticResource ComboBoxHeaderStackPanel}">
-                    <ComboBox x:Name="comboBoxCategories" 
-                          Style="{StaticResource BaseComboBox}"
+                <ComboBox Style="{StaticResource BaseComboBox}"
+                          ItemsSource="{Binding Categories}"
                           SelectedItem="{Binding SelectedCategory}"
-                          ItemsSource="{Binding Categories}" DisplayMemberPath="Name" SelectedValuePath="Id"/>
-                </Border>
-            </Grid>
-            <Grid x:Name="gridTasksList" Grid.Row="1" Margin="5 5 5 8">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="1.3*"/>
-                    <RowDefinition Height="0.2*"/>
-                </Grid.RowDefinitions>
-                <ListView x:Name="listViewTasks" Grid.Row="0" ItemsSource="{Binding Tasks}" SelectedItem="{Binding SelectedTask}"
-                      BorderThickness="0">
+                          DisplayMemberPath="Name"
+                          SelectedValuePath="Id"/>
+            </Border>
+
+            <!-- TASK LIST -->
+            <Border Grid.Row="2"
+                    Background="Transparent"
+                    Margin="10">
+
+                <ListView ItemsSource="{Binding Tasks}"
+                          SelectedItem="{Binding SelectedTask}"
+                          BorderThickness="0"
+                          FontSize="16"
+                          Background="Transparent">
+
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseDoubleClick">
-                            <i:InvokeCommandAction Command="{Binding GoToShowDetailsCommand}" CommandParameter="{Binding SelectedTask}"/>
+                            <i:InvokeCommandAction Command="{Binding GoToShowDetailsCommand}"
+                                                    CommandParameter="{Binding SelectedTask}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
+
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="Владелец" DisplayMemberBinding="{Binding Owner.Lname}" Width="100"/>
-                            <GridViewColumn Header="Статус" DisplayMemberBinding="{Binding Status.Name}" Width="100"/>
-                            <GridViewColumn Header="Заголовок" DisplayMemberBinding="{Binding Title}"/>
-                            <GridViewColumn Header="Дедлайн" DisplayMemberBinding="{Binding Deadline, StringFormat=\{0:d\}}"/>
-                            <GridViewColumn Header="Зона ответственности" DisplayMemberBinding="{Binding Scope.Name}"/>
+                            <GridViewColumn Header="Владелец"
+                                            DisplayMemberBinding="{Binding Owner.Lname}"
+                                            Width="120"/>
+                            <GridViewColumn Header="Статус"
+                                            DisplayMemberBinding="{Binding Status.Name}"
+                                            Width="120"/>
+                            <GridViewColumn Header="Заголовок"
+                                            DisplayMemberBinding="{Binding Title}"
+                                            Width="200"/>
+                            <GridViewColumn Header="Дедлайн"
+                                            DisplayMemberBinding="{Binding Deadline, StringFormat=\{0:d\}}"
+                                            Width="120"/>
+                            <GridViewColumn Header="Зона"
+                                            DisplayMemberBinding="{Binding Scope.Name}"
+                                            Width="160"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
+            </Border>
 
-                <Border x:Name="borderCancelSelection" Style="{StaticResource ButtonStackPanel}" Grid.Row="1" Margin="20 5 20 5">
-                    <Button x:Name="buttonCancelSelection" Content="{StaticResource cancelSelection}" Style="{StaticResource BaseButton}"
-                        Command="{Binding CancelSelectionCommand}"/>
-                </Border>
-            </Grid>
         </Grid>
     </Grid>
 </Page>
