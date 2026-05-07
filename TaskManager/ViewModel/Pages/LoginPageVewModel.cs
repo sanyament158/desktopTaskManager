@@ -10,8 +10,10 @@ using System.Windows;
 using TaskManager.Infrastucture.Navigation;
 using TaskManager.Infrastucture.Network;
 using TaskManager.Model;
+using TaskManager.View;
 using TaskManager.View.Pages.Admin;
 using TaskManager.View.Pages.Users;
+using TaskManager.View.Windows;
 
 
 namespace TaskManager.ViewModel.Pages
@@ -61,9 +63,9 @@ namespace TaskManager.ViewModel.Pages
                                 
                                 if (userResponseObj.idRole == 1)
                                 {
-                                    MainFrame.mainFrame.Navigate(
-                                        new MainPage(enteredUser)
-                                    );
+                                    var window = new MainWindow(enteredUser);
+                                    window.Show();
+                                    MainFrame.loginWindow.Close();
                                 }
                                 else
                                 {
@@ -72,7 +74,10 @@ namespace TaskManager.ViewModel.Pages
                                         MessageBox.Show("У вас нет ни одной зоны ответственности!");
                                         return;
                                     }
-                                    MainFrame.mainFrame.Navigate(new UserPage(enteredUser));
+                                    var window = new UserWindow(enteredUser);
+                                    window.Show();
+                                    MainFrame.loginWindow.Close();
+                                    
                                 }
                             }
                             catch (Exception ex) { MessageBox.Show(ex.Message.ToString(), "Ошибка"); }

@@ -10,7 +10,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using TaskManager.Infrastucture.Navigation;
+using TaskManager.Model;
 using TaskManager.View.Pages;
+using TaskManager.View.Pages.Admin;
 using TaskManager.ViewModel.Pages;
 
 namespace TaskManager.View
@@ -20,11 +22,12 @@ namespace TaskManager.View
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        public MainWindow(User enteredUser)
         {
             InitializeComponent();
-            mainFrame.Navigate(new LoginPage());
-            MainFrame.mainFrame = this.mainFrame;
+            MainFrame.mainWindow = this;
+            mainWindowFrame.Navigate(new MainPage(enteredUser));
+            MainFrame.mainFrame = this.mainWindowFrame;
         }
     }
 }

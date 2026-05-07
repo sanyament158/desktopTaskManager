@@ -8,11 +8,45 @@
         Title="Управление задачами цех Печенька"
         WindowStartupLocation="CenterScreen"
         WindowState="Maximized">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Values/TextBlockStyles.xaml"/>
+                <ResourceDictionary Source="/Values/TextBoxStyles.xaml"/>
+                <ResourceDictionary Source="/Values/BorderStyles.xaml"/>
+                <ResourceDictionary Source="/Values/ButtonStyles.xaml"/>
+                <ResourceDictionary Source="/Values/Strings.xaml"/>
+                <ResourceDictionary Source="/Values/ComboBoxStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
-        <Frame x:Name="mainFrame" 
-           NavigationUIVisibility="Hidden"
-           Margin="0"
-           Padding="0"
-           BorderThickness="0"/>
+        <DockPanel>
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Background="PaleVioletRed">
+                <Button Command="{Binding HomeCommand}">
+                    <Image Source="/Icons/icon_home.png"/>
+                </Button>
+                <Border Style="{StaticResource ButtonStackPanel}" Margin="10">                
+                    <Button Content="Зоны ответственности" Command="{Binding ScopesCommand}" Style="{StaticResource BaseButton}"/> 
+                </Border>
+
+                <Border Style="{StaticResource ButtonStackPanel}" Margin="10">
+                    <Button Content="Сотрудники" Command="{Binding EmployeesCommand}" Style="{StaticResource BaseButton}"/>
+                </Border>
+
+                <Border Style="{StaticResource ButtonStackPanel}" Margin="10">
+                    <Button Content="Добавить задачу" Command="{Binding AddNewTaskCommand}" Style="{StaticResource BaseButton}"/>
+                </Border>
+
+                <Border Style="{StaticResource ButtonStackPanel}" Margin="10">
+                    <Button Content="Удалить задачу" Command="{Binding RemoveTaskCommand}" Style="{StaticResource BaseButton}"/>
+                </Border>
+
+                <Border Style="{StaticResource ButtonStackPanel}" Margin="10">
+                    <Button Content="Отчеты" Command="{Binding ReportsCommand}" Style="{StaticResource BaseButton}"/>
+                </Border>
+            </StackPanel>
+        </DockPanel>
+        <Frame x:Name="mainWindowFrame" NavigationUIVisibility="Hidden"/> 
     </Grid>
 </Window>
