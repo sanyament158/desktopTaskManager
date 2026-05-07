@@ -16,8 +16,6 @@ namespace TaskManager.ViewModel.Pages.Users
     {
         public ShowTaskDetailsPageViewModel(User enteredUser, Model.Task enteredTask, string source)
         {
-            MessageBox.Show(source);
-
             /*
             may be: 
                 user, 
