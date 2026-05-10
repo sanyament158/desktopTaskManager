@@ -111,19 +111,5 @@
                 </ListView>
             </Grid>
         </Border>
-
-        <!-- BACK BUTTON -->
-        <Border Grid.Row="1"
-                Grid.ColumnSpan="2"
-                Margin="0 15 0 0"
-                HorizontalAlignment="Left"
-                Style="{StaticResource ButtonStackPanel}">
-
-            <Button Content="{StaticResource back}"
-                    Style="{StaticResource BaseButton}"
-                    Padding="25 10"
-                    Command="{Binding GoBackCommand}"/>
-        </Border>
-
     </Grid>
 </Page>

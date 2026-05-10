@@ -133,14 +133,6 @@
                             Style="{StaticResource BaseButton}"
                             Command="{Binding AcceptCommand}"/>
                 </Border>
-
-                <Border Style="{StaticResource ButtonStackPanel}"
-                        Margin="10">
-                    <Button Content="{StaticResource back}"
-                            Style="{StaticResource BaseButton}"
-                            Command="{Binding GoBackCommand}"/>
-                </Border>
-
             </StackPanel>
 
         </Grid>

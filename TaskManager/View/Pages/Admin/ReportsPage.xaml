@@ -51,14 +51,6 @@
                             Command="{Binding WordReportCommand}"/>
                 </Border>
             </StackPanel>
-            <Border x:Name="borderBack" Height="50" VerticalAlignment="Bottom"
-                    Style="{StaticResource ButtonStackPanel}"
-                    Margin="10">
-                <Button x:Name="buttonBack" 
-                        Content="{StaticResource back}"
-                        Style="{StaticResource BigButton}"
-                        Command="{Binding GoBackCommand}"/>
-            </Border>
         </Grid>
         <controls:TasksReportUserControl Grid.Column="1" Visibility="{Binding TasksControlVisibility}"/>
         <controls:UsersReportUserControl Grid.Column="1" Visibility="{Binding UsersControlVisibility}"/>

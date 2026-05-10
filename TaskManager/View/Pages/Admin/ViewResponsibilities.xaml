@@ -111,17 +111,5 @@
 
         </Grid>
 
-        <!-- BACK BUTTON -->
-        <Border Grid.Row="3"
-                Style="{StaticResource ButtonStackPanel}"
-                HorizontalAlignment="Center"
-                Margin="0 20">
-
-            <Button Content="{StaticResource back}"
-                    Command="{Binding GoBackCommand}"
-                    Style="{StaticResource BigButton}"
-                    Width="200"/>
-        </Border>
-
     </Grid>
 </Page>

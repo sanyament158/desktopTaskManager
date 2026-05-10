@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TaskManager.View"
         mc:Ignorable="d"
-        Title="Управление задачами цех Печенька"
+        Title="mainwindow"
         WindowStartupLocation="CenterScreen"
         WindowState="Maximized">
     <Window.Resources>
@@ -21,32 +21,43 @@
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
-        <DockPanel>
-            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Background="PaleVioletRed">
-                <Button Command="{Binding HomeCommand}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Frame x:Name="mainWindowFrame" NavigationUIVisibility="Hidden" Grid.Row="1"/> 
+        <DockPanel Height="100" Grid.Row="0">
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Left" Background="PaleVioletRed">
+                <Button Command="{Binding HomeCommand}" Background="{Binding HomeColor}">
                     <Image Source="/Icons/icon_home.png"/>
                 </Button>
-                <Border Style="{StaticResource ButtonStackPanel}" Margin="10">                
+
+                <Border Style="{StaticResource ButtonStackPanel}" Margin="10" Background="{Binding ScopesColor}">                
                     <Button Content="Зоны ответственности" Command="{Binding ScopesCommand}" Style="{StaticResource BaseButton}"/> 
                 </Border>
 
-                <Border Style="{StaticResource ButtonStackPanel}" Margin="10">
+                <Border Style="{StaticResource ButtonStackPanel}" Margin="10" Background="{Binding EmployeesColor}">
                     <Button Content="Сотрудники" Command="{Binding EmployeesCommand}" Style="{StaticResource BaseButton}"/>
                 </Border>
 
-                <Border Style="{StaticResource ButtonStackPanel}" Margin="10">
-                    <Button Content="Добавить задачу" Command="{Binding AddNewTaskCommand}" Style="{StaticResource BaseButton}"/>
+                <Border Style="{StaticResource ButtonStackPanel}" Margin="10" Background="{Binding AddTaskColor}">
+                    <Button Content="Добавить задачу" Command="{Binding AddTaskCommand}" Style="{StaticResource BaseButton}"/>
                 </Border>
 
-                <Border Style="{StaticResource ButtonStackPanel}" Margin="10">
-                    <Button Content="Удалить задачу" Command="{Binding RemoveTaskCommand}" Style="{StaticResource BaseButton}"/>
+                <Border Style="{StaticResource ButtonStackPanel}" Margin="10" Background="{Binding ViewResponsibilitiesColor}">
+                    <Button Content="Загруженность сотрудников" Command="{Binding ViewResponsibilitiesCommand}" Style="{StaticResource BaseButton}"/>
                 </Border>
 
-                <Border Style="{StaticResource ButtonStackPanel}" Margin="10">
+                <Border Style="{StaticResource ButtonStackPanel}" Margin="10" Background="{Binding ReportsColor}">
                     <Button Content="Отчеты" Command="{Binding ReportsCommand}" Style="{StaticResource BaseButton}"/>
                 </Border>
+
             </StackPanel>
+
+            <Border Style="{StaticResource ButtonStackPanel}" Margin="10 10 40 10" DockPanel.Dock="Right" HorizontalAlignment="Right" Width="140">
+                <Button Content="Выйти" Command="{Binding ExitCommand}" Style="{StaticResource BaseButton}" />
+            </Border>
+
         </DockPanel>
-        <Frame x:Name="mainWindowFrame" NavigationUIVisibility="Hidden"/> 
     </Grid>
 </Window>

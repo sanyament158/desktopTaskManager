@@ -45,6 +45,8 @@
 
                 <TextBlock Text="Доступные действия"
                            Style="{StaticResource InfoTextBlock}"
+                           FontSize="18"
+                           FontWeight="SemiBold"
                            Margin="5"
                            HorizontalAlignment="Center"/>
 
@@ -91,6 +93,8 @@
 
                 <TextBlock Text="Все пользователи"
                            Style="{StaticResource InfoTextBlock}"
+                           FontSize="18"
+                           FontWeight="SemiBold"
                            Margin="10"/>
 
                 <ListView x:Name="listViewUsers"
@@ -120,17 +124,6 @@
             </Grid>
         </Border>
 
-        <!-- BACK BUTTON -->
-        <Border Grid.Row="1"
-                Grid.ColumnSpan="2"
-                Margin="0 15 0 0"
-                HorizontalAlignment="Left"
-                Style="{StaticResource ButtonStackPanel}">
-
-            <Button Content="{StaticResource back}"
-                    Style="{StaticResource BaseButton}"
-                    Command="{Binding GoBackCommand}"/>
-        </Border>
 
     </Grid>
 </Page>

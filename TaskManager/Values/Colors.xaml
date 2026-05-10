@@ -4,5 +4,6 @@
     <SolidColorBrush x:Key="cheese">#FFE6A7</SolidColorBrush>
     <SolidColorBrush x:Key="grey">#D9D9D9</SolidColorBrush>
     <SolidColorBrush x:Key="brown">#432818</SolidColorBrush>
+    <SolidColorBrush x:Key="brown_pressed">#2E1A10</SolidColorBrush>
     <SolidColorBrush x:Key="semiTransparentBrown">#99432818</SolidColorBrush>
 </ResourceDictionary>

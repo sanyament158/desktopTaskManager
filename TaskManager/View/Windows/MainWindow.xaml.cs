@@ -14,6 +14,7 @@ using TaskManager.Model;
 using TaskManager.View.Pages;
 using TaskManager.View.Pages.Admin;
 using TaskManager.ViewModel.Pages;
+using TaskManager.ViewModel.Windows;
 
 namespace TaskManager.View
 {
@@ -25,6 +26,7 @@ namespace TaskManager.View
         public MainWindow(User enteredUser)
         {
             InitializeComponent();
+            DataContext = new MainWindowViewModel(enteredUser);
             MainFrame.mainWindow = this;
             mainWindowFrame.Navigate(new MainPage(enteredUser));
             MainFrame.mainFrame = this.mainWindowFrame;

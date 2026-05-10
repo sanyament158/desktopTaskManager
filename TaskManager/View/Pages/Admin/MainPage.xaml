@@ -23,66 +23,20 @@
         </ResourceDictionary>
     </Page.Resources>
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.55*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-
-        <Grid x:Name="gridFunctions" Grid.Column="0" Margin="10 100 10 10">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="0.16*"/>
-            </Grid.RowDefinitions>
-
-            <ScrollViewer Grid.Row="0" 
-                  VerticalScrollBarVisibility="Auto"
-                  HorizontalScrollBarVisibility="Disabled">
-                <StackPanel>
-                    <Border x:Name="borderToCategories"
-                    Style="{StaticResource ButtonStackPanel}" 
-                    Margin="20 5 20 5" Height="60">
-                        <Button x:Name="buttonCategories"
-                        Style="{StaticResource BigButton}"
-                        Content="{StaticResource toCategories}"
-                        Command="{Binding GoToEditScopesCommand}"/>
-                    </Border>
-
-                    <Border x:Name="borderToEmployees"
-                    Style="{StaticResource ButtonStackPanel}" 
-                    Margin="20 5 20 5" Height="60">
-                        <Button x:Name="buttonEmployees"
-                        Style="{StaticResource BigButton}"
-                        Content="{StaticResource toEmployees}"
-                        Command="{Binding GoToEditEmployeesCommand}"/>
-                    </Border>
-
-                    <Border x:Name="borderToReports"
-                    Style="{StaticResource ButtonStackPanel}" 
-                    Margin="20 5 20 8" Height="60">
-                        <Button x:Name="buttonAddTask" 
-                        Content="Добавить задачу"
-                        Style="{StaticResource BigButton}"
-                        Command="{Binding GoToAddTaskCommand}"/>
-                    </Border>
-
-                    <Border x:Name="borderDeleteTask"
-                    Style="{StaticResource ButtonStackPanel}" 
-                    Margin="20 5 20 8" Height="60">
-                        <Button x:Name="buttonDeleteTask" 
-                        Content="Удалить задачу"
-                        Style="{StaticResource BigButton}"
-                        Command="{Binding DeleteTaskCommand}"/>
-                    </Border>
-                    <Border x:Name="borderGoToReports"
-                    Style="{StaticResource ButtonStackPanel}" 
-                    Margin="20 5 20 8" Height="60">
-                        <Button x:Name="buttonGoToReports" 
-                        Content="Отчеты"
-                        Style="{StaticResource BigButton}"
-                        Command="{Binding GoToReportsCommand}"/>
-                    </Border>
-                </StackPanel>
-            </ScrollViewer>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Border x:Name="borderDeleteTask" 
+                Style="{StaticResource ButtonStackPanel}" 
+                Margin="10" Padding="5"
+                HorizontalAlignment="Right" Width="auto" Height="40"
+                >
+            <Button x:Name="buttonDeleteTask" 
+                    Content="Удалить задачу"
+                    Style="{StaticResource BaseButton}"
+                    Command="{Binding DeleteTaskCommand}"/>
+        </Border>
             <Border x:Name="borderExit"
             Style="{StaticResource ButtonStackPanel}" 
             Margin="20" Height="60" Grid.Row="1">
@@ -91,8 +45,7 @@
                 Content="Выйти"
                 Command="{Binding ExitCommand}"/>
             </Border>
-        </Grid>
-        <Grid x:Name="gridTasksTable" Grid.Column="1">
+        <Grid x:Name="gridTasksTable" Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="0.2*"/>
                 <RowDefinition Height="*"/>
@@ -142,7 +95,7 @@
                     </ListView.View>
                 </ListView>
 
-                <Border x:Name="borderCancelSelection" Style="{StaticResource ButtonStackPanel}" Grid.Row="1" Margin="20 5 20 5">
+                <Border x:Name="borderCancelSelection" Style="{StaticResource ButtonStackPanel}" Grid.Row="1" Margin="20 5 20 5" Width="300">
                     <Button x:Name="buttonCancelSelection" Content="{StaticResource cancelSelection}" Style="{StaticResource BaseButton}"
                             Command="{Binding CancelSelectionCommand}"/>
                 </Border>
