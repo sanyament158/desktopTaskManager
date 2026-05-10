@@ -113,7 +113,7 @@
 
         <Border x:Name="borderAccept" Grid.Row="2" 
             Style="{StaticResource ButtonStackPanel}"
-            HorizontalAlignment="Right" Width="120" Margin="10">
+            HorizontalAlignment="Right" Width="120" Margin="10" Height="60">
             <Button x:Name="buttonAccept"
                 Content="Изменить" 
                 Style="{StaticResource BaseButton}"
@@ -122,11 +122,10 @@
         <Border x:Name="borderBack" Grid.Row="3"
             Style="{StaticResource ButtonStackPanel}"
             HorizontalAlignment="Left" Width="{Binding ActualWidth, ElementName=borderAccept}"
-            Margin="10">
+            Margin="10" Height="60">
         <Button x:Name="buttonBack"
             Content="{StaticResource back}" 
-            Style="{StaticResource BaseButton}"
-            Command="{Binding AcceptCommand}" CommandParameter="{Binding ElementName=buttonBack}"/>
+            Style="{StaticResource BaseButton}" Command="{Binding AcceptCommand}" CommandParameter="{Binding ElementName=buttonBack}" />
         </Border>
     </Grid>
 </Page>

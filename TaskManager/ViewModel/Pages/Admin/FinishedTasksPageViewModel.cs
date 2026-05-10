@@ -15,13 +15,12 @@ namespace TaskManager.ViewModel.Pages.Admin
 {
     public class FinishedTasksPageViewModel : INotifyPropertyChanged
     {
-        public FinishedTasksPageViewModel(User _enteredUser, List<Model.Task> tasks, List<Category> scopes)
+        public FinishedTasksPageViewModel(User _enteredUser) 
         {
             this._enteredUser = _enteredUser;
-            _tasks = new ObservableCollection<Model.Task>(tasks.Where(x => x.Status.Id == 2));
-            _scopes = new ObservableCollection <Category> (scopes);
             _since = DateTime.Now;
             _deadline = DateTime.Now + TimeSpan.FromDays(1);
+            _ = InitializeAsync();
         }
         // Fields & Properties 
         private readonly User _enteredUser;
@@ -123,7 +122,13 @@ namespace TaskManager.ViewModel.Pages.Admin
                     );
             }
         }
-
+        private async System.Threading.Tasks.Task InitializeAsync()
+        {
+            List<Model.Task> tasks = await DataBaseService.GetTasks();
+            List<Category> scopes = await DataBaseService.GetCategories();
+            _tasks = new ObservableCollection<Model.Task>(tasks.Where(x => x.Status.Id == 2));
+            _scopes = new ObservableCollection <Category> (scopes);
+        }
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName]string prop = "")
         {

@@ -5,8 +5,53 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TaskManager.View.Windows"
         mc:Ignorable="d"
-        Title="UserWindow" Height="450" Width="800">
+        Title="UserWindow" WindowState="Maximized">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Values/TextBlockStyles.xaml"/>
+                <ResourceDictionary Source="/Values/TextBoxStyles.xaml"/>
+                <ResourceDictionary Source="/Values/BorderStyles.xaml"/>
+                <ResourceDictionary Source="/Values/ButtonStyles.xaml"/>
+                <ResourceDictionary Source="/Values/Strings.xaml"/>
+                <ResourceDictionary Source="/Values/ComboBoxStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Frame x:Name="userWindowFrame" NavigationUIVisibility="Hidden" Grid.Row="1"/>
+        <DockPanel Height="100" Grid.Row="0">
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Left" Background="PaleVioletRed">
+                <Button Command="{Binding HomeCommand}" Background="{Binding HomeColor}">
+                    <Image Source="/Icons/icon_home.png"/>
+                </Button>
+
+                <Border Style="{StaticResource ButtonStackPanel}" Margin="10" Background="{Binding TakedTasksColor}">
+                    <Button Content="Взятые задачи" Command="{Binding TakedTasksCommand}" Style="{StaticResource BaseButton}"/>
+                </Border>
+
+                <Border Style="{StaticResource ButtonStackPanel}" Margin="10" Background="{Binding MyTasksColor}">
+                    <Button Content="Мои задачи" Command="{Binding MyTasksCommand}" Style="{StaticResource BaseButton}"/>
+                </Border>
+
+                <Border Style="{StaticResource ButtonStackPanel}" Margin="10" Background="{Binding FinishedTasksColor}">
+                    <Button Content="Выполненые задачи" Command="{Binding FinishedTasksCommand}" Style="{StaticResource BaseButton}"/>
+                </Border>
+
+                <Border Style="{StaticResource ButtonStackPanel}" Margin="10" Background="{Binding AddTaskColor}">
+                    <Button Content="Добавить задачу" Command="{Binding AddTaskCommand}" Style="{StaticResource BaseButton}"/>
+                </Border>
+
+            </StackPanel>
+
+            <Border Style="{StaticResource ButtonStackPanel}" Margin="10 10 40 10" DockPanel.Dock="Right" HorizontalAlignment="Right" Width="140">
+                <Button Content="Выйти" Command="{Binding ExitCommand}" Style="{StaticResource BaseButton}" />
+            </Border>
+
+        </DockPanel>
     </Grid>
 </Window>

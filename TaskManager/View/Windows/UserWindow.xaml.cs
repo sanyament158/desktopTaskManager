@@ -11,6 +11,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using TaskManager.Infrastucture.Navigation;
 using TaskManager.Model;
+using TaskManager.ViewModel.Windows;
+using TaskManager.View.Pages;
+using TaskManager.View.Pages.Users;
 
 namespace TaskManager.View.Windows
 {
@@ -23,6 +26,9 @@ namespace TaskManager.View.Windows
         {
             InitializeComponent();
             MainFrame.userWindow = this;
+            MainFrame.mainFrame = userWindowFrame;
+            MainFrame.mainFrame.Navigate(new UserPage(enteredUser));
+            DataContext = new UserWindowViewModel(enteredUser);
         }
     }
 }

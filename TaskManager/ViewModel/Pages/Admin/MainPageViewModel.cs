@@ -362,8 +362,7 @@ namespace TaskManager.ViewModel.Pages.Admin
                         _goToFinishedTasksCommand = new AsyncRelayCommand(
                             async (obj) =>
                             {
-                                List<Model.Task> tasks = await DataBaseService.GetTasks();
-                                MainFrame.mainFrame.Navigate(new FinishedTasksPage(_enteredUser, tasks, _categories.ToList())); 
+                                MainFrame.mainFrame.Navigate(new FinishedTasksPage(_enteredUser) );
                             }
                             )
                     );

@@ -22,10 +22,10 @@ namespace TaskManager.View.Pages.Users
     /// </summary>
     public partial class FinishedTasksPage : Page
     {
-        public FinishedTasksPage(User enteredUser, List<Model.Task> tasks, List<Category> scopes)
+        public FinishedTasksPage(User enteredUser)
         {
             InitializeComponent();
-            DataContext = new FinishedTasksPageViewModel(enteredUser, tasks, scopes);
+            DataContext = new FinishedTasksPageViewModel(enteredUser);
         }
     }
 }
