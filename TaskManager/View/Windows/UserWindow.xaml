@@ -24,10 +24,10 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Frame x:Name="userWindowFrame" NavigationUIVisibility="Hidden" Grid.Row="1"/>
-        <DockPanel Height="100" Grid.Row="0">
-            <StackPanel Orientation="Horizontal" DockPanel.Dock="Left" Background="PaleVioletRed">
-                <Button Command="{Binding HomeCommand}" Background="{Binding HomeColor}">
-                    <Image Source="/Icons/icon_home.png"/>
+        <DockPanel Height="100" Grid.Row="0" Background="#E0B7A2">
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Left" Background="#E0B7A2">
+                <Button Command="{Binding HomeCommand}" Background="Transparent" Style="{StaticResource BaseButton}" Margin="10">
+                    <Image Source="/Icons/home.png"/>
                 </Button>
 
                 <Border Style="{StaticResource ButtonStackPanel}" Margin="10" Background="{Binding TakedTasksColor}">
@@ -48,7 +48,8 @@
 
             </StackPanel>
 
-            <Border Style="{StaticResource ButtonStackPanel}" Margin="10 10 40 10" DockPanel.Dock="Right" HorizontalAlignment="Right" Width="140">
+            <Border Style="{StaticResource ButtonStackPanel}" 
+                    Margin="10 10 40 10" DockPanel.Dock="Right" HorizontalAlignment="Right" Width="140">
                 <Button Content="Выйти" Command="{Binding ExitCommand}" Style="{StaticResource BaseButton}" />
             </Border>
 

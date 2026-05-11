@@ -135,7 +135,6 @@ namespace TaskManager.ViewModel.Windows
         public SolidColorBrush AddTaskColor { get; set; }
         public SolidColorBrush ViewResponsibilitiesColor { get; set; }
         public SolidColorBrush ReportsColor { get; set; }
-        public SolidColorBrush HomeColor { get; set; }
         private void OnPageChanged([CallerMemberName]string src="")
         {
             ScopesColor = normal;
@@ -143,13 +142,9 @@ namespace TaskManager.ViewModel.Windows
             AddTaskColor = normal;
             ViewResponsibilitiesColor = normal;
             ReportsColor = normal;
-            HomeColor = new SolidColorBrush(Colors.Transparent);
 
             switch (src)
             {
-                case "HomeCommand":
-                    HomeColor = pressed;
-                    break;
                 case "ScopesCommand":
                     ScopesColor = pressed;
                     break;
@@ -168,7 +163,6 @@ namespace TaskManager.ViewModel.Windows
                 default:
                     return;
             }
-            OnPropertyChanged("HomeColor");
             OnPropertyChanged("ScopesColor");
             OnPropertyChanged("EmployeesColor");
             OnPropertyChanged("AddTaskColor");

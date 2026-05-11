@@ -9,7 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Icons\icon_home.png" />
+    <None Remove="Icons\home.png" />
+    <None Remove="Icons\homepressed.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,7 +25,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Icons\icon_home.png" />
+    <Resource Include="Icons\home.png" />
+    <Resource Include="Icons\homepressed.png" />
   </ItemGroup>
 
 </Project>

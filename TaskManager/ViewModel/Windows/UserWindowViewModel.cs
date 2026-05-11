@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Security.RightsManagement;
 using System.Text;
+using System.Windows;
 using System.Windows.Media;
 using TaskManager.Infrastucture.Navigation;
 using TaskManager.Model;
@@ -119,20 +120,15 @@ namespace TaskManager.ViewModel.Windows
         public SolidColorBrush MyTasksColor { get; set; }
         public SolidColorBrush FinishedTasksColor { get; set; }
         public SolidColorBrush AddTaskColor { get; set; }
-        public SolidColorBrush HomeColor { get; set; }
         private void OnPageChanged([CallerMemberName] string src = "")
         {
             TakedTasksColor = normal;
             MyTasksColor = normal;
             FinishedTasksColor = normal;
             AddTaskColor = normal;
-            HomeColor = new SolidColorBrush(Colors.Transparent);
 
             switch (src)
             {
-                case "HomeCommand":
-                    HomeColor = pressed;
-                    break;
                 case "TakedTasksCommand":
                     TakedTasksColor = pressed;
                     break;
@@ -146,13 +142,12 @@ namespace TaskManager.ViewModel.Windows
                     AddTaskColor = pressed;
                     break;
                 default:
-                    return;
+                    break;
             }
-            OnPropertyChanged("HomeColor");
             OnPropertyChanged("TakedTasksColor");
             OnPropertyChanged("MyTasksColor");
             OnPropertyChanged("FinishedTasksColor");
-            OnPropertyChanged("AddTaskCommand");
+            OnPropertyChanged("AddTaskColor");
         }
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName]string prop="")
