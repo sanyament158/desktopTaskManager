@@ -63,6 +63,7 @@ namespace TaskManager.ViewModel.Pages
                                 
                                 if (userResponseObj.idRole == 1)
                                 {
+                                    await DataBaseService.PutLogging(enteredUser.Id, "Вход в систему");
                                     var window = new MainWindow(enteredUser);
                                     window.Show();
                                     MainFrame.loginWindow.Close();
@@ -74,6 +75,7 @@ namespace TaskManager.ViewModel.Pages
                                         MessageBox.Show("У вас нет ни одной зоны ответственности!");
                                         return;
                                     }
+                                    await DataBaseService.PutLogging(enteredUser.Id, "Вход в систему");
                                     var window = new UserWindow(enteredUser);
                                     window.Show();
                                     MainFrame.loginWindow.Close();

@@ -79,24 +79,27 @@
                         <GridView>
                             <GridViewColumn Header="Владелец"
                                             DisplayMemberBinding="{Binding Owner.Lname}"
-                                            Width="120"/>
+                                            Width="200"/>
                             <GridViewColumn Header="Статус"
                                             DisplayMemberBinding="{Binding Status.Name}"
-                                            Width="120"/>
+                                            Width="200"/>
                             <GridViewColumn Header="Заголовок"
                                             DisplayMemberBinding="{Binding Title}"
-                                            Width="200"/>
-                            <GridViewColumn Header="Дедлайн"
+                                            Width="300"/>
+                            <GridViewColumn Header="Срок сдачи"
                                             DisplayMemberBinding="{Binding Deadline, StringFormat=\{0:d\}}"
-                                            Width="120"/>
+                                            Width="200"/>
                             <GridViewColumn Header="Зона"
                                             DisplayMemberBinding="{Binding Scope.Name}"
-                                            Width="160"/>
+                                            Width="200"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
             </Border>
-
         </Grid>
+            <Border x:Name="borderCancelSelection" Style="{StaticResource ButtonStackPanel}" Margin="20 5 20 5" Width="300" VerticalAlignment="Bottom" Height="50">
+                <Button x:Name="buttonCancelSelection" Content="{StaticResource cancelSelection}" Style="{StaticResource BaseButton}"
+                        Command="{Binding CancelSelectionCommand}"/>
+            </Border>
     </Grid>
 </Page>

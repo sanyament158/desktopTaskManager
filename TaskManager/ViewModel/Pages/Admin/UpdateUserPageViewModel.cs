@@ -112,6 +112,7 @@ namespace TaskManager.ViewModel.Pages.Admin
                                         Role = new Role { Id = InputedIdRole }
                                     }, InputedPassword
                                     );
+                                await DataBaseService.PutLogging(_enteredUser.Id, $"Изменение пользователя {_selectedUser.Fname}");
                                 if (!result) MessageBox.Show("Ошибка!");
                                 else MessageBox.Show("Успешно!");
                             MainFrame.mainFrame.Navigate(new EditEmployeesPage(_enteredUser));

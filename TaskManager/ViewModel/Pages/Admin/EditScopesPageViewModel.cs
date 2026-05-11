@@ -127,6 +127,7 @@ namespace TaskManager.ViewModel.Pages.Admin
                                             var res = await DataBaseService.DeleteFromTableById("scope", SelectedScope.Id);
                                             if (res) MessageBox.Show("Успешно!");
                                             else MessageBox.Show("Ошибка!");
+                                            await DataBaseService.PutLogging(_enteredUser.Id, $"Удаление зоны ответственности {SelectedScope.Name}");
                                             RefreshScopesCommand.Execute(this);
                                             return;
                                         }
@@ -135,6 +136,7 @@ namespace TaskManager.ViewModel.Pages.Admin
                                     else
                                     {
                                         var res = await DataBaseService.DeleteFromTableById("scope", SelectedScope.Id);
+                                        await DataBaseService.PutLogging(_enteredUser.Id, $"Удаление зоны ответственности {SelectedScope.Name}");
                                         if (res) MessageBox.Show("Успешно!");
                                         else MessageBox.Show("Ошибка!");
                                         RefreshScopesCommand.Execute(this);

@@ -111,6 +111,7 @@ namespace TaskManager.ViewModel.Pages.Admin
                                             );
                                     if (answer == MessageBoxResult.Yes)
                                     {
+                                        await DataBaseService.PutLogging(_enteredUser.Id, $"Удаление пользователя {SelectedUser.Fname}");
                                         var res = await DataBaseService.DeleteFromTableById("user", SelectedUser.Id);
                                         if (res) MessageBox.Show("Успешно!");
                                         else MessageBox.Show("Ошибка!");
@@ -119,6 +120,7 @@ namespace TaskManager.ViewModel.Pages.Admin
                                 else
                                 {
                                     var res = await DataBaseService.DeleteFromTableById("user", SelectedUser.Id);
+                                    await DataBaseService.PutLogging(_enteredUser.Id, $"Удаление пользователя {SelectedUser.Fname}");
                                     if (res) MessageBox.Show("Успешно!");
                                     else MessageBox.Show("Ошибка!");
                                 }

@@ -42,6 +42,7 @@ namespace TaskManager.ViewModel.Pages.Admin
                         async (sender) =>
                         {
                                 bool result =  await DataBaseService.PutScope(EnteredName);
+                                await DataBaseService.PutLogging(_enteredUser.Id, $"Добавление новой зоны ответственности {EnteredName}");
                                 if (!result) MessageBox.Show("Ошибка!");
                                 else MessageBox.Show("Успешно!");
                                 MainFrame.mainFrame.Navigate(new EditScopesPage(_enteredUser));

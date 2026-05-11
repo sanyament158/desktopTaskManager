@@ -71,16 +71,19 @@ namespace TaskManager.ViewModel.Pages.Admin
                     _acceptCommand = new AsyncRelayCommand<Button>(
                         async (sender) =>
                         {
-                                bool result = await DataBaseService.PutUser(
-                                    new User
-                                    {
-                                        Username = InputedLogin,
-                                        Lname = InputedLname,
-                                        Role = new Role { Id = InputedIdRole }
-                                    }, InputedPassword
-                                    );
+                            User newuser = new User
+                            {
+                                Username = InputedLogin,
+                                Lname = InputedLname,
+                                Role = new Role { Id = InputedIdRole }
+                            };
+
+                            bool result = await DataBaseService.PutUser(newuser, InputedPassword);
+
+
                                 if (!result) MessageBox.Show("Ошибка!");
                                 else MessageBox.Show("Успешно!");
+                            await DataBaseService.PutLogging(_enteredUser.Id, $"Создан пользователь {newuser.Fname}");
                             MainFrame.mainFrame.Navigate(new EditEmployeesPage(_enteredUser));
                         }
                         )

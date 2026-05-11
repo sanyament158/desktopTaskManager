@@ -188,6 +188,7 @@ namespace TaskManager.ViewModel.Pages.Admin
                                 try
                                 {
                                     int taskId = SelectedTask.Id;
+                                    await DataBaseService.PutLogging(_enteredUser.Id, $"Удаление задачи {SelectedTask.Title}");
                                     var res = await DataBaseService.DeleteFromTableById("task", taskId);
                                     if (res) MessageBox.Show("Успешно!");
                                     else MessageBox.Show("Ошибка!");

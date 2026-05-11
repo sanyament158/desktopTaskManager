@@ -121,32 +121,27 @@
 
                         <GridViewColumn Header="Владелец"
                                         DisplayMemberBinding="{Binding Owner.Lname}"
-                                        Width="140"/>
+                                        Width="200"/>
 
                         <GridViewColumn Header="Статус"
                                         DisplayMemberBinding="{Binding Status.Name}"
-                                        Width="120"/>
+                                        Width="200"/>
 
                         <GridViewColumn Header="Заголовок"
                                         DisplayMemberBinding="{Binding Title}"
-                                        Width="200"/>
+                                        Width="300"/>
 
                         <GridViewColumn Header="Начало"
                                         DisplayMemberBinding="{Binding Since}"
-                                        Width="120"/>
+                                        Width="200"/>
 
-                        <GridViewColumn Header="Дедлайн"
+                        <GridViewColumn Header="Срок сдачи"
                                         DisplayMemberBinding="{Binding Deadline}"
-                                        Width="120"/>
+                                        Width="200"/>
 
                         <GridViewColumn Header="Зона"
                                         DisplayMemberBinding="{Binding Scope.Name}"
-                                        Width="160"/>
-
-                        <GridViewColumn Header="Выполнил"
-                                        DisplayMemberBinding="{Binding CompletedBy}"
-                                        Width="160"/>
-
+                                        Width="200"/>
                     </GridView>
                 </ListView.View>
             </ListView>

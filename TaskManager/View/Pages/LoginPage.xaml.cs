@@ -22,7 +22,14 @@ namespace TaskManager.View.Pages
         public LoginPage()
         {
             InitializeComponent();
-            DataContext = new LoginPageVewModel();
+            vm = new LoginPageVewModel();
+            DataContext = vm;
+        }
+        LoginPageVewModel vm; 
+
+        private void passwordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            vm.Password = passwordBox.Password;
         }
     }
 }

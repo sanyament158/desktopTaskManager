@@ -62,6 +62,50 @@ namespace TaskManager.Infrastucture.Network
             }
             throw new Exception("userObj.username is null or empty");
         }
+        // logging 
+        public static async Task<bool> PutLogging(int idUser, string action)
+        {
+            var data = new Dictionary<string, string>
+            {
+                ["idUser"] = idUser.ToString(),
+                ["action"] = action
+            };
+            string requestJson = JsonSerializer.Serialize(data);
+
+            HttpResponseMessage httpResponseMessage = await client.PutAsync(_uri + "logging/putLog.php", new StringContent(requestJson, Encoding.UTF8, "application/json"));
+            JsonNode responseRootJson = JsonNode.Parse(await httpResponseMessage.Content.ReadAsStringAsync());
+
+            return responseRootJson["success"].GetValue<bool>();
+        }
+        public static async Task<List<LoggingRecord>> GetLoggingRecords()
+        {
+            try
+            {
+                HttpResponseMessage httpResponseMessage = await client.GetAsync(_uri + "getTable/getLogging.php");
+
+                JsonNode responseRootJson = JsonNode.Parse(await httpResponseMessage.Content.ReadAsStringAsync());
+                JsonArray responseLoggingJson = responseRootJson["data"].AsArray();
+                List<LoggingRecord> r = new List<LoggingRecord>();
+                foreach(var log in responseLoggingJson)
+                {
+                    var logObj = new LoggingRecord
+                    {
+                        Id = log["id"].GetValue<int>(),
+                        Action = log["action"].GetValue<string>(),
+                        User = new User
+                        {
+                            Username = log["username"].GetValue<string>(),
+                            Fname = log["fname"].GetValue<string>()
+                        },
+                        Time = DateTime.Parse(log["time"].GetValue<string>())
+                    };
+                    r.Add(logObj);
+                }
+                return r ?? throw new Exception("response logging was null");
+            }
+            catch (Exception ex) { throw new Exception(ex.Message); }
+        }
+
         // scopes
         public static async Task<List<Category>> GetCategories()
         {

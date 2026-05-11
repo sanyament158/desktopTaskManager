@@ -185,6 +185,7 @@ namespace TaskManager.ViewModel.Pages.Admin
                                         Deadline = this._deadline
                                     };
                                     bool res = await DataBaseService.PutTask(newTask);
+                                await DataBaseService.PutLogging(_enteredUser.Id, $"Добавление новой задачи {newTask.Title}");
                                     if (res) MessageBox.Show("Успешно!");
 
                                     if (_enteredUser.Role.Id == 1) MainFrame.mainFrame.Navigate(new MainPage(_enteredUser));

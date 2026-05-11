@@ -151,6 +151,7 @@ public class UpdateTaskPageViewModel: INotifyPropertyChanged
                                         Since = this._since,
                                         Deadline = this._deadline
                                     });
+                                    await DataBaseService.PutLogging(_enteredUser.Id, $"Изменение задачи {Task.Title}");
                                 }
                                 catch (Exception ex)
                                 {

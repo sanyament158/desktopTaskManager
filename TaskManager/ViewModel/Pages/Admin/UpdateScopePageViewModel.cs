@@ -46,6 +46,7 @@ namespace TaskManager.ViewModel.Pages.Admin
                     _acceptCommand = new AsyncRelayCommand<Button>(
                         async (sender) =>
                         {
+                            await DataBaseService.PutLogging(_enteredUser.Id, $"Изменение имени зоны с {_selectedCategory} на {_enteredName}");
                                 bool result = await DataBaseService.UpdateFieldFromTableById("scope", "name", _enteredName, _selectedCategory.Id);
                                 if (!result) MessageBox.Show("Ошибка!");
                                 else MessageBox.Show("Успешно!");
