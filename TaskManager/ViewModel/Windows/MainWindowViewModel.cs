@@ -113,6 +113,19 @@ namespace TaskManager.ViewModel.Windows
                         ) 
                     ); }
         }
+        private RelayCommand _loggingCommand;
+        public RelayCommand LoggingCommand
+        {
+            get { return _loggingCommand ?? (
+                    _loggingCommand = new RelayCommand(
+                        (obj) =>
+                        {
+                            MainFrame.mainFrame.Navigate(new LoggingPage(_enteredUser));
+                            OnPageChanged();
+                        }
+                        ) 
+                    ); }
+        }
 
         private RelayCommand _reportsCommand;
         public RelayCommand ReportsCommand 
@@ -135,6 +148,7 @@ namespace TaskManager.ViewModel.Windows
         public SolidColorBrush AddTaskColor { get; set; }
         public SolidColorBrush ViewResponsibilitiesColor { get; set; }
         public SolidColorBrush ReportsColor { get; set; }
+        public SolidColorBrush LoggingColor { get; set; }
         private void OnPageChanged([CallerMemberName]string src="")
         {
             ScopesColor = normal;
@@ -142,6 +156,7 @@ namespace TaskManager.ViewModel.Windows
             AddTaskColor = normal;
             ViewResponsibilitiesColor = normal;
             ReportsColor = normal;
+            LoggingColor = normal;
 
             switch (src)
             {
@@ -160,6 +175,9 @@ namespace TaskManager.ViewModel.Windows
                 case "ReportsCommand":
                     ReportsColor = pressed;
                     break;
+                case "LoggingCommand":
+                    LoggingColor = pressed;
+                    break;
                 default:
                     return;
             }
@@ -168,6 +186,7 @@ namespace TaskManager.ViewModel.Windows
             OnPropertyChanged("AddTaskColor");
             OnPropertyChanged("ViewResponsibilitiesColor");
             OnPropertyChanged("ReportsColor");
+            OnPropertyChanged("LoggingColor");
             /*
              public SolidColorBrush ScopesColor {  get; set; }
                     public SolidColorBrush EmployeesColor { get; set; }

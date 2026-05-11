@@ -51,6 +51,9 @@
                 <Border Style="{StaticResource ButtonStackPanel}" Margin="10" Background="{Binding ReportsColor}">
                     <Button Content="Отчеты" Command="{Binding ReportsCommand}" Style="{StaticResource BaseButton}"/>
                 </Border>
+                <Border Style="{StaticResource ButtonStackPanel}" Margin="10" Background="{Binding LoggingColor}">
+                    <Button Content="Логгирование" Command="{Binding LoggingCommand}" Style="{StaticResource BaseButton}"/>
+                </Border>
 
             </StackPanel>
 

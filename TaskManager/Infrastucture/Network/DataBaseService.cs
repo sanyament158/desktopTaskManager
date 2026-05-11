@@ -90,12 +90,11 @@ namespace TaskManager.Infrastucture.Network
                 {
                     var logObj = new LoggingRecord
                     {
-                        Id = log["id"].GetValue<int>(),
                         Action = log["action"].GetValue<string>(),
                         User = new User
                         {
                             Username = log["username"].GetValue<string>(),
-                            Fname = log["fname"].GetValue<string>()
+                            Lname = log["lname"].GetValue<string>()
                         },
                         Time = DateTime.Parse(log["time"].GetValue<string>())
                     };
