@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Security.RightsManagement;
 using System.Text;
@@ -9,6 +10,7 @@ using TaskManager.Infrastucture.Navigation;
 using TaskManager.Model;
 using TaskManager.View.Pages.Admin;
 using TaskManager.View.Pages.Users;
+using TaskManager.View.Windows;
 
 namespace TaskManager.ViewModel.Windows
 {
@@ -94,6 +96,22 @@ namespace TaskManager.ViewModel.Windows
                         )
                     ); }
         }
+        private RelayCommand _exitCommand;
+        public RelayCommand ExitCommand 
+        {
+            get {
+                return _exitCommand ?? (
+                    _exitCommand = new RelayCommand(
+                        (obj) =>
+                        {
+                            var window = new LoginWindow();
+                            window.Show();
+                            MainFrame.userWindow.Close(); 
+                        }
+                        )
+                    ); }
+        }
+
 
         private SolidColorBrush normal = (SolidColorBrush)new BrushConverter().ConvertFromString("#432818");
         private SolidColorBrush pressed = (SolidColorBrush)new BrushConverter().ConvertFromString("#2E1A10");

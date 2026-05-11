@@ -24,72 +24,9 @@
     <Grid Margin="15">
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="400"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <!-- LEFT MENU -->
-        <Border Background="{StaticResource grey}"
-                CornerRadius="12"
-                Padding="10"
-                Margin="5">
-
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-
-                <TextBlock Text="Доступные действия"
-                           Style="{StaticResource InfoTextBlock}"
-                           HorizontalAlignment="Center"
-                           Margin="10"/>
-
-                <ScrollViewer Grid.Row="1"
-                              VerticalScrollBarVisibility="Auto"
-                              HorizontalScrollBarVisibility="Disabled">
-
-                    <StackPanel>
-
-                        <Border Style="{StaticResource ButtonStackPanel}" Margin="8">
-                            <Button Content="Создать задачу"
-                                    Style="{StaticResource BigButton}"
-                                    Command="{Binding GoToAddTaskCommand}"
-                                    Height="60"/>
-                        </Border>
-
-                        <Border Style="{StaticResource ButtonStackPanel}" Margin="8">
-                            <Button Content="Выполненные задачи"
-                                    Style="{StaticResource BigButton}"
-                                    Command="{Binding GoToFinishedTasksCommand}"
-                                    Height="60"/>
-                        </Border>
-
-                        <Border Style="{StaticResource ButtonStackPanel}" Margin="8">
-                            <Button Content="Взятые задачи"
-                                    Style="{StaticResource BigButton}"
-                                    Command="{Binding GoToTakedTasksCommand}"
-                                    Height="60"/>
-                        </Border>
-
-                        <Border Style="{StaticResource ButtonStackPanel}" Margin="8">
-                            <Button Content="Мои задачи"
-                                    Style="{StaticResource BigButton}"
-                                    Command="{Binding GoToMyTasksCommand}"
-                                    Height="60"/>
-                        </Border>
-
-                        <Border Style="{StaticResource ButtonStackPanel}" Margin="8">
-                            <Button Content="Выйти"
-                                    Style="{StaticResource BigButton}"
-                                    Command="{Binding ExitCommand}"
-                                    Height="60"/>
-                        </Border>
-
-                    </StackPanel>
-                </ScrollViewer>
-            </Grid>
-        </Border>
 
         <!-- MAIN AREA -->
         <Grid Grid.Column="1" Margin="10">

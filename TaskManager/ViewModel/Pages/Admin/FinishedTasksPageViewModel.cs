@@ -128,6 +128,8 @@ namespace TaskManager.ViewModel.Pages.Admin
             List<Category> scopes = await DataBaseService.GetCategories();
             _tasks = new ObservableCollection<Model.Task>(tasks.Where(x => x.Status.Id == 2));
             _scopes = new ObservableCollection <Category> (scopes);
+            OnPropertyChanged("Tasks");
+            OnPropertyChanged("Scopes");
         }
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName]string prop = "")

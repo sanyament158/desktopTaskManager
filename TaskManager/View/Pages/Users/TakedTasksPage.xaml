@@ -103,15 +103,5 @@
             </ListView>
         </Border>
 
-        <!-- BACK -->
-        <Border Grid.Row="3"
-                Style="{StaticResource ButtonStackPanel}"
-                Margin="250 10">
-
-            <Button Content="{StaticResource back}"
-                    Style="{StaticResource BigButton}"
-                    Command="{Binding GoBackCommand}"/>
-        </Border>
-
     </Grid>
 </Page>
