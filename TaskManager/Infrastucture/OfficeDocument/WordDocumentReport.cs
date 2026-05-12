@@ -25,6 +25,9 @@ namespace TaskManager.Infrastucture.OfficeDocument
                 AddPageSettings(mainPart);
                 AddDocumentStyles(mainPart);
 
+                // ===== НОВЫЙ HEADER =====
+                AddMainHeader(body);
+
                 AddHeading(body, "Отчет по задачам", 1);
                 AddEmptyParagraph(body);
                 AddParagraph(body, $"Всего задач: {tasks.Count}", false);
@@ -55,6 +58,9 @@ namespace TaskManager.Infrastucture.OfficeDocument
 
                 AddPageSettings(mainPart);
                 AddDocumentStyles(mainPart);
+
+                // ===== НОВЫЙ HEADER =====
+                AddMainHeader(body);
 
                 AddHeading(body, "Отчет по сотрудникам", 1);
                 AddEmptyParagraph(body);
@@ -103,7 +109,7 @@ namespace TaskManager.Infrastucture.OfficeDocument
             return table;
         }
 
-        // ================= TABLE: USERS (без Role) =================
+        // ================= TABLE: USERS =================
 
         private Table CreateUsersTable(List<Model.User> users)
         {
@@ -132,6 +138,43 @@ namespace TaskManager.Infrastucture.OfficeDocument
             ApplyTableBordersOnlyUsed(table);
 
             return table;
+        }
+
+        // ================= HEADER =================
+
+        private void AddMainHeader(Body body)
+        {
+            // Цех Печенька
+            body.Append(new Paragraph(
+                new ParagraphProperties(
+                    new Justification() { Val = JustificationValues.Center }
+                ),
+                new Run(
+                    new RunProperties(
+                        new Bold(),
+                        new FontSize() { Val = "36" },
+                        new Color() { Val = "2E75B6" },
+                        new RunFonts() { Ascii = "Segoe UI", HighAnsi = "Segoe UI" }
+                    ),
+                    new Text("OOO \"Печенька\"")
+                )
+            ));
+
+            // ИНН
+            body.Append(new Paragraph(
+                new ParagraphProperties(
+                    new Justification() { Val = JustificationValues.Center }
+                ),
+                new Run(
+                    new RunProperties(
+                        new FontSize() { Val = "22" },
+                        new RunFonts() { Ascii = "Segoe UI", HighAnsi = "Segoe UI" }
+                    ),
+                    new Text("ИНН 190005211")
+                )
+            ));
+
+            AddEmptyParagraph(body);
         }
 
         // ================= FOOTER =================
@@ -191,6 +234,9 @@ namespace TaskManager.Infrastucture.OfficeDocument
                 ));
 
                 var p = new Paragraph(
+                    new ParagraphProperties(
+                        new Justification() { Val = JustificationValues.Center }
+                    ),
                     new Run(
                         new RunProperties(
                             new Bold(),
@@ -254,12 +300,17 @@ namespace TaskManager.Infrastucture.OfficeDocument
 
         private void AddParagraph(Body body, string text, bool bold)
         {
+            var runProps = new RunProperties(
+                new FontSize { Val = "20" },
+                new RunFonts { Ascii = "Segoe UI" }
+            );
+
+            if (bold)
+                runProps.Append(new Bold());
+
             body.Append(new Paragraph(
                 new Run(
-                    new RunProperties(
-                        new FontSize { Val = "20" },
-                        new RunFonts { Ascii = "Segoe UI" }
-                    ),
+                    runProps,
                     new Text(text)
                 )
             ));
