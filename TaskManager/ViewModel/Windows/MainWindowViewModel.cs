@@ -66,8 +66,8 @@ namespace TaskManager.ViewModel.Windows
                     _homeCommand = new RelayCommand(
                         (obj) =>
                         {
-                            MainFrame.mainFrame.Navigate(new MainPage(_enteredUser));
                             OnPageChanged();
+                            MainFrame.mainFrame.Navigate(new MainPage(_enteredUser));
                         }
                         ) 
                     ); }
@@ -179,7 +179,7 @@ namespace TaskManager.ViewModel.Windows
                     LoggingColor = pressed;
                     break;
                 default:
-                    return;
+                    break;
             }
             OnPropertyChanged("ScopesColor");
             OnPropertyChanged("EmployeesColor");

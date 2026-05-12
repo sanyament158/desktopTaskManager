@@ -160,7 +160,7 @@ namespace TaskManager.ViewModel.Pages.Users
                             await DataBaseService.UpdateFieldFromTableById("task", "idStatus", "1", _enteredTask.Id);
                             if (res)
                             MessageBox.Show($"Задача успешно взята сотрудником {fname}");
-                            MainFrame.mainFrame.Navigate(new UserPage(_enteredUser));
+                            MainFrame.mainFrame.GoBack();
                         }
                         )
                     ); }
@@ -252,7 +252,7 @@ namespace TaskManager.ViewModel.Pages.Users
                         );
                     await DataBaseService.PutLogging(_enteredUser.Id, $"Задача {_enteredTask.Title} взята сотрудником {_enteredUser.Fname}");
                     MessageBox.Show("Вы успешно взяли задачу!");
-                    MainFrame.mainFrame.Navigate(new UserPage(_enteredUser));
+                    MainFrame.mainFrame.GoBack();
                 }
                 )); 
             }
@@ -288,10 +288,10 @@ namespace TaskManager.ViewModel.Pages.Users
                                         {
                                             MessageBox.Show("res == false");
                                         }
-                                        MainFrame.mainFrame.Navigate(new UserPage(_enteredUser));
+                                        MainFrame.mainFrame.GoBack();
                                     }
                                     else return;
-                                    MainFrame.mainFrame.Navigate(new UserPage(_enteredUser));
+                                    MainFrame.mainFrame.GoBack();
                                 }
                                 catch (Exception ex)
                                 {

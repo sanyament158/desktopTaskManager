@@ -188,8 +188,8 @@ namespace TaskManager.ViewModel.Pages.Admin
                                 await DataBaseService.PutLogging(_enteredUser.Id, $"Добавление новой задачи {newTask.Title}");
                                     if (res) MessageBox.Show("Успешно!");
 
-                                    if (_enteredUser.Role.Id == 1) MainFrame.mainFrame.Navigate(new MainPage(_enteredUser));
-                                    else MainFrame.mainFrame.Navigate(new UserPage(_enteredUser));
+                                    if (_enteredUser.Role.Id == 1) MainFrame.mainFrame.Navigate(new AddTaskPage(_enteredUser));
+                                    else MainFrame.mainFrame.Navigate(new AddTaskPage(_enteredUser));
                                 }
                                 else MessageBox.Show("Введенные поля неверны!");
                         }

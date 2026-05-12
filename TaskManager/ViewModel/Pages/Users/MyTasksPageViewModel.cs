@@ -58,7 +58,7 @@ namespace TaskManager.ViewModel.Pages.Users
                                 if (obj is Model.Task task)
                                 {
                                     if (_enteredUser.Id == task.Owner.Id) MainFrame.mainFrame.Navigate(new ShowTaskDetailsPage(_enteredUser, task, "owner"));
-                                    else MainFrame.mainFrame.Navigate(new ShowTaskDetailsPage(_enteredUser, task, "user"));
+                                    else MainFrame.mainFrame.GoBack();
                                 }
                                 else
                                 {

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TaskManager.View"
         mc:Ignorable="d"
-        Title="mainwindow"
+        Title="Администратор Цех Печенька"
         WindowStartupLocation="CenterScreen"
         WindowState="Maximized">
     <Window.Resources>
