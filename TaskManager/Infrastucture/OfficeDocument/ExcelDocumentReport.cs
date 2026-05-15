@@ -146,8 +146,8 @@ namespace TaskManager.Infrastructure.OfficeDocument
 
         private void AddMainHeader(IXLWorksheet ws, ref int currentRow)
         {
-            // Цех Печенька
-            ws.Cell(currentRow, 1).Value = "OOO \"Печенька\" ";
+            // ===== НАЗВАНИЕ =====
+            ws.Cell(currentRow, 1).Value = "Цех Печенька";
 
             ws.Range(currentRow, 1, currentRow, 6).Merge();
 
@@ -160,7 +160,7 @@ namespace TaskManager.Infrastructure.OfficeDocument
 
             currentRow++;
 
-            // ИНН
+            // ===== ИНН =====
             ws.Cell(currentRow, 1).Value = "ИНН 190005211";
 
             ws.Range(currentRow, 1, currentRow, 6).Merge();
@@ -169,6 +169,34 @@ namespace TaskManager.Infrastructure.OfficeDocument
 
             innCell.Style.Font.FontSize = 12;
             innCell.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+
+            currentRow++;
+
+            // ===== АДРЕС =====
+            ws.Cell(currentRow, 1).Value =
+                "Адрес: г. Абакан, ул. Крылова, д. 84";
+
+            ws.Range(currentRow, 1, currentRow, 6).Merge();
+
+            var addressCell = ws.Cell(currentRow, 1);
+
+            addressCell.Style.Font.FontSize = 11;
+            addressCell.Style.Alignment.Horizontal =
+                XLAlignmentHorizontalValues.Center;
+
+            currentRow++;
+
+            // ===== КОНТАКТЫ =====
+            ws.Cell(currentRow, 1).Value =
+                "Тел.: +7 (3902) 32-23-32, E-mail: info@pechenka.ru";
+
+            ws.Range(currentRow, 1, currentRow, 6).Merge();
+
+            var contactsCell = ws.Cell(currentRow, 1);
+
+            contactsCell.Style.Font.FontSize = 11;
+            contactsCell.Style.Alignment.Horizontal =
+                XLAlignmentHorizontalValues.Center;
 
             currentRow += 2;
         }

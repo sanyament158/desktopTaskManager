@@ -144,7 +144,7 @@ namespace TaskManager.Infrastucture.OfficeDocument
 
         private void AddMainHeader(Body body)
         {
-            // Цех Печенька
+            // ===== НАЗВАНИЕ =====
             body.Append(new Paragraph(
                 new ParagraphProperties(
                     new Justification() { Val = JustificationValues.Center }
@@ -154,13 +154,17 @@ namespace TaskManager.Infrastucture.OfficeDocument
                         new Bold(),
                         new FontSize() { Val = "36" },
                         new Color() { Val = "2E75B6" },
-                        new RunFonts() { Ascii = "Segoe UI", HighAnsi = "Segoe UI" }
+                        new RunFonts()
+                        {
+                            Ascii = "Segoe UI",
+                            HighAnsi = "Segoe UI"
+                        }
                     ),
-                    new Text("OOO \"Печенька\"")
+                    new Text("Цех Печенька")
                 )
             ));
 
-            // ИНН
+            // ===== ИНН =====
             body.Append(new Paragraph(
                 new ParagraphProperties(
                     new Justification() { Val = JustificationValues.Center }
@@ -168,9 +172,49 @@ namespace TaskManager.Infrastucture.OfficeDocument
                 new Run(
                     new RunProperties(
                         new FontSize() { Val = "22" },
-                        new RunFonts() { Ascii = "Segoe UI", HighAnsi = "Segoe UI" }
+                        new RunFonts()
+                        {
+                            Ascii = "Segoe UI",
+                            HighAnsi = "Segoe UI"
+                        }
                     ),
                     new Text("ИНН 190005211")
+                )
+            ));
+
+            // ===== АДРЕС =====
+            body.Append(new Paragraph(
+                new ParagraphProperties(
+                    new Justification() { Val = JustificationValues.Center }
+                ),
+                new Run(
+                    new RunProperties(
+                        new FontSize() { Val = "20" },
+                        new RunFonts()
+                        {
+                            Ascii = "Segoe UI",
+                            HighAnsi = "Segoe UI"
+                        }
+                    ),
+                    new Text("Адрес: г. Абакан, ул. Крылова, д. 84")
+                )
+            ));
+
+            // ===== КОНТАКТЫ =====
+            body.Append(new Paragraph(
+                new ParagraphProperties(
+                    new Justification() { Val = JustificationValues.Center }
+                ),
+                new Run(
+                    new RunProperties(
+                        new FontSize() { Val = "20" },
+                        new RunFonts()
+                        {
+                            Ascii = "Segoe UI",
+                            HighAnsi = "Segoe UI"
+                        }
+                    ),
+                    new Text("Тел.: +7 (3902) 32-23-32, E-mail: info@pechenka.ru")
                 )
             ));
 
